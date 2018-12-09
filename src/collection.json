@@ -3,11 +3,11 @@
   "schematics": {
     "ng-add": {
       "description": "The default schematic to use when ng-lcu is added to an Angular project.",
-      "factory": "./../dist/ng-add/index#ngAdd"
+      "factory": "./ng-add/index#ngAdd"
     },
     "library": {
       "description": "The Schematic used to initialize a new LCU Library.",
-      "factory": "./../dist/library/index#library",
+      "factory": "./library/index#library",
       "schema": "./library/library.schema.json",
       "aliases": [
         "lib"
@@ -15,14 +15,14 @@
     },
     "page-element": {
       "description": "Schematic for creating a new LCU Page Element.",
-      "factory": "./../dist/page-element/index#pageElement",
+      "factory": "./page-element/index#pageElement",
       "aliases": [
         "pe"
       ]
     },
     "solution": {
       "description": "Schematic for creating a new LCU Solution.",
-      "factory": "./../dist/solution/index#solution",
+      "factory": "./solution/index#solution",
       "aliases": [
         "sln"
       ]
