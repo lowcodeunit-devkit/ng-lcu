@@ -9,6 +9,14 @@
       "description": "The Schematic used to initialize a new LCU Library.",
       "factory": "./../dist/library/index#library",
       "schema": "./library/library.schema.json"
+    },
+    "page-element": {
+      "description": "Schematic for creating a new LCU Page Element.",
+      "factory": "./../dist/page-element/index#pageElement"
+    },
+    "solution": {
+      "description": "Schematic for creating a new LCU Solution.",
+      "factory": "./../dist/solution/index#solution"
     }
   }
 }
