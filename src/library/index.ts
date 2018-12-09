@@ -7,7 +7,7 @@ import { normalize, strings } from '@angular-devkit/core';
 
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.
-export function lcuLibrary(options: any): Rule {
+export function library(options: any): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     setupOptions(tree, options);
 
