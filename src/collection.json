@@ -1,0 +1,10 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "lcu-library": {
+      "description": "The Schematic used to initialize a new LCU Library.",
+      "factory": "./lcu-library/index#lcuLibrary",
+      "schema": "./lcu-library/lcu-library.schema.json"
+    }
+  }
+}
