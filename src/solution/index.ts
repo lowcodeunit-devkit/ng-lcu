@@ -12,6 +12,8 @@ export function solution(options: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     setupOptions(tree, options);
 
+    console.log('dos this show...');
+    
     const targetPath = (options.flat) ?
       normalize(options.path) :
       normalize(options.path + '/' + strings.dasherize(options.name));
