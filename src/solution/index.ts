@@ -12,11 +12,13 @@ export function solution(options: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     setupOptions(tree, options);
 
-    console.log('dos this show...');
-    
+    console.log(options);
+
     const targetPath = (options.flat) ?
       normalize(options.path) :
       normalize(options.path + '/' + strings.dasherize(options.name));
+
+    console.log(targetPath);
 
     const templateSource = apply(url('./files'), [
       options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
@@ -26,6 +28,8 @@ export function solution(options: any): Rule {
       }),
       move(targetPath),
     ]);
+
+    console.log(templateSource);
 
     const rule = mergeWith(templateSource, MergeStrategy.Default);
 
