@@ -8,7 +8,7 @@
     "library": {
       "description": "The Schematic used to initialize a new LCU Library.",
       "factory": "./../dist/library/index#library",
-      "schema": "./../dist/library/library.schema.json"
+      "schema": "./dist/library/library.schema.json"
     }
   }
 }
