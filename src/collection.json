@@ -8,15 +8,24 @@
     "library": {
       "description": "The Schematic used to initialize a new LCU Library.",
       "factory": "./../dist/library/index#library",
-      "schema": "./library/library.schema.json"
+      "schema": "./library/library.schema.json",
+      "aliases": [
+        "lib"
+      ]
     },
     "page-element": {
       "description": "Schematic for creating a new LCU Page Element.",
-      "factory": "./../dist/page-element/index#pageElement"
+      "factory": "./../dist/page-element/index#pageElement",
+      "aliases": [
+        "pe"
+      ]
     },
     "solution": {
       "description": "Schematic for creating a new LCU Solution.",
-      "factory": "./../dist/solution/index#solution"
+      "factory": "./../dist/solution/index#solution",
+      "aliases": [
+        "sln"
+      ]
     }
   }
 }
