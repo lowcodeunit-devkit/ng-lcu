@@ -1,7 +1,7 @@
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { buildDefaultPath } from '@schematics/angular/utility/project';
 import { parseName } from '@schematics/angular/utility/parse-name';
-import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template, Source } from '@angular-devkit/schematics';
+import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path } from '@angular-devkit/core';
 
@@ -20,22 +20,16 @@ export function solution(options: any): Rule {
 
     console.log(targetPath);
 
-    // var source = url('./files');
-    
-    // console.log(source.toString());
-    
-    // const templateSource = apply(source, [
-    //   // options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
-    //   // template({
-    //   //   ...strings,
-    //   //   ...options,
-    //   // }),
-    //   move(targetPath),
-    // ]);
+    const templateSource = apply(url('./files'), [
+      options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
+      template({
+        ...strings,
+        ...options,
+      }),
+      move(targetPath),
+    ]);
 
-    // const rule = mergeWith(templateSource, MergeStrategy.Overwrite);
-
-    const rule = move('./files', targetPath);
+    const rule = mergeWith(templateSource, MergeStrategy.Overwrite);
 
     return rule(tree, context);
   };
