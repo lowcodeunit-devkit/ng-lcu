@@ -48,16 +48,17 @@ export function library(options: any): Rule {
 function blankOutLibrary(host: Tree, projectName: string) {
   return (host: Tree) => {
     [
-      "app.component.html",
-      "app.component.spec.ts",
-      "app.component.ts",
-      "app.module.ts"
+      `${projectName}.component.spec.ts`,
+      `${projectName}.component.ts`,
+      `${projectName}.module.ts`,
+      `${projectName}.service.spec.ts`,
+      `${projectName}.service.ts`,
     ].forEach(filename => {
       var workspace = getWorkspace(host);
 
       var project = workspace.projects[projectName];
 
-      var filePath = join(project.root as Path, projectName, filename);
+      var filePath = join(project.root as Path, filename);
 
       console.log(filePath);
 
