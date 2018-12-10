@@ -35,7 +35,7 @@ export function library(options: any): Rule {
         prefix: options.prefix,
         skipInstall: true
       }),
-      !options.blank ? noop() : blankOutLibrary(host, options.name)
+      options.with != 'Blank' ? noop() : blankOutLibrary(host, options.name)
     ]);
 
     if (!options.skipInstall)
@@ -47,6 +47,14 @@ export function library(options: any): Rule {
 
 function blankOutLibrary(host: Tree, projectName: string) {
   return (host: Tree) => {
+    var workspace = getWorkspace(host);
+
+    var project = workspace.projects[projectName];
+
+    var srcRoot = join(project.root as Path, 'src');
+
+    var libRoot = join(srcRoot, 'lib');
+
     [
       `${projectName}.component.spec.ts`,
       `${projectName}.component.ts`,
@@ -54,17 +62,15 @@ function blankOutLibrary(host: Tree, projectName: string) {
       `${projectName}.service.spec.ts`,
       `${projectName}.service.ts`,
     ].forEach(filename => {
-      var workspace = getWorkspace(host);
-
-      var project = workspace.projects[projectName];
-
       var filePath = join(project.root as Path, 'src', 'lib', filename);
 
-      console.log(filePath);
-
-      if (host.exists(filePath))
+      if (host.exists(filePath)) {
         host.delete(filePath);
+      }
     });
+
+    host.overwrite(join(srcRoot, 'lcu_api.ts'), '');
+
     return host;
   };
 }
@@ -72,7 +78,7 @@ function blankOutLibrary(host: Tree, projectName: string) {
 export function setupOptions(host: Tree, options: any): Tree {
   const workspace = getWorkspace(host);
 
-  options.blank = options.blank || false;
+  options.with = options.with || 'Default';
 
   options.name = options.name || 'library';
 
