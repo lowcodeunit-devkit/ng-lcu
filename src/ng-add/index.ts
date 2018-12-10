@@ -6,6 +6,8 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 export function ngAdd(options: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     tree.create(options.name || 'lcu-test.json', 'hey');
+
+    context.toString();
     
     return tree;
   };
