@@ -21,6 +21,10 @@ export function solution(options: any): Rule {
     console.log(targetPath);
 
     const templateSource = apply(url('./files'), [
+      filter(path => {
+        console.log(path);
+        return true;
+      }),
       options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
       template({
         ...strings,
