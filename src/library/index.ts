@@ -38,11 +38,8 @@ export function library(options: any): Rule {
       !options.blank ? noop() : blankOutLibrary(host, options.name)
     ]);
 
-    if (options.blank)
-
-
-      if (!options.skipInstall)
-        context.addTask(new NodePackageInstallTask());
+    if (!options.skipInstall)
+      context.addTask(new NodePackageInstallTask());
 
     return rule(host, context);
   };
@@ -59,7 +56,7 @@ function blankOutLibrary(host: Tree, projectName: string) {
       var workspace = getWorkspace(host);
 
       var project = workspace.projects[projectName];
-      
+
       var filePath = join(project.root as Path, projectName, filename);
 
       console.log(filePath);
