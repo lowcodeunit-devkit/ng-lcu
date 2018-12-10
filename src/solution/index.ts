@@ -3,7 +3,7 @@ import { buildDefaultPath } from '@schematics/angular/utility/project';
 import { parseName } from '@schematics/angular/utility/parse-name';
 import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import { normalize, strings } from '@angular-devkit/core';
+import { normalize, strings, Path } from '@angular-devkit/core';
 
 
 // You don't have to export the function as default. You can also have more than one rule factory
@@ -51,6 +51,8 @@ export function setupOptions(host: Tree, options: any): Tree {
 
   if (options.path === undefined && project.projectType == ProjectType.Application)
     options.path = buildDefaultPath(<WorkspaceProject<ProjectType.Application>>project);
+  else if (options.path === undefined)
+    options.path = project.root as Path;
 
   const parsedPath = parseName(options.path, options.name);
 
