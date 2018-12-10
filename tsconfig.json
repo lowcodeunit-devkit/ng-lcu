@@ -30,6 +30,5 @@
 
   ],
   "exclude": [
-    "src/*/files/**/*"
   ]
 }
