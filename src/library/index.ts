@@ -58,7 +58,7 @@ function blankOutLibrary(host: Tree, projectName: string) {
 
       var project = workspace.projects[projectName];
 
-      var filePath = join(project.root as Path, filename);
+      var filePath = join(project.root as Path, 'src', 'lib', filename);
 
       console.log(filePath);
 
