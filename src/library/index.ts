@@ -14,6 +14,7 @@ export function library(options: any): Rule {
 
     const rule = chain([
       externalSchematic('@schematics/angular', 'library', {
+        name: options.name,
         entryFile: 'lcu_api',
         prefix: options.prefix,
         skipInstall: true
