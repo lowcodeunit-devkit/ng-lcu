@@ -1,5 +1,5 @@
 {
     "templates": {
-        "repository": "<%= name %>"
+        "repository": "<%= repository %>"
     }
 }

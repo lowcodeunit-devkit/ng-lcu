@@ -11,7 +11,7 @@ import { normalize, strings, Path } from '@angular-devkit/core';
 export function ngAdd(options: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     options.repository = options.repository || options.repo;
-    
+
     const templateSource = apply(url('./files/project'), [
       template({
         ...strings,
@@ -20,7 +20,7 @@ export function ngAdd(options: any): Rule {
       move('./'),
     ]);
 
-    const rule = mergeWith(templateSource, MergeStrategy.Overwrite);
+    const rule = mergeWith(templateSource, MergeStrategy.Default);
 
     return rule(tree, context);
   };
