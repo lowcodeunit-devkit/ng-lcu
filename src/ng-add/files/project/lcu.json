@@ -1,4 +1,7 @@
 {
+    "environment": {
+        "files": "<%= files %>" 
+    },   
     "templates": {
         "repository": "<%= repository %>"
     }
