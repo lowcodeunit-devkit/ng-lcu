@@ -4,10 +4,26 @@ import { buildDefaultPath } from '@schematics/angular/utility/project';
 import { parseName } from '@schematics/angular/utility/parse-name';
 import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template, chain, externalSchematic } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import { normalize, strings } from '@angular-devkit/core';
+import { normalize, strings, Path, join } from '@angular-devkit/core';
 
-// You don't have to export the function as default. You can also have more than one rule factory
-// per file.
+// function buildDefaultLibrary(path: Path) {
+//   return (host: Tree) => {
+//     [
+//       "app.component.html",
+//       "app.component.spec.ts",
+//       "app.component.ts",
+//       "app.module.ts"
+//     ].forEach(filename => {
+//       var filePath = join(path, filename);
+
+//       if (host.exists(filePath))
+//         host.delete(filePath);
+//     });
+
+//     return host;
+//   };
+// }
+
 export function library(options: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     setupOptions(tree, options);
@@ -21,10 +37,9 @@ export function library(options: any): Rule {
       })
     ]);
 
-    if (options.skipInstall)
+    if (!options.skipInstall)
       context.addTask(new NodePackageInstallTask());
-    //  TODO:  Install NPM Packages
-    
+
     return rule(tree, context);
   };
 }

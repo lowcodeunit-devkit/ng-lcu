@@ -4,7 +4,6 @@ import { parseName } from '@schematics/angular/utility/parse-name';
 import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path } from '@angular-devkit/core';
-import userHome from 'user-home';
 
 
 // You don't have to export the function as default. You can also have more than one rule factory
@@ -12,8 +11,6 @@ import userHome from 'user-home';
 export function ngAdd(options: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     options.repository = options.repository || options.repo;
-
-    options.files = options.files || `${userHome}\\smart-matrix\\lcu`
 
     const templateSource = apply(url('./files/project'), [
       template({
