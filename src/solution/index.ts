@@ -20,20 +20,22 @@ export function solution(options: any): Rule {
 
     console.log(targetPath);
 
-    var source = url('./files');
+    // var source = url('./files');
     
-    console.log(source.toString());
+    // console.log(source.toString());
     
-    const templateSource = apply(source, [
-      // options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
-      // template({
-      //   ...strings,
-      //   ...options,
-      // }),
-      move(targetPath),
-    ]);
+    // const templateSource = apply(source, [
+    //   // options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
+    //   // template({
+    //   //   ...strings,
+    //   //   ...options,
+    //   // }),
+    //   move(targetPath),
+    // ]);
 
-    const rule = mergeWith(templateSource, MergeStrategy.Overwrite);
+    // const rule = mergeWith(templateSource, MergeStrategy.Overwrite);
+
+    const rule = move('./files', targetPath);
 
     return rule(tree, context);
   };
