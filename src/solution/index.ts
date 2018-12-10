@@ -33,7 +33,7 @@ export function solution(options: any): Rule {
       move(targetPath),
     ]);
 
-    console.log(templateSource);
+    console.log(templateSource.toString());
 
     const rule = mergeWith(templateSource, MergeStrategy.Default);
 
