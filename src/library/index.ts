@@ -25,8 +25,8 @@ import { normalize, strings, Path, join } from '@angular-devkit/core';
 // }
 
 export function library(options: any): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    setupOptions(tree, options);
+  return (host: Tree, context: SchematicContext) => {
+    setupOptions(host, options);
 
     const rule = chain([
       externalSchematic('@schematics/angular', 'library', {
@@ -34,18 +34,47 @@ export function library(options: any): Rule {
         entryFile: 'lcu_api',
         prefix: options.prefix,
         skipInstall: true
-      })
+      }),
+      !options.blank ? noop() : blankOutLibrary(host, options.name)
     ]);
 
-    if (!options.skipInstall)
-      context.addTask(new NodePackageInstallTask());
+    if (options.blank)
 
-    return rule(tree, context);
+
+      if (!options.skipInstall)
+        context.addTask(new NodePackageInstallTask());
+
+    return rule(host, context);
+  };
+}
+
+function blankOutLibrary(host: Tree, projectName: string) {
+  return (host: Tree) => {
+    [
+      "app.component.html",
+      "app.component.spec.ts",
+      "app.component.ts",
+      "app.module.ts"
+    ].forEach(filename => {
+      var workspace = getWorkspace(host);
+
+      var project = workspace.projects[projectName];
+      
+      var filePath = join(project.root as Path, projectName, filename);
+
+      console.log(filePath);
+
+      if (host.exists(filePath))
+        host.delete(filePath);
+    });
+    return host;
   };
 }
 
 export function setupOptions(host: Tree, options: any): Tree {
   const workspace = getWorkspace(host);
+
+  options.blank = options.blank || false;
 
   options.name = options.name || 'library';
 
