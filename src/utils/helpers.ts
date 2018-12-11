@@ -23,7 +23,7 @@ export function addScriptIntoPackageJson(host: Tree, script: NodeKeyValue): Tree
     } else if (scriptsNode.kind === 'object') {
         const scriptNode = findPropertyInAstObject(scriptsNode, script.key);
         if (!scriptNode) {
-            insertPropertyInAstObjectInOrder(recorder, scriptsNode, script.key, JSON.stringify(script.value), 4);
+            insertPropertyInAstObjectInOrder(recorder, scriptsNode, script.key, script.value, 4);
         } else {
             // found, we need to overwrite
             const { end, start } = scriptNode;
@@ -54,7 +54,7 @@ export function appendPropertyInAstObject(
     recorder.insertLeft(
         node.end.offset - 1,
         '  '
-        + `"${propertyName}": ${JSON.stringify(value, null, 2).replace(/\n/g, indentStr)}`
+        + `"${propertyName}": value.replace(/\n/g, indentStr)}`
         + indentStr.slice(0, -2),
     );
 }
