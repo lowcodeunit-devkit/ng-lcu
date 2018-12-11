@@ -19,7 +19,7 @@ export function library(options: any): Rule {
         skipInstall: true
       }),
       processInitWith(options, context),
-      addDeployScriptsToPackageFile() 
+      addDeployScriptsToPackageFile(options) 
     ]);
 
     if (!options.skipInstall)
@@ -29,16 +29,26 @@ export function library(options: any): Rule {
   };
 }
 
-function addDeployScriptsToPackageFile() {
+function addDeployScriptsToPackageFile(options: any) {
   return (host: Tree) => {
+    const workspace = getWorkspace(host);
+  
+    var project = workspace.projects[options.name];
+
+    var projectSafeName = strings.dasherize(options.name);
+    
     [
       {
         key: 'deploy',
-        value: 'npm version patch && npm run build && npm run deploy:lib'
+        value: `npm version patch && npm run deploy:all`
       },
       {
-        key: 'deploy:lib',
-        value: 'npm publish ./ --access public'
+        key: 'deploy:all',
+        value: `npm run deploy:${projectSafeName}`
+      },
+      {
+        key: `deploy:${projectSafeName}`,
+        value: `npm version patch --prefix ${project.root} && ng build ${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`
       }
     ].forEach(script => {
       addScriptIntoPackageJson(host, script);
@@ -114,8 +124,6 @@ function processInitWith(options: any, context: SchematicContext) {
 }
 
 export function setupOptions(host: Tree, options: any): Tree {
-  const workspace = getWorkspace(host);
-
   options.initWith = options.initWith || 'Default';
 
   options.name = options.name || 'library';
