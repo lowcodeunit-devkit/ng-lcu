@@ -5,6 +5,7 @@ import { parseName } from '@schematics/angular/utility/parse-name';
 import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template, chain, externalSchematic } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path, join } from '@angular-devkit/core';
+import { addScriptIntoPackageJson } from '../utils/helpers';
 
 export function library(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -27,34 +28,22 @@ export function library(options: any): Rule {
   };
 }
 
-function processInitWith(options: any, context: SchematicContext) {
+function addDeployScript(projectName: string, context: SchematicContext) {
   return (host: Tree) => {
-    context.logger.info(`Processing Initialization for ${options.initWith}...`);
+    [
+      {
+        key: 'deploy',
+        value: 'npm version patch && npm run build && npm run deploy:lib'
+      },
+      {
+        key: 'deploy:lib',
+        value: 'npm publish ./ --access public'
+      }
+    ].forEach(script => {
+      addScriptIntoPackageJson(host, script);
+    });
 
-    var rule: Rule = noop();
-
-    switch (options.initWith) {
-      case "Default":
-        break;
-
-      case "Blank":
-        rule = blankOutLibrary(options.name, context);
-
-        break;
-
-      case "Solution":
-        break;
-
-      case "PageElement":
-        break;
-
-      case "SPE":
-        break;
-    }
-
-    context.logger.info(`Processing Initialized for ${options.initWith}!`);
-    
-    return rule;
+    return host;
   };
 }
 
@@ -89,6 +78,37 @@ function blankOutLibrary(projectName: string, context: SchematicContext) {
     host.overwrite(join(srcRoot, 'lcu_api.ts'), '');
 
     return host;
+  };
+}
+
+function processInitWith(options: any, context: SchematicContext) {
+  return (host: Tree) => {
+    context.logger.info(`Processing Initialization for ${options.initWith}...`);
+
+    var rule: Rule = noop();
+
+    switch (options.initWith) {
+      case "Default":
+        break;
+
+      case "Blank":
+        rule = blankOutLibrary(options.name, context);
+
+        break;
+
+      case "Solution":
+        break;
+
+      case "PageElement":
+        break;
+
+      case "SPE":
+        break;
+    }
+
+    context.logger.info(`Processing Initialized for ${options.initWith}!`);
+    
+    return rule;
   };
 }
 
