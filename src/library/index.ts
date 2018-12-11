@@ -17,7 +17,7 @@ export function library(options: any): Rule {
         prefix: options.prefix,
         skipInstall: true
       }),
-      processInitWith(options)
+      processInitWith(options, context)
     ]);
 
     if (!options.skipInstall)
