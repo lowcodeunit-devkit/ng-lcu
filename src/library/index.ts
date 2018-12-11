@@ -27,9 +27,9 @@ export function library(options: any): Rule {
   };
 }
 
-function processInitWith(options: any) {
+function processInitWith(options: any, context: SchematicContext) {
   return (host: Tree) => {
-    console.log(`Processing Initialization for ${options.initWith}...`);
+    context.logger.info(`Processing Initialization for ${options.initWith}...`);
 
     var rule: Rule = noop();
 
@@ -52,8 +52,8 @@ function processInitWith(options: any) {
         break;
     }
 
-    console.log(`Processing Initialized for ${options.initWith}!`);
-    console.log(rule.toString());
+    context.logger.info(`Processing Initialized for ${options.initWith}!`);
+    context.logger.info(rule.toString());
 
     return rule;
   };
