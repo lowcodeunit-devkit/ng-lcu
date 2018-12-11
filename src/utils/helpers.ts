@@ -8,7 +8,7 @@ const configJsonPath = '/../../.rocket-rc.json';
 
 export interface NodeKeyValue {
     key: string;
-    value: string | boolean | number;
+    value: string;
 }
 
 export function addScriptIntoPackageJson(host: Tree, script: NodeKeyValue): Tree {
@@ -28,7 +28,8 @@ export function addScriptIntoPackageJson(host: Tree, script: NodeKeyValue): Tree
             // found, we need to overwrite
             const { end, start } = scriptNode;
             recorder.remove(start.offset, end.offset - start.offset);
-            recorder.insertRight(start.offset, JSON.stringify(script.value));
+
+            recorder.insertRight(start.offset, script.value);
         }
     }
     host.commitUpdate(recorder);
