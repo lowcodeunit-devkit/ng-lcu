@@ -38,7 +38,7 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
       case "Blank":
-        rule = blankOutLibrary(host, options.name);
+        rule = blankOutLibrary(options.name, context);
 
         break;
 
@@ -53,13 +53,12 @@ function processInitWith(options: any, context: SchematicContext) {
     }
 
     context.logger.info(`Processing Initialized for ${options.initWith}!`);
-    context.logger.info(rule.toString());
-
+    
     return rule;
   };
 }
 
-function blankOutLibrary(host: Tree, projectName: string) {
+function blankOutLibrary(projectName: string, context: SchematicContext) {
   return (host: Tree) => {
     var workspace = getWorkspace(host);
 
@@ -78,8 +77,12 @@ function blankOutLibrary(host: Tree, projectName: string) {
     ].forEach(filename => {
       var filePath = join(project.root as Path, 'src', 'lib', filename);
 
+      context.logger.info(`Attempting delete for ${filePath}...`);
+
       if (host.exists(filePath)) {
         host.delete(filePath);
+      
+        context.logger.info(`Deleted ${filePath}!`);
       }
     });
 
