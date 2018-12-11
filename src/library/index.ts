@@ -17,13 +17,45 @@ export function library(options: any): Rule {
         prefix: options.prefix,
         skipInstall: true
       }),
-      options.initWith != 'Blank' ? noop() : blankOutLibrary(host, options.name)
+      processInitWith(options)
     ]);
 
     if (!options.skipInstall)
       context.addTask(new NodePackageInstallTask());
 
     return rule(host, context);
+  };
+}
+
+function processInitWith(options: any) {
+  return (host: Tree) => {
+    console.log(`Processing Initialization for ${options.initWith}...`);
+
+    var rule: Rule = noop();
+
+    switch (options.initWith) {
+      case "Default":
+        break;
+
+      case "Blank":
+        rule = blankOutLibrary(host, options.name);
+
+        break;
+
+      case "Solution":
+        break;
+
+      case "PageElement":
+        break;
+
+      case "SPE":
+        break;
+    }
+
+    console.log(`Processing Initialized for ${options.initWith}!`);
+    console.log(rule.toString());
+
+    return rule;
   };
 }
 
