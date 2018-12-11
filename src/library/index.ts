@@ -18,7 +18,8 @@ export function library(options: any): Rule {
         prefix: options.prefix,
         skipInstall: true
       }),
-      processInitWith(options, context)
+      processInitWith(options, context),
+      addDeployScriptsToPackageFile() 
     ]);
 
     if (!options.skipInstall)
@@ -28,7 +29,7 @@ export function library(options: any): Rule {
   };
 }
 
-function addDeployScript(projectName: string, context: SchematicContext) {
+function addDeployScriptsToPackageFile() {
   return (host: Tree) => {
     [
       {
