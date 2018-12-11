@@ -6,24 +6,6 @@ import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStra
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path, join } from '@angular-devkit/core';
 
-// function buildDefaultLibrary(path: Path) {
-//   return (host: Tree) => {
-//     [
-//       "app.component.html",
-//       "app.component.spec.ts",
-//       "app.component.ts",
-//       "app.module.ts"
-//     ].forEach(filename => {
-//       var filePath = join(path, filename);
-
-//       if (host.exists(filePath))
-//         host.delete(filePath);
-//     });
-
-//     return host;
-//   };
-// }
-
 export function library(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     setupOptions(host, options);
@@ -78,7 +60,7 @@ function blankOutLibrary(host: Tree, projectName: string) {
 export function setupOptions(host: Tree, options: any): Tree {
   const workspace = getWorkspace(host);
 
-  options.with = options.with || 'Default';
+  options.initWith = options.initWith || 'Default';
 
   options.name = options.name || 'library';
 
