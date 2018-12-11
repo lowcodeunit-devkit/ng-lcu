@@ -17,7 +17,7 @@ export function library(options: any): Rule {
         prefix: options.prefix,
         skipInstall: true
       }),
-      // options.with != 'Blank' ? noop() : blankOutLibrary(host, options.name)
+      options.initWith != 'Blank' ? noop() : blankOutLibrary(host, options.name)
     ]);
 
     if (!options.skipInstall)
