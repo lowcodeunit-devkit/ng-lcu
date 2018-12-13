@@ -18,43 +18,13 @@ export function library(options: any): Rule {
         prefix: options.prefix,
         skipInstall: true
       }),
-      processInitWith(options, context),
-      addDeployScriptsToPackageFile(options) 
+      processInitWith(options, context)
     ]);
 
     if (!options.skipInstall)
       context.addTask(new NodePackageInstallTask());
 
     return rule(host, context);
-  };
-}
-
-function addDeployScriptsToPackageFile(options: any) {
-  return (host: Tree) => {
-    const workspace = getWorkspace(host);
-  
-    var project = workspace.projects[options.name];
-
-    var projectSafeName = strings.dasherize(options.name);
-    
-    [
-      {
-        key: 'deploy',
-        value: `npm version patch && npm run deploy:all`
-      },
-      {
-        key: 'deploy:all',
-        value: `npm run deploy:${projectSafeName}`
-      },
-      {
-        key: `deploy:${projectSafeName}`,
-        value: `npm version patch --prefix ${project.root} && ng build ${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`
-      }
-    ].forEach(script => {
-      addScriptIntoPackageJson(host, script);
-    });
-
-    return host;
   };
 }
 
