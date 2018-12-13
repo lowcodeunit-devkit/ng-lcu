@@ -5,12 +5,18 @@ import { parseName } from '@schematics/angular/utility/parse-name';
 import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template, chain, externalSchematic } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path, join } from '@angular-devkit/core';
-import { addScriptIntoPackageJson } from '../utils/helpers';
+import { addDeployScriptsToPackageFile } from '../utils/helpers';
 
 export function library(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     setupOptions(host, options);
 
+    const workspace = getWorkspace(host);
+    
+    var project = workspace.projects[options.name];
+
+    var projectSafeName = strings.dasherize(options.name);
+    
     const rule = chain([
       externalSchematic('@schematics/angular', 'library', {
         name: options.name,
@@ -18,7 +24,18 @@ export function library(options: any): Rule {
         prefix: options.prefix,
         skipInstall: true
       }),
-      processInitWith(options, context)
+      processInitWith(options, context),
+      addDeployScriptsToPackageFile([
+        //  TODO:  How to merge this value in with any other values from other projects??
+        // {
+        //   key: 'deploy:all',
+        //   value: `npm run deploy:${projectSafeName}`
+        // },
+        {
+          key: `deploy:${projectSafeName}`,
+          value: `npm version patch --prefix ${project.root} && ng build ${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`
+        }
+      ]) 
     ]);
 
     if (!options.skipInstall)
