@@ -1,7 +1,7 @@
 import { getWorkspace } from '@schematics/angular/utility/config';
-import {SchematicsException, Tree} from '@angular-devkit/schematics';
-import { JsonAstArray, JsonAstKeyValue, JsonAstNode, JsonAstObject, JsonValue, parseJsonAst, JsonParseMode, strings} from '@angular-devkit/core';
-import {UpdateRecorder} from '@angular-devkit/schematics';
+import { SchematicsException, Tree } from '@angular-devkit/schematics';
+import { JsonAstArray, JsonAstKeyValue, JsonAstNode, JsonAstObject, JsonValue, parseJsonAst, JsonParseMode, strings } from '@angular-devkit/core';
+import { UpdateRecorder } from '@angular-devkit/schematics';
 
 const pkgJsonPath = '/package.json';
 const angularJsonPath = '/angular.json';
@@ -38,15 +38,13 @@ export function addScriptIntoPackageJson(host: Tree, script: NodeKeyValue): Tree
 }
 
 
-export function addDeployScriptsToPackageFile(scripts: any[]) {
-    return (host: Tree) => {
-      scripts.forEach(script => {
+export function addDeployScriptsToPackageFile(host: Tree, scripts: any[]) {
+    scripts.forEach(script => {
         addScriptIntoPackageJson(host, script);
-      });
-  
-      return host;
-    };
-  }
+    });
+
+    return host;
+}
 
 export function appendPropertyInAstObject(
     recorder: UpdateRecorder,

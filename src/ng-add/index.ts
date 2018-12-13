@@ -23,18 +23,26 @@ export function ngAdd(options: any): Rule {
 
     const rule = chain([
       mergeWith(templateSource, MergeStrategy.Default),
-      addDeployScriptsToPackageFile([
-        {
-          key: 'deploy',
-          value: `npm version patch && npm run deploy:all`
-        },
-        {
-          key: 'deploy:all',
-          value: ``
-        }
-      ]) 
+      addDeployScripts() 
     ]);
 
     return rule(tree, context);
+  };
+}
+
+export function addDeployScripts() {
+  return (host: Tree) => {
+    addDeployScriptsToPackageFile(host, [
+      {
+        key: 'deploy',
+        value: `npm version patch && npm run deploy:all`
+      },
+      {
+        key: 'deploy:all',
+        value: ``
+      }
+    ]);
+
+    return host;
   };
 }

@@ -11,12 +11,6 @@ export function library(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     setupOptions(host, options);
 
-    const workspace = getWorkspace(host);
-    
-    var project = workspace.projects[options.name];
-
-    var projectSafeName = strings.dasherize(options.name);
-    
     const rule = chain([
       externalSchematic('@schematics/angular', 'library', {
         name: options.name,
@@ -25,23 +19,37 @@ export function library(options: any): Rule {
         skipInstall: true
       }),
       processInitWith(options, context),
-      addDeployScriptsToPackageFile([
-        //  TODO:  How to merge this value in with any other values from other projects??
-        // {
-        //   key: 'deploy:all',
-        //   value: `npm run deploy:${projectSafeName}`
-        // },
-        {
-          key: `deploy:${projectSafeName}`,
-          value: `npm version patch --prefix ${project.root} && ng build ${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`
-        }
-      ]) 
+      addDeployScripts(options)
     ]);
 
     if (!options.skipInstall)
       context.addTask(new NodePackageInstallTask());
 
     return rule(host, context);
+  };
+}
+
+export function addDeployScripts(options: any) {
+  return (host: Tree) => {
+    const workspace = getWorkspace(host);
+    
+    var project = workspace.projects[options.name];
+
+    var projectSafeName = strings.dasherize(options.name);
+    
+    addDeployScriptsToPackageFile(host, [
+      //  TODO:  How to merge this value in with any other values from other projects??
+      // {
+      //   key: 'deploy:all',
+      //   value: `npm run deploy:${projectSafeName}`
+      // },
+      {
+        key: `deploy:${projectSafeName}`,
+        value: `npm version patch --prefix ${project.root} && ng build ${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`
+      }
+    ]);
+
+    return host;
   };
 }
 
