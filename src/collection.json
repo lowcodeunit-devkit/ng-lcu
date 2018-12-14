@@ -14,7 +14,7 @@
     },
     "page-element": {
       "description": "Schematic for creating a new LCU Page Element.",
-      "factory": "./page-element/index#pageElement",
+      "factory": "./element/index#element",
       "aliases": [
         "el"
       ]
