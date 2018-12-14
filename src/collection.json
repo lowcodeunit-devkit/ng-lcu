@@ -12,7 +12,7 @@
         "lib"
       ]
     },
-    "page-element": {
+    "element": {
       "description": "Schematic for creating a new LCU Page Element.",
       "factory": "./element/index#element",
       "aliases": [
