@@ -25,9 +25,7 @@ export function element(options: any): Rule {
 
     console.log(templateSource.toString())
 
-    const rule = mergeWith(templateSource, MergeStrategy.Default);
-
-    return host;
+    return mergeWith(templateSource, MergeStrategy.Default);
   };
 }
 
