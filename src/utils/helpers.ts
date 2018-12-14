@@ -7,6 +7,20 @@ const pkgJsonPath = '/package.json';
 const angularJsonPath = '/angular.json';
 const configJsonPath = '/../../.rocket-rc.json';
 
+export enum NodeDependencyType {
+    Default = 'dependencies',
+    Dev = 'devDependencies',
+    Peer = 'peerDependencies',
+    Optional = 'optionalDependencies',
+}
+
+export interface NodeDependency {
+    type: NodeDependencyType;
+    name: string;
+    version: string;
+    overwrite?: boolean;
+}
+
 export interface NodeKeyValue {
     key: string;
     value: string;
@@ -44,6 +58,39 @@ export function addDeployScriptsToPackageFile(host: Tree, scripts: any[]) {
     });
 
     return host;
+}
+
+export function addPackageJsonDependency(tree: Tree, dependency: NodeDependency): void {
+    const packageJsonAst = _readPackageJson(tree);
+    const depsNode = findPropertyInAstObject(packageJsonAst, dependency.type);
+    const recorder = tree.beginUpdate(pkgJsonPath);
+    if (!depsNode) {
+        // Haven't found the dependencies key, add it to the root of the package.json.
+        appendPropertyInAstObject(recorder, packageJsonAst, dependency.type, {
+            [dependency.name]: dependency.version,
+        }, 2);
+    } else if (depsNode.kind === 'object') {
+        // check if package already added
+        const depNode = findPropertyInAstObject(depsNode, dependency.name);
+
+        if (!depNode) {
+            // Package not found, add it.
+            insertPropertyInAstObjectInOrder(
+                recorder,
+                depsNode,
+                dependency.name,
+                dependency.version,
+                4,
+            );
+        } else if (dependency.overwrite) {
+            // Package found, update version if overwrite.
+            const { end, start } = depNode;
+            recorder.remove(start.offset, end.offset - start.offset);
+            recorder.insertRight(start.offset, JSON.stringify(dependency.version));
+        }
+    }
+
+    tree.commitUpdate(recorder);
 }
 
 export function appendPropertyInAstObject(
@@ -176,4 +223,19 @@ function _readJson(tree: Tree, path: string): JsonAstObject {
     }
 
     return json;
+}
+
+function _readPackageJson(tree: Tree): JsonAstObject {
+    const buffer = tree.read(pkgJsonPath);
+    if (buffer === null) {
+        throw new SchematicsException('Could not read package.json.');
+    }
+    const content = buffer.toString();
+
+    const packageJson = parseJsonAst(content, JsonParseMode.Strict);
+    if (packageJson.kind != 'object') {
+        throw new SchematicsException('Invalid package.json. Was expecting an object');
+    }
+
+    return packageJson;
 }
