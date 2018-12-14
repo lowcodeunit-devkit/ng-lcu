@@ -16,7 +16,7 @@ export function element(options: any): Rule {
 
     console.log(targetPath);
 
-    const templateSource = apply(url('./files'), [
+    const templateSource = apply(url('./files/display'), [
       options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
       template({
         ...strings,
