@@ -7,13 +7,13 @@ export function element(options: any): Rule {
     setupOptions(host, options);
 
     console.log(options);
-    
+
     const targetPath = (options.flat) ?
       normalize(options.path) :
       normalize(options.path + '/' + strings.dasherize(options.name));
 
-      console.log(targetPath);
-    
+    console.log(targetPath);
+
     const templateSource = apply(url('./files'), [
       options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
       template({
@@ -32,8 +32,8 @@ export function element(options: any): Rule {
 export function setupOptions(host: Tree, options: any): Tree {
   const workspace = getWorkspace(host);
 
-  options.project = options.project ? workspace.projects[options.project] :
-    workspace.defaultProject ? workspace.projects[<string>workspace.defaultProject] : workspace.projects[0];
+  options.project = options.project ? options.project :
+    workspace.defaultProject ? <string>workspace.defaultProject : Object.keys(workspace.projects)[0];
 
   options.name = options.name || 'element';
 
