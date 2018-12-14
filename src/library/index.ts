@@ -14,7 +14,7 @@ export function library(options: any): Rule {
     const rule = chain([
       externalSchematic('@schematics/angular', 'library', {
         name: options.name,
-        entryFile: 'lcu_api',
+        entryFile: 'lcu.api',
         prefix: options.prefix,
         skipInstall: true
       }),
@@ -81,7 +81,7 @@ function blankOutLibrary(projectName: string, context: SchematicContext) {
       }
     });
 
-    host.overwrite(join(srcRoot, 'lcu_api.ts'), '');
+    host.overwrite(join(srcRoot, 'lcu.api.ts'), '');
 
     return host;
   };
