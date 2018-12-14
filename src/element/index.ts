@@ -24,7 +24,7 @@ export function element(options: any): Rule {
 
     return chain([
       mergeWith(templateSource, MergeStrategy.Default),
-      options.export ? noop() : prepareLcuApiExport(project, options)
+      !options.export ? noop() : prepareLcuApiExport(project, options)
     ]);
   };
 }
