@@ -6,10 +6,14 @@ export function element(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     setupOptions(host, options);
 
+    console.log(options);
+    
     const targetPath = (options.flat) ?
       normalize(options.path) :
       normalize(options.path + '/' + strings.dasherize(options.name));
 
+      console.log(targetPath);
+    
     const templateSource = apply(url('./files'), [
       options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
       template({
