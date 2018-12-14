@@ -49,10 +49,6 @@ function prepareLcuApiExport(project: WorkspaceProject<ProjectType>, options: an
   };
 }
 
-function determineRelativePath(exportFile: string, targetPath: string) {
-  return normalize([].join('/'));
-}
-
 function setupOptions(host: Tree, options: any): Tree {
   const workspace = getWorkspace(host);
 
