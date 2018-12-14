@@ -23,7 +23,9 @@ export function element(options: any): Rule {
       move(targetPath),
     ]);
 
-    const rule = mergeWith(templateSource, MergeStrategy.Overwrite);
+    console.log(templateSource.toString())
+
+    const rule = mergeWith(templateSource, MergeStrategy.Default);
 
     return host;
   };
