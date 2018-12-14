@@ -8,9 +8,15 @@ export function element(options: any): Rule {
 
     console.log(options);
 
-    const targetPath = (options.flat) ?
+    var targetPath = (options.flat) ?
       normalize(options.path) :
       normalize(options.path + '/' + strings.dasherize(options.name));
+
+    const workspace = getWorkspace(host);
+
+    var project = workspace.projects[options.project];
+    
+    targetPath = normalize(project.root + '/' + targetPath);
 
     console.log(targetPath);
 

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 
 import { FathymSharedModule } from '@lowcodeunit/common';
-import { Forge<%= classify(name) %>BuilderComponent } from './<%= dasherize(name) %>-builder.component';
-import { Forge<%= classify(name) %>MarketplaceComponent } from './content-marketplace.component';
-import { Forge<%= classify(name) %>RenderComponent } from './content-render.component';
 import { BaseDisplayModule } from '@lowcodeunit/elements';
+import { Forge<%= classify(name) %>BuilderComponent } from './<%= dasherize(name) %>-builder/<%= dasherize(name) %>-builder.component';
+import { Forge<%= classify(name) %>MarketplaceComponent } from './<%= dasherize(name) %>-marketplace/<%= dasherize(name) %>-marketplace.component';
+import { Forge<%= classify(name) %>RenderComponent } from './<%= dasherize(name) %>-render/<%= dasherize(name) %>-render.component';
 
 export class Forge<%= classify(name) %>DisplayModule extends BaseDisplayModule {
 	public Builder() {
