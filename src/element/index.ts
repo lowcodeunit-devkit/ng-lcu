@@ -40,7 +40,7 @@ function prepareLcuApiExport(project: WorkspaceProject<ProjectType>, options: an
     var newExport = `export * from './../${options.path}/${strings.dasherize(options.name)}.api';`;
     
     if (text.indexOf(newExport) < 0) {
-      text += `\r\n${newExport}`;
+      text += `${newExport}\r\n`;
 
       host.overwrite(exportFile, text);
     }
