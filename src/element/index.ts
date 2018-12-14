@@ -10,7 +10,7 @@ export function element(options: any): Rule {
     const workspace = getWorkspace(host);
 
     var project = workspace.projects[options.project];
-    
+
     const targetPath = normalize(project.root + '/' + options.path);
 
     const templateSource = apply(url('./files/display'), [
@@ -32,19 +32,19 @@ export function element(options: any): Rule {
 function prepareLcuApiExport(project: WorkspaceProject<ProjectType>, options: any) {
   return (host: Tree) => {
     var exportFile = normalize(project.root + '/' + options.export);
-    
+
     const textBuf = host.read(exportFile);
 
     var text = textBuf ? textBuf.toString('utf8') : '';
 
     var newExport = `export * from './../${options.path}/${strings.dasherize(options.name)}.api';`;
-    
+
     if (text.indexOf(newExport) < 0) {
       text += `${newExport}\r\n`;
 
       host.overwrite(exportFile, text);
     }
-    
+
     return host;
   };
 }
@@ -58,6 +58,10 @@ function setupOptions(host: Tree, options: any): Tree {
 
   options.project = options.project ? options.project :
     workspace.defaultProject ? <string>workspace.defaultProject : Object.keys(workspace.projects)[0];
+
+  options.path = options.path || 'src/lib';
+
+  options.export = options.export || 'src/lcu.api.ts';
 
   options.name = options.name || 'element';
 

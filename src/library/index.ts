@@ -19,7 +19,7 @@ export function library(options: any): Rule {
         skipInstall: true
       }),
       processInitWith(options, context),
-      addDeployScripts(options)
+      addDeployScripts(options),
     ]);
 
     if (!options.skipInstall)
@@ -105,7 +105,14 @@ function processInitWith(options: any, context: SchematicContext) {
       case "Solution":
         break;
 
-      case "PageElement":
+      case "Element":
+        rule = chain([
+          blankOutLibrary(options.name, context),
+          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
+            name: options.name,
+            projectName: options.name,
+          })
+        ]);
         break;
 
       case "SPE":
