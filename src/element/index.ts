@@ -39,5 +39,7 @@ export function setupOptions(host: Tree, options: any): Tree {
 
   options.name = options.name || 'element';
 
+  options.spec = options.spec || false;
+
   return host;
 }
