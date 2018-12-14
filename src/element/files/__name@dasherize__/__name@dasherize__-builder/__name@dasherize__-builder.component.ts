@@ -1,6 +1,6 @@
 import { Component, Injector } from '@angular/core';
 import { IControlBuilder, ForgeGenericControl } from '@lowcodeunit/elements';
-import { Forge<%= classify(name) %>Details, Forge<%= classify(name) %>Config } from './<%= dasherize(name) %>.core';
+import { Forge<%= classify(name) %>Details, Forge<%= classify(name) %>Config } from '../<%= dasherize(name) %>.core';
 
 @Component({
 	selector: 'forge-<%= dasherize(name) %>-builder',
