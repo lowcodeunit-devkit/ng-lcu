@@ -11,7 +11,7 @@ export function element(options: any): Rule {
 
     var project = workspace.projects[options.project];
 
-    const targetPath = normalize(project.root + '/' + options.path);
+    const targetPath = normalize(project.root + '/src/' + options.path);
 
     const templateSource = apply(url('./files/display'), [
       options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
