@@ -37,7 +37,7 @@ function prepareLcuApiExport(project: WorkspaceProject<ProjectType>, options: an
 
     var text = textBuf ? textBuf.toString('utf8') : '';
 
-    var newExport = `export * from './../${options.path}/${strings.dasherize(options.name)}.api';`;
+    var newExport = `export * from './${options.path}/${strings.dasherize(options.name)}.api';`;
 
     if (text.indexOf(newExport) < 0) {
       text += `${newExport}\r\n`;
@@ -59,7 +59,7 @@ function setupOptions(host: Tree, options: any): Tree {
   options.project = options.project ? options.project :
     workspace.defaultProject ? <string>workspace.defaultProject : Object.keys(workspace.projects)[0];
 
-  options.path = options.path || 'src/lib';
+  options.path = options.path || 'lib';
 
   options.export = options.export || 'src/lcu.api.ts';
 
