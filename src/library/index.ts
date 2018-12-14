@@ -39,10 +39,10 @@ export function addDeployScripts(options: any) {
     
     addDeployScriptsToPackageFile(host, [
       //  TODO:  How to merge this value in with any other values from other projects??
-      // {
-      //   key: 'deploy:all',
-      //   value: `npm run deploy:${projectSafeName}`
-      // },
+      {
+        key: 'deploy:all',
+        value: `npm run deploy:${projectSafeName}`
+      },
       {
         key: `deploy:${projectSafeName}`,
         value: `npm version patch --prefix ${project.root} && ng build ${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`

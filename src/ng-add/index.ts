@@ -37,10 +37,6 @@ export function addDeployScripts() {
       {
         key: 'deploy',
         value: `npm version patch && npm run deploy:all`
-      },
-      {
-        key: 'deploy:all',
-        value: ``
       }
     ]);
 
