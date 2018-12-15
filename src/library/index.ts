@@ -86,11 +86,16 @@ function blankOutLibrary(options: any, context: SchematicContext) {
       }
     });
 
-    context.logger.info(libRoot);
     context.logger.info(srcRoot);
     
-    host.overwrite(join(srcRoot, `${options.entryFile}.ts`), '');
+    var lcuApi = join(srcRoot, `${options.entryFile}.ts`);
 
+    context.logger.info(lcuApi);
+    
+    host.overwrite(lcuApi, '');
+
+    context.logger.info('LCU API File Overwritten.');
+    
     return host;
   };
 }
