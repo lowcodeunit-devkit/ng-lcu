@@ -100,7 +100,7 @@ function createElement(options: any) {
     
     externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
       name: projectName,
-      projectName: projectName,
+      project: projectName,
     });
 
     return host;
