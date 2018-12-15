@@ -86,16 +86,23 @@ function blankOutLibrary(options: any, context: SchematicContext) {
       }
     });
 
-    context.logger.info(srcRoot);
-    
     var lcuApi = join(srcRoot, `${options.entryFile}.ts`);
 
-    context.logger.info(lcuApi);
-    
     host.overwrite(lcuApi, '');
 
-    context.logger.info('LCU API File Overwritten.');
+    return host;
+  };
+}
+
+function createElement(options: any) {
+  return (host: Tree) => {
+    var projectName = options.name;
     
+    externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
+      name: projectName,
+      projectName: projectName,
+    });
+
     return host;
   };
 }
@@ -121,10 +128,7 @@ function processInitWith(options: any, context: SchematicContext) {
       case "Element":
         rule = chain([
           blankOutLibrary(options, context),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
-            name: options.name,
-            projectName: options.name,
-          })
+          createElement(options)
         ]);
         break;
 
