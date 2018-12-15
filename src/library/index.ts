@@ -6,6 +6,7 @@ import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStra
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path, join } from '@angular-devkit/core';
 import { addDeployScriptsToPackageFile } from '../utils/helpers';
+import { Logger } from '@angular-devkit/core/src/logger';
 
 export function library(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -63,6 +64,8 @@ function blankOutLibrary(projectName: string, context: SchematicContext) {
 
     var libRoot = join(srcRoot, 'lib');
 
+    context.logger.info(libRoot);
+    
     [
       `${projectName}.component.spec.ts`,
       `${projectName}.component.ts`,
@@ -70,7 +73,7 @@ function blankOutLibrary(projectName: string, context: SchematicContext) {
       `${projectName}.service.spec.ts`,
       `${projectName}.service.ts`,
     ].forEach(filename => {
-      var filePath = join(project.root as Path, 'src', 'lib', filename);
+      var filePath = join(libRoot, filename);
 
       context.logger.info(`Attempting delete for ${filePath}...`);
 
