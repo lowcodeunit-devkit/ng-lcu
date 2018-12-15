@@ -88,19 +88,6 @@ function blankOutLibrary(options: any, context: SchematicContext) {
   };
 }
 
-function createElement(options: any) {
-  return (host: Tree) => {
-    var projectName = options.name;
-    
-    externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
-      name: projectName,
-      project: projectName,
-    });
-
-    return host;
-  };
-}
-
 function processInitWith(options: any, context: SchematicContext) {
   return (host: Tree) => {
     context.logger.info(`Processing Initialization for ${options.initWith}...`);
@@ -122,7 +109,10 @@ function processInitWith(options: any, context: SchematicContext) {
       case "Element":
         rule = chain([
           blankOutLibrary(options, context),
-          createElement(options)
+          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
+            name: options.name,
+            project: options.name,
+          })
         ]);
         break;
 
