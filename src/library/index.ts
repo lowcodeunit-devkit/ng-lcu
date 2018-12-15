@@ -65,8 +65,6 @@ function blankOutLibrary(options: any, context: SchematicContext) {
     var srcRoot = join(project.root as Path, 'src');
 
     var libRoot = join(srcRoot, 'lib');
-
-    context.logger.info(libRoot);
     
     [
       `${projectName}.component.spec.ts`,
@@ -77,12 +75,8 @@ function blankOutLibrary(options: any, context: SchematicContext) {
     ].forEach(filename => {
       var filePath = join(libRoot, filename);
 
-      context.logger.info(`Attempting delete for ${filePath}...`);
-
       if (host.exists(filePath)) {
         host.delete(filePath);
-      
-        context.logger.info(`Deleted ${filePath}!`);
       }
     });
 
