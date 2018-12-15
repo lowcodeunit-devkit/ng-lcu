@@ -15,7 +15,7 @@ export function library(options: any): Rule {
     const rule = chain([
       externalSchematic('@schematics/angular', 'library', {
         name: options.name,
-        entryFile: 'lcu.api',
+        entryFile: options.entryFile,
         prefix: options.prefix,
         skipInstall: true
       }),
@@ -54,8 +54,10 @@ export function addDeployScripts(options: any) {
   };
 }
 
-function blankOutLibrary(projectName: string, context: SchematicContext) {
+function blankOutLibrary(options: any, context: SchematicContext) {
   return (host: Tree) => {
+    var projectName = options.name;
+    
     var workspace = getWorkspace(host);
 
     var project = workspace.projects[projectName];
@@ -84,7 +86,10 @@ function blankOutLibrary(projectName: string, context: SchematicContext) {
       }
     });
 
-    host.overwrite(join(srcRoot, 'lcu.api.ts'), '');
+    context.logger.info(libRoot);
+    context.logger.info(srcRoot);
+    
+    host.overwrite(join(srcRoot, `${options.entryFile}.ts`), '');
 
     return host;
   };
@@ -101,7 +106,7 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
       case "Blank":
-        rule = blankOutLibrary(options.name, context);
+        rule = blankOutLibrary(options, context);
 
         break;
 
@@ -110,7 +115,7 @@ function processInitWith(options: any, context: SchematicContext) {
 
       case "Element":
         rule = chain([
-          blankOutLibrary(options.name, context),
+          blankOutLibrary(options, context),
           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
             name: options.name,
             projectName: options.name,
@@ -129,6 +134,8 @@ function processInitWith(options: any, context: SchematicContext) {
 }
 
 export function setupOptions(host: Tree, options: any): Tree {
+  options.entryFile = 'lcu.api';
+  
   options.initWith = options.initWith || 'Default';
 
   options.name = options.name || 'library';
