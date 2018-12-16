@@ -67,6 +67,8 @@ export function manageDeployAllScript(options: any) {
     else
       deployAll = deployProj;
 
+    host.overwrite('package.json', JSON.stringify(packageJson));
+
     return host;
   };
 }
