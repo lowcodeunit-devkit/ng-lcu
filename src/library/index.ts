@@ -124,6 +124,19 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
       case "SPE":
+      rule = chain([
+        blankOutLibrary(options, context),
+        externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
+          name: options.name,
+          path: 'lib/elements',
+          project: options.name,
+        }),
+        externalSchematic('@lowcodeunit-devkit/ng-lcu', 'solution', {
+          name: options.name,
+          path: 'lib/solutions',
+          project: options.name,
+        })
+      ]);
         break;
     }
 
