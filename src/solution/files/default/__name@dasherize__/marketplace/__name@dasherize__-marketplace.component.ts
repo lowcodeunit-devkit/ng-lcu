@@ -2,9 +2,9 @@ import { Component, Injector } from '@angular/core';
 import { ForgeGenericSolution, ISolutionControl } from '@lowcodeunit/solutions';
 
 @Component({
-	selector: 'forge-solution-<%= dashify(name) %>-marketplace',
-	templateUrl: './<%= dashify(name) %>-marketplace.component.html',
-	styleUrls: ['./<%= dashify(name) %>-marketplace.component.scss']
+	selector: 'forge-solution-<%= dasherize(name) %>-marketplace',
+	templateUrl: './<%= dasherize(name) %>-marketplace.component.html',
+	styleUrls: ['./<%= dasherize(name) %>-marketplace.component.scss']
 })
 export class Forge<%= classify(name) %>SolutionMarketplace extends ForgeGenericSolution
 	implements ISolutionControl {

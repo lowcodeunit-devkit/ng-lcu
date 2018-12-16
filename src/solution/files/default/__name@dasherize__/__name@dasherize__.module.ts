@@ -5,7 +5,7 @@ import { Forge<%= classify(name) %>SolutionManage } from './manage/__name@dasher
 import { Forge<%= classify(name) %>SolutionDocumentation } from './documentation/__name@dasherize__-documentation.component';
 import { Forge<%= classify(name) %>SolutionHeading } from './heading/__name@dasherize__-heading.component';
 import { Forge<%= classify(name) %>SolutionMarketplace } from './marketplace/__name@dasherize__-marketplace.component';
-import { Forge<%= classify(name) %>SolutionOverview } from './overview/<%= dashify(name) %>-overview.component';
+import { Forge<%= classify(name) %>SolutionOverview } from './overview/<%= dasherize(name) %>-overview.component';
 
 
 export class Forge<%= classify(name) %>SolutionDisplayModule extends BaseSolutionModule {

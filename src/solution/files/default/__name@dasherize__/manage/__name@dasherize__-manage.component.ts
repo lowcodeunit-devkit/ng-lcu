@@ -3,9 +3,9 @@ import { ISolutionControl, ForgeGenericSolution } from '@lowcodeunit/solutions';
 
 
 @Component({
-    selector: 'forge-solution-<%= dashify(name) %>-manage',
-    templateUrl: './<%= dashify(name) %>-manage.component.html',
-    styleUrls: ['./<%= dashify(name) %>-manage.component.scss']
+    selector: 'forge-solution-<%= dasherize(name) %>-manage',
+    templateUrl: './<%= dasherize(name) %>-manage.component.html',
+    styleUrls: ['./<%= dasherize(name) %>-manage.component.scss']
 })
 export class Forge<%= classify(name) %>SolutionManage extends ForgeGenericSolution
     implements ISolutionControl {

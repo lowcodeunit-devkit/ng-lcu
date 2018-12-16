@@ -2,9 +2,9 @@ import { Component, Injector } from '@angular/core';
 import { ForgeGenericSolution, ISolutionControl } from '@lowcodeunit/solutions';
 
 @Component({
-	selector: 'forge-solution-<%= dashify(name) %>-heading',
-	templateUrl: './<%= dashify(name) %>-heading.component.html',
-	styleUrls: ['./<%= dashify(name) %>-heading.component.scss']
+	selector: 'forge-solution-<%= dasherize(name) %>-heading',
+	templateUrl: './<%= dasherize(name) %>-heading.component.html',
+	styleUrls: ['./<%= dasherize(name) %>-heading.component.scss']
 })
 export class Forge<%= classify(name) %>SolutionHeading extends ForgeGenericSolution
 	implements ISolutionControl {
