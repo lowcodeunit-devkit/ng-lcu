@@ -21,6 +21,7 @@ export function library(options: any): Rule {
       }),
       processInitWith(options, context),
       addDeployScripts(options),
+      manageDeployAllScript(options)
     ]);
 
     if (!options.skipInstall)
@@ -39,16 +40,32 @@ export function addDeployScripts(options: any) {
     var projectSafeName = strings.dasherize(options.name);
 
     addDeployScriptsToPackageFile(host, [
-      //  TODO:  How to merge this value in with any other values from other projects??
-      {
-        key: 'deploy:all',
-        value: `npm run deploy:${projectSafeName}`
-      },
       {
         key: `deploy:${projectSafeName}`,
         value: `npm version patch --prefix ${project.root} && ng build ${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`
       }
     ]);
+
+    return host;
+  };
+}
+
+export function manageDeployAllScript(options: any) {
+  return (host: Tree) => {
+    var projectSafeName = strings.dasherize(options.name);
+
+    var deployProj = `npm run deploy:${projectSafeName}`;
+
+    var packageFile = host.get('package.json');
+
+    var packageJson = packageFile ? JSON.parse(packageFile.content.toString('utf8')) : {};
+
+    var deployAll = packageJson.scripts['deploy:all'];
+
+    if (deployAll)
+      deployAll += `&& ${deployProj}`;
+    else
+      deployAll = deployProj;
 
     return host;
   };
@@ -124,19 +141,19 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
       case "SPE":
-      rule = chain([
-        blankOutLibrary(options, context),
-        externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
-          name: options.name,
-          path: 'lib/elements',
-          project: options.name,
-        }),
-        externalSchematic('@lowcodeunit-devkit/ng-lcu', 'solution', {
-          name: options.name,
-          path: 'lib/solutions',
-          project: options.name,
-        })
-      ]);
+        rule = chain([
+          blankOutLibrary(options, context),
+          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
+            name: options.name,
+            path: 'lib/elements',
+            project: options.name,
+          }),
+          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'solution', {
+            name: options.name,
+            path: 'lib/solutions',
+            project: options.name,
+          })
+        ]);
         break;
     }
 
