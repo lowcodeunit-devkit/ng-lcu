@@ -63,7 +63,7 @@ export function manageDeployAllScript(options: any) {
     var deployAll = packageJson.scripts['deploy:all'];
 
     if (deployAll)
-      deployAll += `&& ${deployProj}`;
+      deployAll += ` && ${deployProj}`;
     else
       deployAll = deployProj;
 
