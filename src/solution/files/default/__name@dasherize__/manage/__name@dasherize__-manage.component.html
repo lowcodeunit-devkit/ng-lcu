@@ -1,15 +1,1 @@
-<h2>Test title</h2>
-
-<div *ngIf="<%= classify(name) %>Config">
-	<form [formGroup]="form" (ngSubmit)="Save()">
-		<mat-form-field>
-			<input matInput placeholder="Test Inpnut" name="test" />
-		</mat-form-field>
-
-		<div>
-			<button mat-raised-button color="primary" class="mat-button-lg" (click)="Save()" *ngIf="!Loading.Value">Save</button>
-		</div>
-	</form>
-</div> 
-
-<mat-spinner *ngIf="Loading.Value"></mat-spinner>
+<%= classify(name) %> Manage...
