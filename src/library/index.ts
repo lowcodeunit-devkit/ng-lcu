@@ -33,11 +33,11 @@ export function library(options: any): Rule {
 export function addDeployScripts(options: any) {
   return (host: Tree) => {
     const workspace = getWorkspace(host);
-    
+
     var project = workspace.projects[options.name];
 
     var projectSafeName = strings.dasherize(options.name);
-    
+
     addDeployScriptsToPackageFile(host, [
       //  TODO:  How to merge this value in with any other values from other projects??
       {
@@ -57,7 +57,7 @@ export function addDeployScripts(options: any) {
 function blankOutLibrary(options: any, context: SchematicContext) {
   return (host: Tree) => {
     var projectName = options.name;
-    
+
     var workspace = getWorkspace(host);
 
     var project = workspace.projects[projectName];
@@ -65,7 +65,7 @@ function blankOutLibrary(options: any, context: SchematicContext) {
     var srcRoot = join(project.root as Path, 'src');
 
     var libRoot = join(srcRoot, 'lib');
-    
+
     [
       `${projectName}.component.spec.ts`,
       `${projectName}.component.ts`,
@@ -104,6 +104,13 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
       case "Solution":
+        rule = chain([
+          blankOutLibrary(options, context),
+          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'solution', {
+            name: options.name,
+            project: options.name,
+          })
+        ]);
         break;
 
       case "Element":
@@ -121,14 +128,14 @@ function processInitWith(options: any, context: SchematicContext) {
     }
 
     context.logger.info(`Processing Initialized for ${options.initWith}!`);
-    
+
     return rule;
   };
 }
 
 export function setupOptions(host: Tree, options: any): Tree {
   options.entryFile = 'lcu.api';
-  
+
   options.initWith = options.initWith || 'Default';
 
   options.name = options.name || 'library';
