@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BaseSolutionModule } from '@lowcodeunit/solutions';
 import { FathymSharedModule } from '@lowcodeunit/common';
-import { Forge<%= classify(name) %>SolutionManage } from './manage/__name@dasherize__-manage.component';
-import { Forge<%= classify(name) %>SolutionDocumentation } from './documentation/__name@dasherize__-documentation.component';
-import { Forge<%= classify(name) %>SolutionHeading } from './heading/__name@dasherize__-heading.component';
-import { Forge<%= classify(name) %>SolutionMarketplace } from './marketplace/__name@dasherize__-marketplace.component';
+import { Forge<%= classify(name) %>SolutionManage } from './manage/<%= dasherize(name) %>-manage.component';
+import { Forge<%= classify(name) %>SolutionDocumentation } from './documentation/<%= dasherize(name) %>-documentation.component';
+import { Forge<%= classify(name) %>SolutionHeading } from './heading/<%= dasherize(name) %>-heading.component';
+import { Forge<%= classify(name) %>SolutionMarketplace } from './marketplace/<%= dasherize(name) %>-marketplace.component';
 import { Forge<%= classify(name) %>SolutionOverview } from './overview/<%= dasherize(name) %>-overview.component';
 
 
