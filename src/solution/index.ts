@@ -55,7 +55,7 @@ function setupOptions(host: Tree, options: any): Tree {
   options.project = options.project ? options.project :
     workspace.defaultProject ? <string>workspace.defaultProject : Object.keys(workspace.projects)[0];
 
-  options.path = options.path || 'lib';
+  options.path = options.path || 'lib/solutions';
 
   options.export = options.export || 'src/lcu.api.ts';
 
