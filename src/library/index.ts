@@ -67,7 +67,9 @@ export function manageDeployAllScript(options: any) {
     else
       deployAll = deployProj;
 
-    host.overwrite('package.json', JSON.stringify(packageJson));
+    packageJson.scripts['deploy:all'] = deployAll;
+
+    host.overwrite('package.json', JSON.stringify(packageJson, null, '\t'));
 
     return host;
   };
