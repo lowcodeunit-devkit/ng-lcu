@@ -3,7 +3,7 @@ import { getWorkspace } from '@schematics/angular/utility/config';
 import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template, chain } from '@angular-devkit/schematics';
 import { normalize, strings } from '@angular-devkit/core';
 
-export function element(options: any): Rule {
+export function solution(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     setupOptions(host, options);
 
