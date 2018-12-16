@@ -1,22 +1,19 @@
+import { WorkspaceProject, ProjectType } from '@schematics/angular/utility/workspace-models';
 import { getWorkspace } from '@schematics/angular/utility/config';
-import { buildDefaultPath } from '@schematics/angular/utility/project';
-import { parseName } from '@schematics/angular/utility/parse-name';
-import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template } from '@angular-devkit/schematics';
-import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import { normalize, strings, Path } from '@angular-devkit/core';
+import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template, chain } from '@angular-devkit/schematics';
+import { normalize, strings } from '@angular-devkit/core';
 
+export function element(options: any): Rule {
+  return (host: Tree, context: SchematicContext) => {
+    setupOptions(host, options);
 
-// You don't have to export the function as default. You can also have more than one rule factory
-// per file.
-export function solution(options: any): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    setupOptions(tree, options);
+    const workspace = getWorkspace(host);
 
-    const targetPath = (options.flat) ?
-      normalize(options.path) :
-      normalize(options.path + '/' + strings.dasherize(options.name));
+    var project = workspace.projects[options.project];
 
-    const templateSource = apply(url('./files'), [
+    const targetPath = normalize(project.root + '/src/' + options.path);
+
+    const templateSource = apply(url('./files/default'), [
       options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
       template({
         ...strings,
@@ -25,30 +22,46 @@ export function solution(options: any): Rule {
       move(targetPath),
     ]);
 
-    const rule = mergeWith(templateSource, MergeStrategy.Overwrite);
-
-    return rule(tree, context);
+    return chain([
+      mergeWith(templateSource, MergeStrategy.Default),
+      !options.export ? noop() : prepareLcuApiExport(project, options)
+    ]);
   };
 }
 
-export function setupOptions(host: Tree, options: any): Tree {
+function prepareLcuApiExport(project: WorkspaceProject<ProjectType>, options: any) {
+  return (host: Tree) => {
+    var exportFile = normalize(project.root + '/' + options.export);
+
+    const textBuf = host.read(exportFile);
+
+    var text = textBuf ? textBuf.toString('utf8') : '';
+
+    var newExport = `export * from './${options.path}/${strings.dasherize(options.name)}.api';`;
+
+    if (text.indexOf(newExport) < 0) {
+      text += `${newExport}\r\n`;
+
+      host.overwrite(exportFile, text);
+    }
+
+    return host;
+  };
+}
+
+function setupOptions(host: Tree, options: any): Tree {
   const workspace = getWorkspace(host);
 
-  if (!options.project)
-    options.project = workspace.defaultProject || Object.keys(workspace.projects)[0];
+  options.project = options.project ? options.project :
+    workspace.defaultProject ? <string>workspace.defaultProject : Object.keys(workspace.projects)[0];
 
-  const project = workspace.projects[options.project];
+  options.path = options.path || 'lib';
 
-  if (options.path === undefined && project.projectType == ProjectType.Application)
-    options.path = buildDefaultPath(<WorkspaceProject<ProjectType.Application>>project);
-  else if (options.path === undefined)
-    options.path = project.root as Path;
+  options.export = options.export || 'src/lcu.api.ts';
 
-  const parsedPath = parseName(options.path, options.name);
+  options.name = options.name || 'solution';
 
-  options.name = parsedPath.name;
-
-  options.path = parsedPath.path;
+  options.spec = options.spec || false;
 
   return host;
 }
