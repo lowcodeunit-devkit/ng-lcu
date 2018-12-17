@@ -1,5 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { ForgeGenericSolution, ISolutionControl } from '@lowcodeunit/solutions';
+import { ForgeGenericSolution, ISolutionControl } from '@lcu/solutions';
 
 @Component({
 	selector: 'forge-solution-<%= dasherize(name) %>-heading',

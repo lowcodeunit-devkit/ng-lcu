@@ -1,5 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { IControlRender, ForgeGenericControl } from '@lowcodeunit/elements';
+import { IControlRender, ForgeGenericControl } from '@lcu/elements';
 import { Forge<%= classify(name) %>Details, Forge<%= classify(name) %>Config } from '../<%= dasherize(name) %>.core';
 
 @Component({

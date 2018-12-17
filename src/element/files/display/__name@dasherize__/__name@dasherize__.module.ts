@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
-import { FathymSharedModule } from '@lowcodeunit/common';
-import { BaseDisplayModule } from '@lowcodeunit/elements';
+import { FathymSharedModule } from '@lcu/common';
+import { BaseDisplayModule } from '@lcu/elements';
 import { Forge<%= classify(name) %>BuilderComponent } from './<%= dasherize(name) %>-builder/<%= dasherize(name) %>-builder.component';
 import { Forge<%= classify(name) %>MarketplaceComponent } from './<%= dasherize(name) %>-marketplace/<%= dasherize(name) %>-marketplace.component';
 import { Forge<%= classify(name) %>RenderComponent } from './<%= dasherize(name) %>-render/<%= dasherize(name) %>-render.component';

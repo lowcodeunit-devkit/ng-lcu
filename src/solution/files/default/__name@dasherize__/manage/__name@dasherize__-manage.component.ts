@@ -1,5 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { ISolutionControl, ForgeGenericSolution } from '@lowcodeunit/solutions';
+import { ISolutionControl, ForgeGenericSolution } from '@lcu/solutions';
 
 
 @Component({

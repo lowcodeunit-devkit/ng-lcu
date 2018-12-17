@@ -52,7 +52,7 @@ export function addDeployScripts() {
 //   return (host: Tree) => {
 //     [{
 //       type: NodeDependencyType.Default,
-//       name: '@lowcodeunit/common',
+//       name: '@lcu/common',
 //       version: '^2.0.8'
 //     }].forEach(dependency => addPackageJsonDependency(host, dependency));
 
