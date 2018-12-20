@@ -1,4 +1,4 @@
-import { ForgeRenderingDetails } from '@lcu/core';
+import { ForgeRenderingDetails } from '@lcu/elements';
 
 export class Forge<%= classify(name) %>Details extends ForgeRenderingDetails<Forge<%= classify(name) %>Config> {
 }
