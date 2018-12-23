@@ -13,7 +13,7 @@ export function solution(options: any): Rule {
 
     const targetPath = normalize(project.root + '/src/' + options.path);
 
-    const templateSource = apply(url('./files/default'), [
+    const solutionSource = apply(url('./files/default'), [
       options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
       template({
         ...strings,
@@ -22,8 +22,17 @@ export function solution(options: any): Rule {
       move(targetPath),
     ]);
 
+    const docsSource = apply(url('./files/docs'), [
+      template({
+        ...strings,
+        ...options,
+      }),
+      move('./docs'),
+    ]);
+
     return chain([
-      mergeWith(templateSource, MergeStrategy.Default),
+      mergeWith(solutionSource, MergeStrategy.Default),
+      mergeWith(docsSource, MergeStrategy.Default),
       !options.export ? noop() : prepareLcuApiExport(project, options)
     ]);
   };

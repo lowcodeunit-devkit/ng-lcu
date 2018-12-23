@@ -1,0 +1,11 @@
+{
+    "DefaultDocPath": "overview.md",
+    "Docs": [
+        {
+            "Children": [],
+            "Path": "overview.md",
+            "Title": "Overview"
+        }
+    ],
+    "LocationRoot": "https://raw.githubusercontent.com/lowcodeunit/lcu-sln-<%= dasherize(name) %>/master/docs/"
+}

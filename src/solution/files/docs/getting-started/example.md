@@ -1,0 +1,3 @@
+# Getting Started - <%= classify(name) %>
+
+<%= classify(name) %> Documentation ...

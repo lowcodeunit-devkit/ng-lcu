@@ -11,10 +11,13 @@ export class Forge<%= classify(name) %>SolutionDocumentation extends ForgeGeneri
 	//  Fields
 
 	//  Properties
+	public DocsRoot: string;
 
 	//  Constructors
 	constructor(protected injector: Injector) {
 		super(injector);
+		
+		this.DocsRoot = 'https://raw.githubusercontent.com/lowcodeunit/lcu-sln-<%= dasherize(name) %>/master/docs/';
 	}
 
 	//	Life Cycle

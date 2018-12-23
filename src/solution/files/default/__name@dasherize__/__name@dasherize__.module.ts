@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FathymSharedModule } from '@lcu/hosting';
 import { BaseSolutionModule } from '@lcu/solutions';
+import { NgxMarkdownDocsModule } from '@lowcodeunit/ngx-markdown-docs';
 import { Forge<%= classify(name) %>SolutionManage } from './manage/<%= dasherize(name) %>-manage.component';
 import { Forge<%= classify(name) %>SolutionDocumentation } from './documentation/<%= dasherize(name) %>-documentation.component';
 import { Forge<%= classify(name) %>SolutionHeading } from './heading/<%= dasherize(name) %>-heading.component';
@@ -41,6 +42,7 @@ var comps = [
 @NgModule({
 	imports: [
 		FathymSharedModule,
+		NgxMarkdownDocsModule,
 	],
 	declarations: [
 		...comps,
