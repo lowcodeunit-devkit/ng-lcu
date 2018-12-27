@@ -7,7 +7,7 @@
     },
     "application": {
       "description": "The Schematic used to initialize a new LCU Application.",
-      "factory": "./library/index#application",
+      "factory": "./application/index#application",
       "aliases": [
         "app"
       ]
