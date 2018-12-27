@@ -5,6 +5,13 @@
       "description": "The default schematic to use when ng-lcu is added to an Angular project.",
       "factory": "./ng-add/index#ngAdd"
     },
+    "application": {
+      "description": "The Schematic used to initialize a new LCU Application.",
+      "factory": "./library/index#application",
+      "aliases": [
+        "app"
+      ]
+    },
     "library": {
       "description": "The Schematic used to initialize a new LCU Library.",
       "factory": "./library/index#library",
