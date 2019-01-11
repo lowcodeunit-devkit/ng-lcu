@@ -14,7 +14,6 @@ const routes: Routes = [
 
 export var RoutingComponents: any[] = [
   BuilderPage,
-  ...SolutionsRoutingComponents
 ];
 
 @NgModule({
