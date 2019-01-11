@@ -75,29 +75,23 @@ export function adjustValueInPackageFile(host: Tree, key: string, name: string, 
 
     console.log(packageJsonAst);
 
-    const nameNode = findPropertyInAstObject(packageJsonAst, "name");
+    const nameNode = findPropertyInAstObject(packageJsonAst, key);
 
     const recorder = host.beginUpdate(pkgPath);
 
     if (!nameNode) {
         // Haven't found the name key, add it to the root of the package.json.
-        appendPropertyInAstObject(recorder, packageJsonAst, "name", name, 2);
+        appendPropertyInAstObject(recorder, packageJsonAst, key, name, 2);
     } else {
-        console.log("Overwriting name");
-
         // found, we need to overwrite
         const { end, start } = nameNode;
 
         recorder.remove(start.offset, end.offset - start.offset);
 
         recorder.insertRight(start.offset, name);
-
-        console.log("Name overwritten");
     }
 
     host.commitUpdate(recorder);
-
-    console.log("Name committed");
 
     const packageJsonAst2 = _readJson(host, pkgPath);
 
