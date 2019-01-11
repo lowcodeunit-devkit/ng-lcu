@@ -125,10 +125,6 @@ function blankOutLibrary(options: any, context: SchematicContext) {
 
         host.create(join(appRoot, '.gitkeep'), '');
 
-        var lcuApi = join(srcRoot, `${options.entryFile}.ts`);
-
-        host.overwrite(lcuApi, "");
-
         return host;
     };
 }
