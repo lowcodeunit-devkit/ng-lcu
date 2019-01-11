@@ -252,6 +252,7 @@ function _readJson(tree: Tree, path: string): JsonAstObject {
     }
     const content = buffer.toString();
 
+    console.log(content);
     const json = parseJsonAst(content, JsonParseMode.Strict);
     if (json.kind != "object") {
         throw new SchematicsException(`Invalid ${path}. Was expecting an object`);
