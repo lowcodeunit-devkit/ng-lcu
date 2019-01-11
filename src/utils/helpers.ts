@@ -100,6 +100,16 @@ export function adjustValueInPackageFile(host: Tree, key: string, name: string, 
     return host;
 }
 
+export function removeFilesFromRoot(host: Tree, root: Path, files: string[]) {
+    files.forEach(filename => {
+        var filePath = join(root, filename);
+
+        if (host.exists(filePath)) {
+            host.delete(filePath);
+        }
+    });
+}
+
 export function addDeployScriptsToPackageFile(host: Tree, scripts: any[]) {
     scripts.forEach(script => {
         addScriptIntoPackageJson(host, script);

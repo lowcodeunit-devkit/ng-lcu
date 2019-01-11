@@ -19,7 +19,7 @@ import {
 } from "@angular-devkit/schematics";
 import { ProjectType, WorkspaceProject } from "@schematics/angular/utility/workspace-models";
 import { normalize, strings, Path, join } from "@angular-devkit/core";
-import { addDeployScriptsToPackageFile } from "../utils/helpers";
+import { addDeployScriptsToPackageFile, removeFilesFromRoot } from "../utils/helpers";
 import { Logger } from "@angular-devkit/core/src/logger";
 
 export function application(options: any): Rule {
@@ -121,43 +121,48 @@ function blankOutLibrary(options: any, context: SchematicContext) {
 
         var appRoot = join(srcRoot, "app");
 
-        if (host.exists(appRoot)) host.delete(appRoot);
-
-        host.create(join(appRoot, '.gitkeep'), '');
+        removeFilesFromRoot(host, appRoot, [
+            `app-routing.module.ts`,
+            `app.component.html`,
+            `app.component.scss`,
+            `app.component.spec.ts`,
+            `app.component.ts`,
+            `app.module.ts`,
+        ]);
 
         return host;
     };
 }
 
 function processInitWith(options: any, context: SchematicContext) {
-  return (host: Tree) => {
-    context.logger.info(`Processing Initialization for ${options.initWith}...`);
+    return (host: Tree) => {
+        context.logger.info(`Processing Initialization for ${options.initWith}...`);
 
-    var rule: Rule = noop();
+        var rule: Rule = noop();
 
-    switch (options.initWith) {
-      case "Default":
-        break;
+        switch (options.initWith) {
+            case "Default":
+                break;
 
-      case "Blank":
-        rule = blankOutLibrary(options, context);
-        break;
+            case "Blank":
+                rule = blankOutLibrary(options, context);
+                break;
 
-      case "Forge":
-        rule = chain([
-          blankOutLibrary(options, context),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'forge', {
-            name: options.name,
-            project: options.name,
-          })
-        ]);
-        break;
-    }
+            case "Forge":
+                rule = chain([
+                    blankOutLibrary(options, context),
+                    externalSchematic("@lowcodeunit-devkit/ng-lcu", "forge", {
+                        name: options.name,
+                        project: options.name
+                    })
+                ]);
+                break;
+        }
 
-    context.logger.info(`Processing Initialized for ${options.initWith}!`);
+        context.logger.info(`Processing Initialized for ${options.initWith}!`);
 
-    return rule;
-  };
+        return rule;
+    };
 }
 
 export function setupOptions(host: Tree, options: any): Tree {

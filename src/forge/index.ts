@@ -31,7 +31,7 @@ export function forge(options: any): Rule {
 function setupOptions(host: Tree, options: any): Tree {
   const workspace = getWorkspace(host);
 
-  options.path = options.path || 'lib';
+  options.path = options.path || 'app';
 
   options.name = options.name || 'forge';
 
