@@ -20,7 +20,7 @@ export function ngAdd(options: any): Rule {
 
     const rule = chain([
       mergeWith(templateSource, MergeStrategy.Default),
-      adjustPackageName(options),
+      adjustPackageValues(options),
       addDeployScripts()
     ]);
 
@@ -45,11 +45,15 @@ export function addDeployScripts() {
   };
 }
 
-export function adjustPackageName(options: any) {
+export function adjustPackageValues(options: any) {
   return (host: Tree) => {
     var name = options.scope ? `${options.scope}/${options.workspace}` : options.workspace;
 
-    adjustValueInPackageFile(host, 'name', name);
+    adjustValueInPackageFile(host, 'name', `"${name}"`);
+
+    adjustValueInPackageFile(host, 'version', `"0.0.1"`);
+
+    adjustValueInPackageFile(host, 'private', "false");
 
     return host;
   };
