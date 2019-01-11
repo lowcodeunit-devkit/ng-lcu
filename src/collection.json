@@ -32,6 +32,10 @@
       "aliases": [
         "sln"
       ]
+    },
+    "forge": {
+      "description": "Schematic for seeding a forge application.",
+      "factory": "./forge/index#forge"
     }
   }
 }
