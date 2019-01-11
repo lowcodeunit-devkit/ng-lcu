@@ -1,11 +1,7 @@
-import { NodeDependencyType } from './../utils/helpers';
-import { getWorkspace } from '@schematics/angular/utility/config';
-import { buildDefaultPath } from '@schematics/angular/utility/project';
-import { parseName } from '@schematics/angular/utility/parse-name';
 import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template, chain } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path } from '@angular-devkit/core';
-import { addDeployScriptsToPackageFile, addPackageJsonDependency } from '../utils/helpers';
+import { addDeployScriptsToPackageFile, adjustValueInPackageFile } from '../utils/helpers';
 
 
 // You don't have to export the function as default. You can also have more than one rule factory
@@ -24,6 +20,7 @@ export function ngAdd(options: any): Rule {
 
     const rule = chain([
       mergeWith(templateSource, MergeStrategy.Default),
+      adjustPackageName(options),
       addDeployScripts()
     ]);
 
@@ -43,6 +40,16 @@ export function addDeployScripts() {
         value: ``
       },
     ]);
+
+    return host;
+  };
+}
+
+export function adjustPackageName(options: any) {
+  return (host: Tree) => {
+    var name = options.scope ? `${options.scope}/${options.workspace}` : options.workspace;
+
+    adjustValueInPackageFile(host, 'name', name);
 
     return host;
   };

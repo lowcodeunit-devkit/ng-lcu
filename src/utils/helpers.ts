@@ -1,6 +1,6 @@
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
-import { JsonAstArray, JsonAstKeyValue, JsonAstNode, JsonAstObject, JsonValue, parseJsonAst, JsonParseMode, strings } from '@angular-devkit/core';
+import { JsonAstArray, JsonAstKeyValue, JsonAstNode, JsonAstObject, JsonValue, parseJsonAst, JsonParseMode, strings, join, Path } from '@angular-devkit/core';
 import { UpdateRecorder } from '@angular-devkit/schematics';
 
 const pkgJsonPath = '/package.json';
@@ -51,6 +51,33 @@ export function addScriptIntoPackageJson(host: Tree, script: NodeKeyValue): Tree
     return host;
 }
 
+export function adjustValueInPackageFile(host: Tree, key: string, name: string, packageRoot: Path = <Path>''): Tree {
+    var pkgPath = join(packageRoot, pkgJsonPath);
+
+    console.log(pkgPath);
+    
+    const packageJsonAst = _readJson(host, pkgPath);
+
+    const nameNode = findPropertyInAstObject(packageJsonAst, 'name');
+
+    const recorder = host.beginUpdate(pkgPath);
+
+    if (!nameNode) {
+        // Haven't found the name key, add it to the root of the package.json.
+        appendPropertyInAstObject(recorder, packageJsonAst, 'name', name, 2);
+    } else {
+        // found, we need to overwrite
+        const { end, start } = nameNode;
+
+        recorder.remove(start.offset, end.offset - start.offset);
+
+        recorder.insertRight(start.offset, name);
+    }
+
+    host.commitUpdate(recorder);
+
+    return host;
+}
 
 export function addDeployScriptsToPackageFile(host: Tree, scripts: any[]) {
     scripts.forEach(script => {
