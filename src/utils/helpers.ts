@@ -71,8 +71,6 @@ export function addScriptIntoPackageJson(host: Tree, script: NodeKeyValue): Tree
 export function adjustValueInPackageFile(host: Tree, key: string, name: string, packageRoot: Path = <Path>""): Tree {
     var pkgPath = join(packageRoot, pkgJsonPath);
 
-    console.log(pkgPath);
-
     const packageJsonAst = _readJson(host, pkgPath);
 
     console.log(packageJsonAst);
@@ -82,8 +80,6 @@ export function adjustValueInPackageFile(host: Tree, key: string, name: string, 
     const recorder = host.beginUpdate(pkgPath);
 
     if (!nameNode) {
-        console.log("Adding name");
-
         // Haven't found the name key, add it to the root of the package.json.
         appendPropertyInAstObject(recorder, packageJsonAst, "name", name, 2);
     } else {
@@ -102,6 +98,10 @@ export function adjustValueInPackageFile(host: Tree, key: string, name: string, 
     host.commitUpdate(recorder);
 
     console.log("Name committed");
+
+    const packageJsonAst2 = _readJson(host, pkgPath);
+
+    console.log("Read");
 
     return host;
 }
