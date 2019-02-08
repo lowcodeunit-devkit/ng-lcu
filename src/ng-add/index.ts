@@ -1,7 +1,7 @@
 import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template, chain } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path } from '@angular-devkit/core';
-import { addDeployScriptsToPackageFile, adjustValueInPackageFile } from '../utils/helpers';
+import { addScriptsToPackageFile, adjustValueInPackageFile } from '../utils/helpers';
 
 
 // You don't have to export the function as default. You can also have more than one rule factory
@@ -30,7 +30,7 @@ export function ngAdd(options: any): Rule {
 
 export function addDeployScripts() {
   return (host: Tree) => {
-    addDeployScriptsToPackageFile(host, [
+    addScriptsToPackageFile(host, [
       {
         key: 'deploy',
         value: `npm version patch && npm run deploy:all`

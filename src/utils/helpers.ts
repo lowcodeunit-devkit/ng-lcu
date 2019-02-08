@@ -110,7 +110,7 @@ export function removeFilesFromRoot(host: Tree, root: Path, files: string[]) {
     });
 }
 
-export function addDeployScriptsToPackageFile(host: Tree, scripts: any[]) {
+export function addScriptsToPackageFile(host: Tree, scripts: any[]) {
     scripts.forEach(script => {
         addScriptIntoPackageJson(host, script);
     });

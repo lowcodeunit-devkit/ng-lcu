@@ -19,7 +19,7 @@ import {
 } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path, join } from '@angular-devkit/core';
-import { addDeployScriptsToPackageFile, removeFilesFromRoot } from '../utils/helpers';
+import { addScriptsToPackageFile, removeFilesFromRoot } from '../utils/helpers';
 import { Logger } from '@angular-devkit/core/src/logger';
 
 export function lcu(options: any): Rule {
@@ -58,7 +58,54 @@ export function addScripts(options: any) {
   return (host: Tree) => {
     const workspace = getWorkspace(host);
 
-    addDeployScriptsToPackageFile(host, []);
+    addScriptsToPackageFile(host, [
+      {
+        key: `demo`,
+        value: `npm run build:common && np run build:lcu && ng serve demo`
+      },
+      {
+        key: `build:common`,
+        value: `ng build common`
+      },
+      {
+        key: `build:lcu`,
+        value: `ng build lcu --prod --single-bundle && npm run pack`
+      },
+      {
+        key: `pack`,
+        value: `npm run pack:lcu`
+      },
+      {
+        key: `pack:lcu`,
+        value: `mkdirp dist/wc/lcu && npm run pack:main && npm run pack:pollyfills && npm run pack:join`
+      },
+      {
+        key: `pack:join`,
+        value: `concat-glob-cli -f \"dist/wc/lcu/lcu.*.js\" -o dist/wc/${options.workspace}.lcu.js`
+      },
+      {
+        key: `pack:main`,
+        value: `concat-glob-cli -f \"dist/lcu/main.*.js\" -o dist/wc/lcu/lcu.1.js`
+      },
+      {
+        key: `pack:pollyfills`,
+        value: `concat-glob-cli -f \"dist/lcu/scripts.*.js\" -o dist/wc/lcu/lcu.0.js`
+      },
+    ]);
+
+    return host;
+  };
+}
+
+export function manageBuildScript(options: any) {
+  return (host: Tree) => {
+    var packageFile = host.get('package.json');
+
+    var packageJson = packageFile ? JSON.parse(packageFile.content.toString('utf8')) : {};
+
+    packageJson.scripts['build'] = 'npm run build:common && npm run build:lcu';
+
+    host.overwrite('package.json', JSON.stringify(packageJson, null, '\t'));
 
     return host;
   };

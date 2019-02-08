@@ -19,7 +19,7 @@ import {
 } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path, join } from '@angular-devkit/core';
-import { addDeployScriptsToPackageFile, removeFilesFromRoot } from '../utils/helpers';
+import { addScriptsToPackageFile, removeFilesFromRoot } from '../utils/helpers';
 import { Logger } from '@angular-devkit/core/src/logger';
 
 export function application(options: any): Rule {
@@ -53,7 +53,7 @@ export function addScripts(options: any) {
 
     var projectSafeName = strings.dasherize(options.name);
 
-    addDeployScriptsToPackageFile(host, [
+    addScriptsToPackageFile(host, [
       {
         key: `deploy:${projectSafeName}`,
         value: `ng build ${projectSafeName} --prod && npm publish ./dist/${projectSafeName} --access public`
