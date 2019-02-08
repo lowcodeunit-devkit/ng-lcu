@@ -34,9 +34,10 @@ export function application(options: any): Rule {
         style: 'scss'
       }),
       processInitWith(options, context),
-      addScripts(options),
-      manageDeployAllScript(options),
-      manageAppAssets(options)
+      options.blockDeploy ? noop() : addScripts(options),
+      options.blockDeploy ? noop() : manageDeployAllScript(options),
+      options.es5Patch ? managees5BrowserSupportPatchTillSchema(options) : noop(),
+      manageAppAssets(options, context)
     ]);
 
     if (!options.skipInstall) context.addTask(new NodePackageInstallTask());
@@ -64,7 +65,30 @@ export function addScripts(options: any) {
   };
 }
 
-export function manageAppAssets(options: any) {
+export function createPackageJson(host: Tree, options: any, projectName: string, context: SchematicContext) {
+  var workspace = getWorkspace(host);
+
+  var project = workspace.projects[projectName];
+
+  var packageFilePath = join(project.root as Path, 'package.json');
+
+  context.logger.info(`Loading package at path: ${packageFilePath}`);
+
+  var variant = projectName ? `-${projectName}` : '';
+  
+  var packageJson = {
+    name: `${options.scope}/${options.workspace}-${variant}`,
+    version: '0.0.1',
+    peerDependencies: {
+      '@angular/common': '^7.2.0',
+      '@angular/core': '^7.2.0'
+    }
+  };
+
+  host.create(packageFilePath, JSON.stringify(packageJson, null, '\t'));
+}
+
+export function manageAppAssets(options: any, context: SchematicContext) {
   return (host: Tree) => {
     var projectSafeName = strings.dasherize(options.name);
 
@@ -81,6 +105,8 @@ export function manageAppAssets(options: any) {
     angularJson.projects[projectSafeName].architect.build.options.assets.push(packageGlob);
 
     host.overwrite('angular.json', JSON.stringify(angularJson, null, '\t'));
+
+    createPackageJson(host, options, projectSafeName, context);
 
     return host;
   };
@@ -104,6 +130,20 @@ export function manageDeployAllScript(options: any) {
     packageJson.scripts['deploy:all'] = deployAll;
 
     host.overwrite('package.json', JSON.stringify(packageJson, null, '\t'));
+
+    return host;
+  };
+}
+
+export function managees5BrowserSupportPatchTillSchema(project: string) {
+  return (host: Tree) => {
+    var angularFile = host.get('angular.json');
+
+    var angularJson = angularFile ? JSON.parse(angularFile.content.toString('utf8')) : {};
+
+    delete angularJson.projects[project].architect.build.options.es5BrowserSupport;
+
+    host.overwrite('angular.json', JSON.stringify(angularJson, null, '\t'));
 
     return host;
   };
@@ -167,9 +207,21 @@ function processInitWith(options: any, context: SchematicContext) {
 }
 
 export function setupOptions(host: Tree, options: any): Tree {
+  var lcuFile = host.get('lcu.json');
+
+  var lcuJson = lcuFile ? JSON.parse(lcuFile.content.toString('utf8')) : {};
+
+  options.scope = lcuJson.templates.scope;
+
+  options.workspace = lcuJson.templates.workspace;
+
   options.entryFile = 'lcu.api';
 
+  options.blockDeploy = options.blockDeploy || false;
+
   options.initWith = options.initWith || 'Default';
+
+  options.es5Patch = options.es5Patch || false;
 
   options.name = options.name || 'library';
 

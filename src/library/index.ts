@@ -2,7 +2,21 @@ import { getWorkspace } from '@schematics/angular/utility/config';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { buildDefaultPath } from '@schematics/angular/utility/project';
 import { parseName } from '@schematics/angular/utility/parse-name';
-import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template, chain, externalSchematic } from '@angular-devkit/schematics';
+import {
+  Rule,
+  SchematicContext,
+  Tree,
+  apply,
+  url,
+  noop,
+  filter,
+  move,
+  MergeStrategy,
+  mergeWith,
+  template,
+  chain,
+  externalSchematic
+} from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path, join } from '@angular-devkit/core';
 import { addDeployScriptsToPackageFile } from '../utils/helpers';
@@ -21,11 +35,11 @@ export function library(options: any): Rule {
       }),
       processInitWith(options, context),
       addDeployScripts(options),
-      manageDeployAllScript(options)
+      manageDeployAllScript(options),
+      updatePackageJsonName(context, options.name, options)
     ]);
 
-    if (!options.skipInstall)
-      context.addTask(new NodePackageInstallTask());
+    if (!options.skipInstall) context.addTask(new NodePackageInstallTask());
 
     return rule(host, context);
   };
@@ -42,9 +56,68 @@ export function addDeployScripts(options: any) {
     addDeployScriptsToPackageFile(host, [
       {
         key: `deploy:${projectSafeName}`,
-        value: `npm version patch --prefix ${project.root} && ng build ${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`
+        value: `npm version patch --prefix ${
+          project.root
+        } && ng build ${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`
       }
     ]);
+
+    return host;
+  };
+}
+
+export function createPackageJson(host: Tree, projectName: string, context: SchematicContext) {
+  var workspace = getWorkspace(host);
+
+  var project = workspace.projects[projectName];
+
+  var packageFilePath = join(project.root as Path, 'package.json');
+
+  context.logger.info(`Loading package at path: ${packageFilePath}`);
+
+  var packageJson = {
+    name: project,
+    version: '0.0.1',
+    peerDependencies: {
+      '@angular/common': '^7.2.0',
+      '@angular/core': '^7.2.0'
+    }
+  };
+
+  host.create(packageFilePath, JSON.stringify(packageJson, null, '\t'));
+}
+
+export function updatePackageJsonName(context: SchematicContext, projectName: string, options: any) {
+  return (host: Tree) => {
+    var workspace = getWorkspace(host);
+
+    var project = workspace.projects[projectName];
+
+    var packageFilePath = join(project.root as Path, 'package.json');
+
+    context.logger.info(`Loading package at path: ${packageFilePath}`);
+
+    var packageFile = host.get(packageFilePath);
+
+    try {
+      if (packageFile && packageFile.content) {
+        var packageFileContent = packageFile.content.toString('utf8');
+
+        context.logger.info(packageFileContent);
+
+        var packageJson = packageFileContent ? JSON.parse(packageFileContent) : {};
+
+        var variant = projectName ? `-${projectName}` : '';
+  
+        packageJson.name = `${options.scope}/${options.workspace}${variant}`;
+
+        host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
+      } else {
+        context.logger.info('No file found');
+      }
+    } catch (err) {
+      context.logger.error(err);
+    }
 
     return host;
   };
@@ -62,10 +135,8 @@ export function manageDeployAllScript(options: any) {
 
     var deployAll = packageJson.scripts['deploy:all'];
 
-    if (deployAll)
-      deployAll += ` && ${deployProj}`;
-    else
-      deployAll = deployProj;
+    if (deployAll) deployAll += ` && ${deployProj}`;
+    else deployAll = deployProj;
 
     packageJson.scripts['deploy:all'] = deployAll;
 
@@ -92,7 +163,7 @@ function blankOutLibrary(options: any, context: SchematicContext) {
       `${projectName}.component.ts`,
       `${projectName}.module.ts`,
       `${projectName}.service.spec.ts`,
-      `${projectName}.service.ts`,
+      `${projectName}.service.ts`
     ].forEach(filename => {
       var filePath = join(libRoot, filename);
 
@@ -116,46 +187,46 @@ function processInitWith(options: any, context: SchematicContext) {
     var rule: Rule = noop();
 
     switch (options.initWith) {
-      case "Default":
+      case 'Default':
         break;
 
-      case "Blank":
+      case 'Blank':
         rule = blankOutLibrary(options, context);
 
         break;
 
-      case "Solution":
+      case 'Solution':
         rule = chain([
           blankOutLibrary(options, context),
           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'solution', {
             name: options.name,
-            project: options.name,
+            project: options.name
           })
         ]);
         break;
 
-      case "Element":
+      case 'Element':
         rule = chain([
           blankOutLibrary(options, context),
           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
             name: options.name,
-            project: options.name,
+            project: options.name
           })
         ]);
         break;
 
-      case "SPE":
+      case 'SPE':
         rule = chain([
           blankOutLibrary(options, context),
           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
             name: options.name,
             path: 'lib/elements',
-            project: options.name,
+            project: options.name
           }),
           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'solution', {
             name: options.name,
             path: 'lib/solutions',
-            project: options.name,
+            project: options.name
           })
         ]);
         break;
@@ -168,6 +239,14 @@ function processInitWith(options: any, context: SchematicContext) {
 }
 
 export function setupOptions(host: Tree, options: any): Tree {
+  var lcuFile = host.get('lcu.json');
+
+  var lcuJson = lcuFile ? JSON.parse(lcuFile.content.toString('utf8')) : {};
+
+  options.scope = lcuJson.templates.scope;
+
+  options.workspace = lcuJson.templates.workspace;
+
   options.entryFile = 'lcu.api';
 
   options.initWith = options.initWith || 'Default';

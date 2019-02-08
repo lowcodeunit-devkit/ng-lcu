@@ -29,6 +29,7 @@ export function lcu(options: any): Rule {
     const rule = chain([
       externalSchematic('@lowcodeunit-devkit/ng-lcu', 'application', {
         name: 'lcu',
+        es5Patch: true,
         initWith: 'Module',
         routing: false
       }),
@@ -38,7 +39,8 @@ export function lcu(options: any): Rule {
       }),
       externalSchematic('@lowcodeunit-devkit/ng-lcu', 'application', {
         name: 'demo',
-        initWith: 'Default'
+        initWith: 'Default',
+        blockDeploy: true
       }),
       externalSchematic('@schematics/angular', 'module', {
         name: `${options.workspace}`,
@@ -47,7 +49,6 @@ export function lcu(options: any): Rule {
       }),
       configureDefaults(options, context),
       updateExport('common', context),
-      managees5BrowserSupportPatchTillSchema(options)
       // addScripts(options),
     ]);
 
@@ -72,83 +73,10 @@ export function configureDefaults(options: any, context: SchematicContext) {
 
     updatePackageJsonName(host, context, 'common', options, '');
 
-    createPackageJson(host, 'lcu', context);
-
-    updatePackageJsonName(host, context, 'lcu', options, '-lcu');
-
-    createPackageJson(host, 'demo', context);
-
-    updatePackageJsonName(host, context, 'demo', options, '-demo');
-
     //  TODO: Need to export NG Module from lcu.api.ts in common
 
     return host;
   };
-}
-
-export function createPackageJson(host: Tree, projectName: string, context: SchematicContext) {
-  var workspace = getWorkspace(host);
-
-  var project = workspace.projects[projectName];
-
-  var packageFilePath = join(project.root as Path, 'package.json');
-
-  context.logger.info(`Loading package at path: ${packageFilePath}`);
-
-  var packageJson = {
-    name: project,
-    version: '0.0.1',
-    peerDependencies: {
-      '@angular/common': '^7.2.0',
-      '@angular/core': '^7.2.0'
-    }
-  };
-
-  host.create(packageFilePath, JSON.stringify(packageJson, null, '\t'));
-}
-
-export function managees5BrowserSupportPatchTillSchema(project: string) {
-  return (host: Tree) => {
-    var angularFile = host.get('angular.json');
-
-    var angularJson = angularFile ? JSON.parse(angularFile.content.toString('utf8')) : {};
-
-    delete angularJson.projects[project].architect.build.options.es5BrowserSupport;
-
-    host.overwrite('angular.json', JSON.stringify(angularJson, null, '\t'));
-
-    return host;
-  };
-}
-
-export function updatePackageJsonName(host: Tree, context: SchematicContext, projectName: string, options: any, variant: string = '') {
-  var workspace = getWorkspace(host);
-
-  var project = workspace.projects[projectName];
-
-  var packageFilePath = join(project.root as Path, 'package.json');
-
-  context.logger.info(`Loading package at path: ${packageFilePath}`);
-
-  var packageFile = host.get(packageFilePath);
-
-  try {
-    if (packageFile && packageFile.content) {
-      var packageFileContent = packageFile.content.toString('utf8');
-
-      context.logger.info(packageFileContent);
-
-      var packageJson = packageFileContent ? JSON.parse(packageFileContent) : {};
-
-      packageJson.name = `${options.scope}/${options.workspace}${variant}`;
-
-      host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
-    } else {
-      context.logger.info('No file found');
-    }
-  } catch (err) {
-    context.logger.error(err);
-  }
 }
 
 function updateExport(projectName: string, context: SchematicContext) {
@@ -158,8 +86,6 @@ function updateExport(projectName: string, context: SchematicContext) {
     var project = workspace.projects[projectName];
 
     var srcRoot = join(project.root as Path, 'src');
-
-    var libRoot = join(srcRoot, 'lib');
 
     var lcuApi = join(srcRoot, `lcu.api.ts`);
 
@@ -194,13 +120,9 @@ export function setupOptions(host: Tree, options: any): Tree {
 
   var lcuJson = lcuFile ? JSON.parse(lcuFile.content.toString('utf8')) : {};
 
-  console.log(lcuJson);
-
   options.scope = lcuJson.templates.scope;
 
   options.workspace = lcuJson.templates.workspace;
-
-  console.log(options);
 
   return host;
 }
