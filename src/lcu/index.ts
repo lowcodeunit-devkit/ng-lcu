@@ -112,11 +112,13 @@ export function updatePackageJsonName(host: Tree, context: SchematicContext, pro
 
   var packageFile = host.get(packageFilePath);
 
-  context.logger.info(packageFile ? packageFile.content.toString('utf8') : 'No Package File');
-
   try {
-    if (packageFile) {
-      var packageJson = packageFile ? JSON.parse(packageFile.content.toString('utf8')) : {};
+    if (packageFile && packageFile.content) {
+      var packageFileContent = packageFile.content.toString('utf8');
+      
+      context.logger.info(packageFileContent);
+
+      var packageJson = packageFile ? JSON.parse(packageFileContent) : {};
 
       packageJson.name = `${options.scope}/${options.workspace}${variant}`;
 
