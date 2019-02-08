@@ -88,8 +88,12 @@ export function configureDefaults(options: any, context: SchematicContext) {
   };
 }
 
-export function createPackageJson(host: Tree, project: string, context: SchematicContext) {
-  var packageFilePath = join('projects' as Path, project, 'package.json');
+export function createPackageJson(host: Tree, projectName: string, context: SchematicContext) {
+  var workspace = getWorkspace(host);
+
+  var project = workspace.projects[projectName];
+
+  var packageFilePath = join(project.root as Path, 'package.json');
 
   context.logger.info(`Loading package at path: ${packageFilePath}`);
 
@@ -105,8 +109,12 @@ export function createPackageJson(host: Tree, project: string, context: Schemati
   host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
 }
 
-export function updatePackageJsonName(host: Tree, context: SchematicContext, project: string, options: any, variant: string = '') {
-  var packageFilePath = join('projects' as Path, project, 'package.json');
+export function updatePackageJsonName(host: Tree, context: SchematicContext, projectName: string, options: any, variant: string = '') {
+  var workspace = getWorkspace(host);
+
+  var project = workspace.projects[projectName];
+
+  var packageFilePath = join(project.root as Path, 'package.json');
 
   context.logger.info(`Loading package at path: ${packageFilePath}`);
 
@@ -123,6 +131,8 @@ export function updatePackageJsonName(host: Tree, context: SchematicContext, pro
       packageJson.name = `${options.scope}/${options.workspace}${variant}`;
 
       host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
+    } else {
+      context.logger.info('No file found');
     }
   } catch (err) {
     context.logger.error(err);
