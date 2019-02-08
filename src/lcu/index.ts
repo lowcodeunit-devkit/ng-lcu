@@ -14,7 +14,7 @@ import {
   MergeStrategy,
   mergeWith,
   template,
-  chain, 
+  chain,
   externalSchematic
 } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
@@ -67,10 +67,10 @@ export function addScripts(options: any) {
 
 export function configureDefaults(options: any, context: SchematicContext) {
   return (host: Tree) => {
-    updatePackageJsonName(host, context, 'common', options, '');
-
     //  TODO: Why isn't this working?  Seems the paths aren't yet setup by the time this is executed, so null...
     // updateTsConfig(host, 'common', options);
+
+    updatePackageJsonName(host, context, 'common', options, '');
 
     createPackageJson(host, 'lcu', context);
 
@@ -135,7 +135,7 @@ export function updatePackageJsonName(host: Tree, context: SchematicContext, pro
   try {
     if (packageFile && packageFile.content) {
       var packageFileContent = packageFile.content.toString('utf8');
-      
+
       context.logger.info(packageFileContent);
 
       var packageJson = packageFileContent ? JSON.parse(packageFileContent) : {};
