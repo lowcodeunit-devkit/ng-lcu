@@ -144,9 +144,13 @@ export function setupOptions(host: Tree, options: any): Tree {
 
   var lcuJson = lcuFile ? JSON.parse(lcuFile.content.toString('utf8')) : {};
 
+  console.log(lcuJson);
+
   options.scope = lcuJson.templates.scope;
 
   options.workspace = lcuJson.templates.workspace;
+
+  console.log(options);
 
   return host;
 }
