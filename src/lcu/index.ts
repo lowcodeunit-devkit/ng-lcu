@@ -39,17 +39,17 @@ export function lcu(options: any): Rule {
         name: 'demo',
         initWith: 'Default'
       }),
-      configureDefaults(options),
-      externalSchematic('@schematics/angular', 'module', {
-        name: `${options.workspace}`,
-        project: 'common',
-        flat: true
-      }),
-      externalSchematic('@schematics/angular', 'module', {
-        name: `${options.workspace}-wc`,
-        project: 'lcu',
-        flat: true
-      }),
+      // configureDefaults(options),
+      // externalSchematic('@schematics/angular', 'module', {
+      //   name: `${options.workspace}`,
+      //   project: 'common',
+      //   flat: true
+      // }),
+      // externalSchematic('@schematics/angular', 'module', {
+      //   name: `${options.workspace}-wc`,
+      //   project: 'lcu',
+      //   flat: true
+      // }),
       // addScripts(options),
     ]);
 
