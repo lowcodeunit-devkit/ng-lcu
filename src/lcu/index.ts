@@ -39,7 +39,7 @@ export function lcu(options: any): Rule {
         name: 'demo',
         initWith: 'Default'
       }),
-      configureDefaults(options),
+      configureDefaults(options, context),
       // externalSchematic('@schematics/angular', 'module', {
       //   name: `${options.workspace}`,
       //   project: 'common',
@@ -70,9 +70,9 @@ export function addScripts(options: any) {
   };
 }
 
-export function configureDefaults(options: any) {
+export function configureDefaults(options: any, context: SchematicContext) {
   return (host: Tree) => {
-    console.log('Configuring defaults');
+    context.logger.debug('Configuring defaults');
 
     updatePackageJsonName(host, 'common', options, '');
 
