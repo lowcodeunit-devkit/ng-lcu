@@ -29,7 +29,7 @@ export function lcu(options: any): Rule {
     const rule = chain([
       externalSchematic('@lowcodeunit-devkit/ng-lcu', 'application', {
         name: 'lcu',
-        initWith: 'Blank'
+        initWith: 'Module'
       }),
       externalSchematic('@lowcodeunit-devkit/ng-lcu', 'library', {
         name: 'common',
@@ -44,6 +44,7 @@ export function lcu(options: any): Rule {
         project: 'common',
         flat: true
       }),
+      updateExport('common', context),
       externalSchematic('@schematics/angular', 'module', {
         name: `${options.workspace}-wc`,
         project: 'lcu',
@@ -90,7 +91,7 @@ export function configureDefaults(options: any, context: SchematicContext) {
 }
 
 export function createPackageJson(host: Tree, project: string) {
-  var packageFilePath = `projects\\${project}\\package.json`;
+  var packageFilePath = `projects/${project}/package.json`;
 
   var packageJson = {
     name: project,
@@ -122,6 +123,24 @@ export function updatePackageJsonName(host: Tree, context: SchematicContext, pro
   } catch (err) {
     context.logger.error(err);
   }
+}
+
+function updateExport(projectName: string, context: SchematicContext) {
+  return (host: Tree) => {
+    var workspace = getWorkspace(host);
+
+    var project = workspace.projects[projectName];
+
+    var srcRoot = join(project.root as Path, 'src');
+
+    var libRoot = join(srcRoot, 'lib');
+
+    var lcuApi = join(srcRoot, `lcu.api.ts`);
+
+    host.overwrite(lcuApi, "export * from './lib/lcu-identity.module';\r\n");
+
+    return host;
+  };
 }
 
 export function updateTsConfig(host: Tree, project: string, options: any) {
