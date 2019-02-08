@@ -55,7 +55,7 @@ export function lcu(options: any): Rule {
 
     return chain([
       (host) => rule(host, context),
-      configureDefaults(options, context),
+      // configureDefaults(options, context),
     ]);
   };
 }
