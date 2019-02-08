@@ -29,7 +29,7 @@ export function application(options: any): Rule {
     const rule = chain([
       externalSchematic('@schematics/angular', 'application', {
         name: options.name,
-        routing: true,
+        routing: options.routing,
         prefix: options.prefix,
         style: 'scss'
       }),
@@ -121,9 +121,9 @@ function blankOutLibrary(options: any, context: SchematicContext, exceptModule: 
 
     var appRoot = join(srcRoot, 'app');
 
-    var files = [`app.component.html`, `app.component.scss`, `app.component.spec.ts`, `app.component.ts`, `app.module.ts`];
+    var files = [`app.component.html`, `app.component.scss`, `app.component.spec.ts`, `app.component.ts`, `app-routing.module.ts`];
 
-    if (!exceptModule) files.push(`app-routing.module.ts`);
+    if (!exceptModule) files.push(`app.module.ts`);
 
     removeFilesFromRoot(host, appRoot, files);
 
@@ -174,6 +174,8 @@ export function setupOptions(host: Tree, options: any): Tree {
   options.name = options.name || 'library';
 
   options.prefix = options.prefix || 'lib';
+
+  options.routing = options.routing === undefined ? true : false;
 
   options.skipInstall = options.skipInstall || false;
 

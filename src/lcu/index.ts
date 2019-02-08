@@ -29,7 +29,8 @@ export function lcu(options: any): Rule {
     const rule = chain([
       externalSchematic('@lowcodeunit-devkit/ng-lcu', 'application', {
         name: 'lcu',
-        initWith: 'Module'
+        initWith: 'Module',
+        routing: false
       }),
       externalSchematic('@lowcodeunit-devkit/ng-lcu', 'library', {
         name: 'common',
@@ -42,12 +43,6 @@ export function lcu(options: any): Rule {
       externalSchematic('@schematics/angular', 'module', {
         name: `${options.workspace}`,
         project: 'common',
-        flat: true
-      }),
-      updateExport('common', context),
-      externalSchematic('@schematics/angular', 'module', {
-        name: `${options.workspace}-wc`,
-        project: 'lcu',
         flat: true
       }),
       configureDefaults(options, context)
