@@ -39,15 +39,14 @@ export function lcu(options: any): Rule {
       }),
       externalSchematic('@lowcodeunit-devkit/ng-lcu', 'application', {
         name: 'demo',
-        initWith: 'Default',
-        blockDeploy: true
+        initWith: 'Default'
       }),
       externalSchematic('@schematics/angular', 'module', {
         name: `${options.workspace}`,
         project: 'common',
         flat: true
       }),
-      updateExport('common', context),
+      updateExport('common', context)
       // addScripts(options),
     ]);
 
