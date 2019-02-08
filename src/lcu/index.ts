@@ -39,23 +39,24 @@ export function lcu(options: any): Rule {
         name: 'demo',
         initWith: 'Default'
       }),
-      configureDefaults(options, context),
-      // externalSchematic('@schematics/angular', 'module', {
-      //   name: `${options.workspace}`,
-      //   project: 'common',
-      //   flat: true
-      // }),
-      // externalSchematic('@schematics/angular', 'module', {
-      //   name: `${options.workspace}-wc`,
-      //   project: 'lcu',
-      //   flat: true
-      // }),
+      externalSchematic('@schematics/angular', 'module', {
+        name: `${options.workspace}`,
+        project: 'common',
+        flat: true
+      }),
+      externalSchematic('@schematics/angular', 'module', {
+        name: `${options.workspace}-wc`,
+        project: 'lcu',
+        flat: true
+      }),
+      (host) => { context.logger.debug('External schematics run'); },
       // addScripts(options),
     ]);
 
-    if (!options.skipInstall) context.addTask(new NodePackageInstallTask());
-
-    return rule(host, context);
+    return chain([
+      (host) => rule(host, context),
+      configureDefaults(options, context),
+    ]);
   };
 }
 
