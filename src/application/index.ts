@@ -36,7 +36,6 @@ export function application(options: any): Rule {
       processInitWith(options, context),
       options.blockDeploy ? noop() : addScripts(options),
       options.blockDeploy ? noop() : manageDeployAllScript(options),
-      options.es5Patch ? managees5BrowserSupportPatchTillSchema(options) : noop(),
       manageAppAssets(options, context)
     ]);
 
@@ -102,6 +101,8 @@ export function manageAppAssets(options: any, context: SchematicContext) {
 
     angularJson.projects[projectSafeName].architect.build.options.assets.push(packageGlob);
 
+    if (options.es5Patch) delete angularJson.projects[projectSafeName].architect.build.options.es5BrowserSupport;
+
     host.overwrite('angular.json', JSON.stringify(angularJson, null, '\t'));
 
     createPackageJson(host, options, projectSafeName, context);
@@ -128,20 +129,6 @@ export function manageDeployAllScript(options: any) {
     packageJson.scripts['deploy:all'] = deployAll;
 
     host.overwrite('package.json', JSON.stringify(packageJson, null, '\t'));
-
-    return host;
-  };
-}
-
-export function managees5BrowserSupportPatchTillSchema(project: string) {
-  return (host: Tree) => {
-    var angularFile = host.get('angular.json');
-
-    var angularJson = angularFile ? JSON.parse(angularFile.content.toString('utf8')) : {};
-
-    delete angularJson.projects[project].architect.build.options.es5BrowserSupport;
-
-    host.overwrite('angular.json', JSON.stringify(angularJson, null, '\t'));
 
     return host;
   };
