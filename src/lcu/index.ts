@@ -72,7 +72,7 @@ export function addScripts(options: any) {
 
 export function configureDefaults(options: any, context: SchematicContext) {
   return (host: Tree) => {
-    context.logger.debug('Configuring defaults');
+    context.logger.info('Configuring defaults');
 
     updatePackageJsonName(host, context, 'common', options, '');
 
@@ -112,14 +112,18 @@ export function updatePackageJsonName(host: Tree, context: SchematicContext, pro
 
   var packageFile = host.get(packageFilePath);
 
-  context.logger.debug(packageFile ? packageFile.content.toString('utf8') : 'No Package File');
+  context.logger.info(packageFile ? packageFile.content.toString('utf8') : 'No Package File');
 
-  if (packageFile) {
-    var packageJson = packageFile ? JSON.parse(packageFile.content.toString('utf8')) : {};
+  try {
+    if (packageFile) {
+      var packageJson = packageFile ? JSON.parse(packageFile.content.toString('utf8')) : {};
 
-    packageJson.name = `${options.scope}/${options.workspace}${variant}`;
+      packageJson.name = `${options.scope}/${options.workspace}${variant}`;
 
-    host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
+      host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
+    }
+  } catch (err) {
+    context.logger.error(err);
   }
 }
 
