@@ -21,7 +21,6 @@ import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/works
 import { normalize, strings, Path, join } from '@angular-devkit/core';
 import { addDeployScriptsToPackageFile, removeFilesFromRoot } from '../utils/helpers';
 import { Logger } from '@angular-devkit/core/src/logger';
-import { getWorkspace } from '@schematics/angular/utility/config';
 
 export function lcu(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
