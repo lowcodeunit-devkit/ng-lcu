@@ -36,7 +36,8 @@ export function library(options: any): Rule {
       processInitWith(options, context),
       addDeployScripts(options),
       manageDeployAllScript(options),
-      updatePackageJsonName(context, options.name, options)
+      updateTsConfig(options),
+      updatePackageJsonName(context, options)
     ]);
 
     if (!options.skipInstall) context.addTask(new NodePackageInstallTask());
@@ -66,30 +67,35 @@ export function addDeployScripts(options: any) {
   };
 }
 
-export function createPackageJson(host: Tree, projectName: string, context: SchematicContext) {
-  var workspace = getWorkspace(host);
+export function updateTsConfig(options: any) {
+  return (host: Tree) => {
+    var tsConfigFilePath = 'tsconfig.json';
 
-  var project = workspace.projects[projectName];
+    var tsConfigFile = host.get(tsConfigFilePath);
 
-  var packageFilePath = join(project.root as Path, 'package.json');
+    var tsConfigJson = tsConfigFile ? JSON.parse(tsConfigFile.content.toString('utf8')) : {};
 
-  context.logger.info(`Loading package at path: ${packageFilePath}`);
+    var pathKeys = Object.keys(tsConfigJson.paths || {});
 
-  var packageJson = {
-    name: project,
-    version: '0.0.1',
-    peerDependencies: {
-      '@angular/common': '^7.2.0',
-      '@angular/core': '^7.2.0'
-    }
+    pathKeys.forEach(pathKey => {
+      var newPath = pathKey.replace(options.name, `${options.scope}/${options.workspace}-${options.name}`);
+
+      tsConfigJson.paths[newPath] = tsConfigJson.paths[pathKey];
+
+      delete tsConfigJson.paths[pathKey];
+    });
+
+    host.overwrite(tsConfigFilePath, JSON.stringify(tsConfigJson, null, '\t'));
+
+    return host;
   };
-
-  host.create(packageFilePath, JSON.stringify(packageJson, null, '\t'));
 }
 
-export function updatePackageJsonName(context: SchematicContext, projectName: string, options: any) {
+export function updatePackageJsonName(context: SchematicContext, options: any) {
   return (host: Tree) => {
     var workspace = getWorkspace(host);
+
+    var projectName: string = options.name;
 
     var project = workspace.projects[projectName];
 
@@ -108,7 +114,7 @@ export function updatePackageJsonName(context: SchematicContext, projectName: st
         var packageJson = packageFileContent ? JSON.parse(packageFileContent) : {};
 
         var variant = projectName ? `-${projectName}` : '';
-  
+
         packageJson.name = `${options.scope}/${options.workspace}${variant}`;
 
         host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));

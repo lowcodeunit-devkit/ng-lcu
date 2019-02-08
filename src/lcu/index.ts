@@ -47,7 +47,6 @@ export function lcu(options: any): Rule {
         project: 'common',
         flat: true
       }),
-      configureDefaults(options, context),
       updateExport('common', context),
       // addScripts(options),
     ]);
@@ -66,21 +65,9 @@ export function addScripts(options: any) {
   };
 }
 
-export function configureDefaults(options: any, context: SchematicContext) {
-  return (host: Tree) => {
-    //  TODO: Why isn't this working?  Seems the paths aren't yet setup by the time this is executed, so null...
-    // updateTsConfig(host, 'common', options);
-
-    updatePackageJsonName(host, context, 'common', options, '');
-
-    //  TODO: Need to export NG Module from lcu.api.ts in common
-
-    return host;
-  };
-}
-
 function updateExport(projectName: string, context: SchematicContext) {
   return (host: Tree) => {
+    //  TODO:  Not working... Fix
     var workspace = getWorkspace(host);
 
     var project = workspace.projects[projectName];
@@ -93,26 +80,6 @@ function updateExport(projectName: string, context: SchematicContext) {
 
     return host;
   };
-}
-
-export function updateTsConfig(host: Tree, project: string, options: any) {
-  var tsConfigFilePath = 'tsconfig.json';
-
-  var tsConfigFile = host.get(tsConfigFilePath);
-
-  var tsConfigJson = tsConfigFile ? JSON.parse(tsConfigFile.content.toString('utf8')) : {};
-
-  var pathKeys = Object.keys(tsConfigJson.paths || {});
-
-  pathKeys.forEach(pathKey => {
-    var newPath = pathKey.replace(project, `${options.scope}/${options.workspace}`);
-
-    tsConfigJson.paths[newPath] = tsConfigJson.paths[pathKey];
-
-    delete tsConfigJson.paths[pathKey];
-  });
-
-  host.overwrite(tsConfigFilePath, JSON.stringify(tsConfigJson, null, '\t'));
 }
 
 export function setupOptions(host: Tree, options: any): Tree {

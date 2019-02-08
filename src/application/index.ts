@@ -74,10 +74,8 @@ export function createPackageJson(host: Tree, options: any, projectName: string,
 
   context.logger.info(`Loading package at path: ${packageFilePath}`);
 
-  var variant = projectName ? `-${projectName}` : '';
-  
   var packageJson = {
-    name: `${options.scope}/${options.workspace}-${variant}`,
+    name: `${options.scope}/${options.workspace}-${projectName}`,
     version: '0.0.1',
     peerDependencies: {
       '@angular/common': '^7.2.0',
