@@ -74,11 +74,11 @@ export function configureDefaults(options: any, context: SchematicContext) {
 
     updateTsConfig(host, 'common', options);
 
-    createPackageJson(host, 'lcu');
+    createPackageJson(host, 'lcu', context);
 
     updatePackageJsonName(host, context, 'lcu', options, 'lcu');
 
-    createPackageJson(host, 'demo');
+    createPackageJson(host, 'demo', context);
 
     updatePackageJsonName(host, context, 'demo', options, 'demo');
 
