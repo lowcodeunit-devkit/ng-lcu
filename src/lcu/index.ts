@@ -76,7 +76,7 @@ export function configureDefaults(options: any, context: SchematicContext) {
 
     // updatePackageJsonName(host, context, 'common', options, '');
 
-    updateTsConfig(host, 'common', options);
+    // updateTsConfig(host, 'common', options);
 
     // createPackageJson(host, 'lcu');
 
