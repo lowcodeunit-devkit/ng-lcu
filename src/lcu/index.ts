@@ -39,6 +39,17 @@ export function lcu(options: any): Rule {
         name: 'demo',
         initWith: 'Default'
       }),
+      externalSchematic('@schematics/angular', 'module', {
+        name: `${options.workspace}`,
+        project: 'common',
+        flat: true
+      }),
+      externalSchematic('@schematics/angular', 'module', {
+        name: `${options.workspace}-wc`,
+        project: 'lcu',
+        flat: true
+      }),
+      configureDefaults(options)
       // addScripts(options),
     ]);
 
@@ -52,21 +63,88 @@ export function addScripts(options: any) {
   return (host: Tree) => {
     const workspace = getWorkspace(host);
 
-    var project = workspace.projects[options.name];
-
-    var projectSafeName = strings.dasherize(options.name);
-
     addDeployScriptsToPackageFile(host, [
-      {
-        key: `deploy:${projectSafeName}`,
-        value: `ng build ${projectSafeName} --prod && npm publish ./dist/${projectSafeName} --access public`
-      }
     ]);
 
     return host;
   };
 }
 
+export function configureDefaults(options: any) {
+  return (host: Tree) => {
+    updatePackageJsonName(host, 'common', options, '');
+
+    updateTsConfig(host, 'common', options);
+
+    createPackageJson(host, 'lcu');
+
+    updatePackageJsonName(host, 'lcu', options, 'lcu');
+
+    createPackageJson(host, 'demo');
+
+    updatePackageJsonName(host, 'demo', options, 'demo');
+
+    //  TODO: Need to export NG Module from lcu.api.ts in common
+
+    return host;
+  };
+}
+
+export function createPackageJson(host: Tree, project: string) {
+  var packageFilePath = `projects\\${project}\\package.json`;
+
+  var packageJson = {
+    name: project,
+    version: '0.0.1',
+    peerDependencies: {
+      '@angular/common': '^7.2.0',
+      '@angular/core': '^7.2.0'
+    }
+  };
+
+  host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
+}
+
+export function updatePackageJsonName(host: Tree, project: string, options: any, variant: string = '') {
+  var packageFilePath = `projects\\${project}\\package.json`;
+
+  var packageFile = host.get(packageFilePath);
+
+  var packageJson = packageFile ? JSON.parse(packageFile.content.toString('utf8')) : {};
+
+  packageJson.name = `${options.scope}/${options.workspace}${variant}`;
+
+  host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
+}
+
+export function updateTsConfig(host: Tree, project: string, options: any) {
+  var tsConfigFilePath = 'tsconfig.json';
+  
+  var tsConfigFile = host.get(tsConfigFilePath);
+
+  var tsConfigJson = tsConfigFile ? JSON.parse(tsConfigFile.content.toString('utf8')) : {};
+
+  var pathKeys = Object.keys(tsConfigJson.paths);
+
+  pathKeys.forEach(pathKey => {
+    var newPath = pathKey.replace(project, `${options.scope}/${options.workspace}`);
+
+    tsConfigJson.paths[newPath] = tsConfigJson.paths[pathKey];
+    
+    delete tsConfigJson.paths[pathKey];
+  });
+  
+  host.overwrite(tsConfigFilePath, JSON.stringify(tsConfigJson, null, '\t'));
+}
+
 export function setupOptions(host: Tree, options: any): Tree {
+  var lcuFile = host.get('lcu.json');
+
+  var lcuJson = lcuFile ? JSON.parse(lcuFile.content.toString('utf8')) : {};
+
+  options.scope = lcuJson.templates.scope;
+
+  options.workspace = lcuJson.templates.workspace;
+
   return host;
 }
