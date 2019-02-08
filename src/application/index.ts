@@ -210,7 +210,7 @@ export function setupOptions(host: Tree, options: any): Tree {
 
   options.name = options.name || 'library';
 
-  options.prefix = options.prefix || 'lib';
+  options.prefix = options.prefix || 'lcu';
 
   options.routing = options.routing === undefined ? true : false;
 
