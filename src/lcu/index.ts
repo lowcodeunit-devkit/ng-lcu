@@ -49,9 +49,6 @@ export function lcu(options: any): Rule {
         project: 'lcu',
         flat: true
       }),
-      host => {
-        context.logger.debug('External schematics run');
-      },
       // configureDefaults(options, context)
       // addScripts(options),
     ]);
