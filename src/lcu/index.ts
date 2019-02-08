@@ -50,13 +50,11 @@ export function lcu(options: any): Rule {
         flat: true
       }),
       (host) => { context.logger.debug('External schematics run'); },
+      configureDefaults(options, context),
       // addScripts(options),
     ]);
 
-    return chain([
-      (host) => rule(host, context),
-      // configureDefaults(options, context),
-    ]);
+    return rule(host, context);
   };
 }
 
@@ -77,15 +75,15 @@ export function configureDefaults(options: any, context: SchematicContext) {
 
     updatePackageJsonName(host, 'common', options, '');
 
-    updateTsConfig(host, 'common', options);
+    // updateTsConfig(host, 'common', options);
 
-    createPackageJson(host, 'lcu');
+    // createPackageJson(host, 'lcu');
 
-    updatePackageJsonName(host, 'lcu', options, 'lcu');
+    // updatePackageJsonName(host, 'lcu', options, 'lcu');
 
-    createPackageJson(host, 'demo');
+    // createPackageJson(host, 'demo');
 
-    updatePackageJsonName(host, 'demo', options, 'demo');
+    // updatePackageJsonName(host, 'demo', options, 'demo');
 
     //  TODO: Need to export NG Module from lcu.api.ts in common
 
