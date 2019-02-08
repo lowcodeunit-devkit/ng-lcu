@@ -70,8 +70,6 @@ export function addScripts(options: any) {
 
 export function configureDefaults(options: any, context: SchematicContext) {
   return (host: Tree) => {
-    context.logger.info('Configuring defaults');
-
     updatePackageJsonName(host, context, 'common', options, '');
 
     updateTsConfig(host, 'common', options);
@@ -90,8 +88,10 @@ export function configureDefaults(options: any, context: SchematicContext) {
   };
 }
 
-export function createPackageJson(host: Tree, project: string) {
-  var packageFilePath = `projects/${project}/package.json`;
+export function createPackageJson(host: Tree, project: string, context: SchematicContext) {
+  var packageFilePath = join('projects' as Path, project, 'package.json');
+
+  context.logger.info(`Loading package at path: ${packageFilePath}`);
 
   var packageJson = {
     name: project,
@@ -106,7 +106,9 @@ export function createPackageJson(host: Tree, project: string) {
 }
 
 export function updatePackageJsonName(host: Tree, context: SchematicContext, project: string, options: any, variant: string = '') {
-  var packageFilePath = `projects/${project}/package.json`;
+  var packageFilePath = join('projects' as Path, project, 'package.json');
+
+  context.logger.info(`Loading package at path: ${packageFilePath}`);
 
   var packageFile = host.get(packageFilePath);
 
