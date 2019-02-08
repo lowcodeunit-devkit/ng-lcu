@@ -72,15 +72,15 @@ export function configureDefaults(options: any, context: SchematicContext) {
   return (host: Tree) => {
     // updatePackageJsonName(host, context, 'common', options, '');
 
-    updateTsConfig(host, 'common', options);
+    // updateTsConfig(host, 'common', options);
 
     createPackageJson(host, 'lcu', context);
 
-    updatePackageJsonName(host, context, 'lcu', options, 'lcu');
+    // updatePackageJsonName(host, context, 'lcu', options, 'lcu');
 
-    createPackageJson(host, 'demo', context);
+    // createPackageJson(host, 'demo', context);
 
-    updatePackageJsonName(host, context, 'demo', options, 'demo');
+    // updatePackageJsonName(host, context, 'demo', options, 'demo');
 
     //  TODO: Need to export NG Module from lcu.api.ts in common
 
