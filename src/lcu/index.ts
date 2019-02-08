@@ -21,6 +21,7 @@ import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/works
 import { normalize, strings, Path, join } from '@angular-devkit/core';
 import { addDeployScriptsToPackageFile, removeFilesFromRoot } from '../utils/helpers';
 import { Logger } from '@angular-devkit/core/src/logger';
+import { getWorkspace } from '@schematics/angular/utility/config';
 
 export function lcu(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -49,8 +50,10 @@ export function lcu(options: any): Rule {
         project: 'lcu',
         flat: true
       }),
-      (host) => { context.logger.debug('External schematics run'); },
-      configureDefaults(options, context),
+      host => {
+        context.logger.debug('External schematics run');
+      },
+      configureDefaults(options, context)
       // addScripts(options),
     ]);
 
@@ -62,8 +65,7 @@ export function addScripts(options: any) {
   return (host: Tree) => {
     const workspace = getWorkspace(host);
 
-    addDeployScriptsToPackageFile(host, [
-    ]);
+    addDeployScriptsToPackageFile(host, []);
 
     return host;
   };
@@ -73,17 +75,17 @@ export function configureDefaults(options: any, context: SchematicContext) {
   return (host: Tree) => {
     context.logger.debug('Configuring defaults');
 
-    updatePackageJsonName(host, 'common', options, '');
+    updatePackageJsonName(host, context, 'common', options, '');
 
-    // updateTsConfig(host, 'common', options);
+    updateTsConfig(host, 'common', options);
 
-    // createPackageJson(host, 'lcu');
+    createPackageJson(host, 'lcu');
 
-    // updatePackageJsonName(host, 'lcu', options, 'lcu');
+    updatePackageJsonName(host, context, 'lcu', options, 'lcu');
 
-    // createPackageJson(host, 'demo');
+    createPackageJson(host, 'demo');
 
-    // updatePackageJsonName(host, 'demo', options, 'demo');
+    updatePackageJsonName(host, context, 'demo', options, 'demo');
 
     //  TODO: Need to export NG Module from lcu.api.ts in common
 
@@ -106,21 +108,25 @@ export function createPackageJson(host: Tree, project: string) {
   host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
 }
 
-export function updatePackageJsonName(host: Tree, project: string, options: any, variant: string = '') {
+export function updatePackageJsonName(host: Tree, context: SchematicContext, project: string, options: any, variant: string = '') {
   var packageFilePath = `projects/${project}/package.json`;
 
   var packageFile = host.get(packageFilePath);
 
-  var packageJson = packageFile ? JSON.parse(packageFile.content.toString('utf8')) : {};
+  context.logger.debug(packageFile ? packageFile.content.toString('utf8') : 'No Package File');
 
-  packageJson.name = `${options.scope}/${options.workspace}${variant}`;
+  if (packageFile) {
+    var packageJson = packageFile ? JSON.parse(packageFile.content.toString('utf8')) : {};
 
-  host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
+    packageJson.name = `${options.scope}/${options.workspace}${variant}`;
+
+    host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
+  }
 }
 
 export function updateTsConfig(host: Tree, project: string, options: any) {
   var tsConfigFilePath = 'tsconfig.json';
-  
+
   var tsConfigFile = host.get(tsConfigFilePath);
 
   var tsConfigJson = tsConfigFile ? JSON.parse(tsConfigFile.content.toString('utf8')) : {};
@@ -131,10 +137,10 @@ export function updateTsConfig(host: Tree, project: string, options: any) {
     var newPath = pathKey.replace(project, `${options.scope}/${options.workspace}`);
 
     tsConfigJson.paths[newPath] = tsConfigJson.paths[pathKey];
-    
+
     delete tsConfigJson.paths[pathKey];
   });
-  
+
   host.overwrite(tsConfigFilePath, JSON.stringify(tsConfigJson, null, '\t'));
 }
 
