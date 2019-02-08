@@ -51,8 +51,8 @@ export function lcu(options: any): Rule {
         project: 'lcu',
         flat: true
       }),
-      updateExport('common', context)
-      // addScripts(options),
+      updateExport('common', context),
+      addScripts(options)
     ]);
 
     return rule(host, context);
@@ -95,7 +95,7 @@ export function addScripts(options: any) {
       {
         key: `pack:pollyfills`,
         value: `concat-glob-cli -f \"dist/lcu/scripts.*.js\" -o dist/wc/lcu/lcu.0.js`
-      },
+      }
     ]);
 
     return host;
