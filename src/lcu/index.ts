@@ -39,7 +39,7 @@ export function lcu(options: any): Rule {
         name: 'demo',
         initWith: 'Default'
       }),
-      // configureDefaults(options),
+      configureDefaults(options),
       // externalSchematic('@schematics/angular', 'module', {
       //   name: `${options.workspace}`,
       //   project: 'common',
