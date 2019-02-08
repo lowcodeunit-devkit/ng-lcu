@@ -14,7 +14,7 @@ import {
   MergeStrategy,
   mergeWith,
   template,
-  chain,
+  chain, 
   externalSchematic
 } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
