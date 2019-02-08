@@ -66,7 +66,7 @@ export function addScripts(options: any) {
     addScriptsToPackageFile(host, [
       {
         key: `demo`,
-        value: `npm run build:common && np run build:lcu && ng serve demo`
+        value: `npm run build:common && npm run build:lcu && ng serve demo`
       },
       {
         key: `build:common`,
