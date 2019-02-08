@@ -107,7 +107,7 @@ export function createPackageJson(host: Tree, project: string) {
 }
 
 export function updatePackageJsonName(host: Tree, project: string, options: any, variant: string = '') {
-  var packageFilePath = `projects\\${project}\\package.json`;
+  var packageFilePath = `projects/${project}/package.json`;
 
   var packageFile = host.get(packageFilePath);
 
