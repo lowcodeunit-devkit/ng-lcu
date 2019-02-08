@@ -45,7 +45,9 @@ export function lcu(options: any): Rule {
         project: 'common',
         flat: true
       }),
-      configureDefaults(options, context)
+      configureDefaults(options, context),
+      updateExport('common', context),
+      managees5BrowserSupportPatchTillSchema(options)
       // addScripts(options),
     ]);
 
@@ -103,6 +105,20 @@ export function createPackageJson(host: Tree, projectName: string, context: Sche
   };
 
   host.create(packageFilePath, JSON.stringify(packageJson, null, '\t'));
+}
+
+export function managees5BrowserSupportPatchTillSchema(project: string) {
+  return (host: Tree) => {
+    var angularFile = host.get('angular.json');
+
+    var angularJson = angularFile ? JSON.parse(angularFile.content.toString('utf8')) : {};
+
+    delete angularJson.projects[project].architect.build.options.es5BrowserSupport;
+
+    host.overwrite('angular.json', JSON.stringify(angularJson, null, '\t'));
+
+    return host;
+  };
 }
 
 export function updatePackageJsonName(host: Tree, context: SchematicContext, projectName: string, options: any, variant: string = '') {
