@@ -76,11 +76,11 @@ export function configureDefaults(options: any, context: SchematicContext) {
 
     createPackageJson(host, 'lcu', context);
 
-    // updatePackageJsonName(host, context, 'lcu', options, 'lcu');
+    updatePackageJsonName(host, context, 'lcu', options, 'lcu');
 
-    // createPackageJson(host, 'demo', context);
+    createPackageJson(host, 'demo', context);
 
-    // updatePackageJsonName(host, context, 'demo', options, 'demo');
+    updatePackageJsonName(host, context, 'demo', options, 'demo');
 
     //  TODO: Need to export NG Module from lcu.api.ts in common
 
@@ -106,7 +106,7 @@ export function createPackageJson(host: Tree, projectName: string, context: Sche
     }
   };
 
-  host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
+  host.create(packageFilePath, JSON.stringify(packageJson, null, '\t'));
 }
 
 export function updatePackageJsonName(host: Tree, context: SchematicContext, projectName: string, options: any, variant: string = '') {
