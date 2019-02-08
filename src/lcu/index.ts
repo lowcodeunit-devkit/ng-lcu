@@ -39,8 +39,7 @@ export function lcu(options: any): Rule {
         name: 'demo',
         initWith: 'Default'
       }),
-      addScripts(options),
-      manageAppAssets(options)
+      // addScripts(options),
     ]);
 
     if (!options.skipInstall) context.addTask(new NodePackageInstallTask());
@@ -63,28 +62,6 @@ export function addScripts(options: any) {
         value: `ng build ${projectSafeName} --prod && npm publish ./dist/${projectSafeName} --access public`
       }
     ]);
-
-    return host;
-  };
-}
-
-export function manageAppAssets(options: any) {
-  return (host: Tree) => {
-    var projectSafeName = strings.dasherize(options.name);
-
-    var packageGlob = {
-      glob: 'package.json',
-      input: `./projects/${projectSafeName}/`,
-      output: '/'
-    };
-
-    var angularFile = host.get('angular.json');
-
-    var angularJson = angularFile ? JSON.parse(angularFile.content.toString('utf8')) : {};
-
-    angularJson.projects[projectSafeName].architect.build.options.assets.push(packageGlob);
-
-    host.overwrite('angular.json', JSON.stringify(angularJson, null, '\t'));
 
     return host;
   };
