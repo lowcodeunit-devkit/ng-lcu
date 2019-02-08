@@ -36,6 +36,10 @@
     "forge": {
       "description": "Schematic for seeding a forge application.",
       "factory": "./forge/index#forge"
+    },
+    "lcu": {
+      "description": "A blank schematic.",
+      "factory": "./lcu/index#lcu"
     }
   }
 }

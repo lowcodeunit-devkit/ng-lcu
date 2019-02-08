@@ -70,7 +70,7 @@ export function manageAppAssets(options: any) {
 
         var packageGlob = {
             glob: "package.json",
-            input: "./",
+            input: `./projects/${projectSafeName}/`,
             output: "/"
         };
 
