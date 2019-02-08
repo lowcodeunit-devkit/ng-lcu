@@ -70,7 +70,7 @@ export function addScripts(options: any) {
 
 export function configureDefaults(options: any, context: SchematicContext) {
   return (host: Tree) => {
-    updatePackageJsonName(host, context, 'common', options, '');
+    // updatePackageJsonName(host, context, 'common', options, '');
 
     updateTsConfig(host, 'common', options);
 
@@ -126,7 +126,7 @@ export function updatePackageJsonName(host: Tree, context: SchematicContext, pro
       
       context.logger.info(packageFileContent);
 
-      var packageJson = packageFile ? JSON.parse(packageFileContent) : {};
+      var packageJson = packageFileContent ? JSON.parse(packageFileContent) : {};
 
       packageJson.name = `${options.scope}/${options.workspace}${variant}`;
 
