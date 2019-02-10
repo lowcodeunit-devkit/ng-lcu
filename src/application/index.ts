@@ -85,6 +85,22 @@ export function createPackageJson(host: Tree, options: any, projectName: string,
   host.create(packageFilePath, JSON.stringify(packageJson, null, '\t'));
 }
 
+export function updatePolyfills(host: Tree, options: any, projectName: string, context: SchematicContext) {
+  var workspace = getWorkspace(host);
+
+  var project = workspace.projects[projectName];
+
+  var polysFilePath = join(project.root as Path, 'polyfills.json');
+
+  var polysFile = host.get(polysFilePath);
+
+  var polysContent = polysFile ? polysFile.content.toString('utf8') : '';
+
+  if (options.webCompPolys) polysContent += `\r\nimport '@webcomponents/custom-elements/custom-elements.min';`;
+
+  host.create(polysFilePath, polysContent);
+}
+
 export function manageAppAssets(options: any, context: SchematicContext) {
   return (host: Tree) => {
     var projectSafeName = strings.dasherize(options.name);
@@ -102,6 +118,11 @@ export function manageAppAssets(options: any, context: SchematicContext) {
     angularJson.projects[projectSafeName].architect.build.options.assets.push(packageGlob);
 
     if (options.es5Patch) delete angularJson.projects[projectSafeName].architect.build.options.es5BrowserSupport;
+
+    if (options.webCompPolys)
+      angularJson.projects[projectSafeName].architect.build.options.scripts.push(
+        'node_modules/@webcomponents/custom-elements/src/native-shim.js'
+      );
 
     host.overwrite('angular.json', JSON.stringify(angularJson, null, '\t'));
 
@@ -208,11 +229,13 @@ export function setupOptions(host: Tree, options: any): Tree {
 
   options.es5Patch = options.es5Patch || false;
 
+  options.webCompPolys = options.webCompPolys;
+
   options.name = options.name || 'library';
 
   options.prefix = options.prefix || 'lcu';
 
-  options.routing = options.routing === undefined ? true : false;
+  options.routing = options.routing === undefined ? true : options.routing;
 
   options.skipInstall = options.skipInstall || false;
 

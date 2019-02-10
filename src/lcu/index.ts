@@ -31,7 +31,8 @@ export function lcu(options: any): Rule {
         name: 'lcu',
         es5Patch: true,
         initWith: 'Blank',
-        routing: false
+        routing: false,
+        webCompPolys: true
       }),
       externalSchematic('@lowcodeunit-devkit/ng-lcu', 'library', {
         name: 'common',
