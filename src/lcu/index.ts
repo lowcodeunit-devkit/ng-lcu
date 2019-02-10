@@ -53,7 +53,8 @@ export function lcu(options: any): Rule {
         flat: true
       }),
       updateExport('common', options.workspace, context),
-      addScripts(options)
+      addScripts(options),
+      manageBuildScripts(options)
     ]);
 
     return rule(host, context);
@@ -103,13 +104,15 @@ export function addScripts(options: any) {
   };
 }
 
-export function manageBuildScript(options: any) {
+export function manageBuildScripts(options: any) {
   return (host: Tree) => {
     var packageFile = host.get('package.json');
 
     var packageJson = packageFile ? JSON.parse(packageFile.content.toString('utf8')) : {};
 
     packageJson.scripts['build'] = 'npm run build:common && npm run build:lcu';
+
+    packageJson.scripts['start'] = `ng serve demo --port=4210`;
 
     host.overwrite('package.json', JSON.stringify(packageJson, null, '\t'));
 
