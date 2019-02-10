@@ -116,7 +116,7 @@ export function manageBuildScript(options: any) {
   };
 }
 
-function updateExport(projectName: string, workspace: string, context: SchematicContext) {
+function updateExport(projectName: string, workspaceName: string, context: SchematicContext) {
   return (host: Tree) => {
     //  TODO:  Not working... Fix
     var workspace = getWorkspace(host);
@@ -127,7 +127,7 @@ function updateExport(projectName: string, workspace: string, context: Schematic
 
     var lcuApi = join(srcRoot, `lcu.api.ts`);
 
-    host.overwrite(lcuApi, `export * from './lib/${workspace}.module';\r\n`);
+    host.overwrite(lcuApi, `export * from './lib/${workspaceName}.module';\r\n`);
 
     return host;
   };
