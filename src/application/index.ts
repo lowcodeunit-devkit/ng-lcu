@@ -90,7 +90,7 @@ export function updatePolyfills(host: Tree, options: any, projectName: string, c
 
   var project = workspace.projects[projectName];
 
-  var polysFilePath = join(project.root as Path, 'polyfills.json');
+  var polysFilePath = join(project.root as Path, 'polyfills.ts');
 
   var polysFile = host.get(polysFilePath);
 
