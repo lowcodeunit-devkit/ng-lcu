@@ -51,7 +51,7 @@ export function lcu(options: any): Rule {
         project: 'lcu',
         flat: true
       }),
-      updateExport('common', context),
+      updateExport('common', options.workspace, context),
       addScripts(options)
     ]);
 
@@ -116,7 +116,7 @@ export function manageBuildScript(options: any) {
   };
 }
 
-function updateExport(projectName: string, context: SchematicContext) {
+function updateExport(projectName: string, workspace: string, context: SchematicContext) {
   return (host: Tree) => {
     //  TODO:  Not working... Fix
     var workspace = getWorkspace(host);
@@ -127,7 +127,7 @@ function updateExport(projectName: string, context: SchematicContext) {
 
     var lcuApi = join(srcRoot, `lcu.api.ts`);
 
-    host.overwrite(lcuApi, "export * from './lib/lcu-identity.module';\r\n");
+    host.overwrite(lcuApi, `export * from './lib/${workspace}.module';\r\n`);
 
     return host;
   };
