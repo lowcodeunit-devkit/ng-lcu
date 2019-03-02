@@ -68,7 +68,7 @@ export function addScripts(options: any) {
     addScriptsToPackageFile(host, [
       {
         key: `demo`,
-        value: `npm run build:common && npm run build:lcu && ng serve demo`
+        value: `npm run build:common && npm run build:lcu && npm run start:demo`
       },
       {
         key: `build:common`,
@@ -97,6 +97,10 @@ export function addScripts(options: any) {
       {
         key: `pack:pollyfills`,
         value: `concat-glob-cli -f \"dist/lcu/scripts.*.js\" -o dist/wc/lcu.pollyfills.js`
+      },
+      {
+        key: 'start:demo',
+        value: 'ng serve demo --port=42xx'
       }
     ]);
 
