@@ -92,11 +92,11 @@ export function addScripts(options: any) {
       },
       {
         key: `pack:main`,
-        value: `concat-glob-cli -f \"dist/lcu/main.*.js\" -o dist/wc/lcu/lcu.1.js`
+        value: `concat-glob-cli -f \"dist/lcu/main.*.js\" -o dist/wc/lcu/lcu.startup.js`
       },
       {
         key: `pack:pollyfills`,
-        value: `concat-glob-cli -f \"dist/lcu/scripts.*.js\" -o dist/wc/lcu/lcu.0.js`
+        value: `concat-glob-cli -f \"dist/lcu/scripts.*.js\" -o dist/wc/lcu/lcu.pollyfills.js`
       }
     ]);
 
