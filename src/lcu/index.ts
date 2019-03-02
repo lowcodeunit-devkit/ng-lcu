@@ -88,15 +88,15 @@ export function addScripts(options: any) {
       },
       {
         key: `pack:join`,
-        value: `concat-glob-cli -f \"dist/wc/lcu/lcu.*.js\" -o dist/wc/${options.workspace}.lcu.js`
+        value: `concat-glob-cli -f \"dist/wc/lcu.*.js\" -o dist/wc/${options.workspace}.lcu.js`
       },
       {
         key: `pack:main`,
-        value: `concat-glob-cli -f \"dist/lcu/main.*.js\" -o dist/wc/lcu/lcu.startup.js`
+        value: `concat-glob-cli -f \"dist/lcu/main.*.js\" -o dist/wc/lcu.startup.js`
       },
       {
         key: `pack:pollyfills`,
-        value: `concat-glob-cli -f \"dist/lcu/scripts.*.js\" -o dist/wc/lcu/lcu.pollyfills.js`
+        value: `concat-glob-cli -f \"dist/lcu/scripts.*.js\" -o dist/wc/lcu.pollyfills.js`
       }
     ]);
 
