@@ -27,16 +27,18 @@ export function lcu(options: any): Rule {
     setupOptions(host, options);
 
     const rule = chain([
+      externalSchematic('@lowcodeunit-devkit/ng-lcu', 'library', {
+        name: 'common',
+        initWith: 'Blank'
+      }),
       externalSchematic('@lowcodeunit-devkit/ng-lcu', 'application', {
         name: 'lcu',
         es5Patch: true,
         initWith: 'Blank',
+        isDefault: true,
         routing: false,
+        singleBundle: true,
         webCompPolys: true
-      }),
-      externalSchematic('@lowcodeunit-devkit/ng-lcu', 'library', {
-        name: 'common',
-        initWith: 'Blank'
       }),
       externalSchematic('@lowcodeunit-devkit/ng-lcu', 'application', {
         name: 'demo',
@@ -68,15 +70,11 @@ export function addScripts(options: any) {
     addScriptsToPackageFile(host, [
       {
         key: `demo`,
+        value: `npm run build:common && npm run start:demo`
+      },
+      {
+        key: `demo:lcu`,
         value: `npm run build:common && npm run build:lcu && npm run start:demo`
-      },
-      {
-        key: `build:common`,
-        value: `ng build common`
-      },
-      {
-        key: `build:lcu`,
-        value: `ng build lcu --prod --single-bundle && npm run pack`
       },
       {
         key: `pack`,
@@ -84,19 +82,19 @@ export function addScripts(options: any) {
       },
       {
         key: `pack:lcu`,
-        value: `mkdirp dist/wc/lcu && npm run pack:main && npm run pack:pollyfills && npm run pack:join`
+        value: `rimraf dist/lcu/wc && mkdirp dist/lcu/wc && npm run pack:main && npm run pack:pollyfills && npm run pack:join`
       },
       {
         key: `pack:join`,
-        value: `concat-glob-cli -f \"dist/wc/lcu.*.js\" -o dist/wc/${options.workspace}.lcu.js`
+        value: `concat-glob-cli -f \"dist/lcu/wc/lcu.*.js\" -o dist/lcu/wc/lcu-${options.workspace}.lcu.js`
       },
       {
         key: `pack:main`,
-        value: `concat-glob-cli -f \"dist/lcu/main.*.js\" -o dist/wc/lcu.startup.js`
+        value: `concat-glob-cli -f \"dist/lcu/main.*.js\" -o dist/lcu/wc/lcu.startup.js`
       },
       {
         key: `pack:pollyfills`,
-        value: `concat-glob-cli -f \"dist/lcu/scripts.*.js\" -o dist/wc/lcu.pollyfills.js`
+        value: `concat-glob-cli -f \"dist/lcu/scripts.*.js\" -o dist/lcu/wc/lcu.pollyfills.js`
       },
       {
         key: 'start:demo',

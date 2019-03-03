@@ -56,10 +56,14 @@ export function addDeployScripts(options: any) {
 
     addScriptsToPackageFile(host, [
       {
+        key: `build:${projectSafeName}`,
+        value: `ng build ${projectSafeName}`
+      },
+      {
         key: `deploy:${projectSafeName}`,
-        value: `npm version patch --prefix ${
-          project.root
-        } && ng build ${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`
+        value:
+          `npm version patch --prefix ${project.root}` +
+          ` && npm run build:${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`
       }
     ]);
 

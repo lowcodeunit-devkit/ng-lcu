@@ -54,9 +54,20 @@ export function addScripts(options: any) {
     var projectSafeName = strings.dasherize(options.name);
 
     addScriptsToPackageFile(host, [
+      !options.singleBundle
+        ? {
+            key: `build:${projectSafeName}`,
+            value: `ng build demo --prod`
+          }
+        : {
+            key: `build:${projectSafeName}`,
+            value: `ng build lcu --prod --single-bundle && npm run pack`
+          },
       {
         key: `deploy:${projectSafeName}`,
-        value: `ng build ${projectSafeName} --prod && npm publish ./dist/${projectSafeName} --access public`
+        value:
+          `npm version patch --prefix ${project.root}` +
+          `&& npm run build:${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`
       }
     ]);
 
@@ -116,6 +127,13 @@ export function manageAppAssets(options: any, context: SchematicContext) {
     var angularJson = angularFile ? JSON.parse(angularFile.content.toString('utf8')) : {};
 
     angularJson.projects[projectSafeName].architect.build.options.assets.push(packageGlob);
+
+    if (options.isDefault) angularJson.defaultProject = projectSafeName;
+
+    if (options.singleBundle)
+      angularJson.projects[projectSafeName].architect.build.options.assets = angularJson.projects[
+        projectSafeName
+      ].architect.build.options.assets.filter((a: any) => a != `projects/${projectSafeName}/src/assets`);
 
     if (options.es5Patch) delete angularJson.projects[projectSafeName].architect.build.options.es5BrowserSupport;
 
@@ -227,6 +245,8 @@ export function setupOptions(host: Tree, options: any): Tree {
 
   options.initWith = options.initWith || 'Default';
 
+  options.isDefault = options.isDefault || false;
+
   options.es5Patch = options.es5Patch || false;
 
   options.webCompPolys = options.webCompPolys;
@@ -236,6 +256,8 @@ export function setupOptions(host: Tree, options: any): Tree {
   options.prefix = options.prefix || 'lcu';
 
   options.routing = options.routing === undefined ? true : options.routing;
+
+  options.singleBundle = options.singleBundle || false;
 
   options.skipInstall = options.skipInstall || false;
 
