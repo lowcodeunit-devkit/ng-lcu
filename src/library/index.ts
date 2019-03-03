@@ -113,8 +113,6 @@ export function updatePackageJsonName(context: SchematicContext, options: any) {
       if (packageFile && packageFile.content) {
         var packageFileContent = packageFile.content.toString('utf8');
 
-        context.logger.info(packageFileContent);
-
         var packageJson = packageFileContent ? JSON.parse(packageFileContent) : {};
 
         var variant = projectName ? `-${projectName}` : '';
