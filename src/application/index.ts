@@ -139,7 +139,7 @@ export function manageAppAssets(options: any, context: SchematicContext) {
         glob: "lcu.json",
         input: "./",
         output: "/"
-      })
+      });
     }
 
     if (options.es5Patch) delete angularJson.projects[projectSafeName].architect.build.options.es5BrowserSupport;
