@@ -130,10 +130,15 @@ export function manageAppAssets(options: any, context: SchematicContext) {
 
     if (options.isDefault) angularJson.defaultProject = projectSafeName;
 
-    if (options.singleBundle)
+    if (options.singleBundle) {
       angularJson.projects[projectSafeName].architect.build.options.assets = angularJson.projects[
         projectSafeName
       ].architect.build.options.assets.filter((a: any) => a != `projects/${projectSafeName}/src/assets`);
+
+      angularJson.projects[projectSafeName].architect.build.options.assets.push('lcu.json')
+    }
+
+    if (options.es5Patch) delete angularJson.projects[projectSafeName].architect.build.options.es5BrowserSupport;
 
     if (options.es5Patch) delete angularJson.projects[projectSafeName].architect.build.options.es5BrowserSupport;
 
