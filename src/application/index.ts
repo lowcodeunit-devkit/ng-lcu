@@ -135,7 +135,11 @@ export function manageAppAssets(options: any, context: SchematicContext) {
         projectSafeName
       ].architect.build.options.assets.filter((a: any) => a != `projects/${projectSafeName}/src/assets`);
 
-      angularJson.projects[projectSafeName].architect.build.options.assets.push('lcu.json')
+      angularJson.projects[projectSafeName].architect.build.options.assets.push({
+        glob: "lcu.json",
+        input: "./",
+        output: "/"
+      })
     }
 
     if (options.es5Patch) delete angularJson.projects[projectSafeName].architect.build.options.es5BrowserSupport;
