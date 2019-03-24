@@ -66,7 +66,7 @@ export function addScripts(options: any) {
       {
         key: `deploy:${projectSafeName}`,
         value:
-          `npm version patch --prefix ${project.root}` +
+          `npm version patch --prefix ${project.root} ` +
           `&& npm run build:${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`
       }
     ]);
