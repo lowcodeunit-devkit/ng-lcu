@@ -36,7 +36,7 @@ export function library(options: any): Rule {
       processInitWith(options, context),
       addDeployScripts(options),
       manageDeployAllScript(options),
-      updateTsConfig(options),
+      updateTsConfig(context, options),
       updatePackageJsonName(context, options)
     ]);
 
@@ -71,7 +71,7 @@ export function addDeployScripts(options: any) {
   };
 }
 
-export function updateTsConfig(options: any) {
+export function updateTsConfig(context: SchematicContext, options: any) {
   return (host: Tree) => {
     var tsConfigFilePath = 'tsconfig.json';
 
@@ -88,6 +88,8 @@ export function updateTsConfig(options: any) {
 
       delete tsConfigJson.paths[pathKey];
     });
+
+    context.logger.info(tsConfigJson);
 
     host.overwrite(tsConfigFilePath, JSON.stringify(tsConfigJson, null, '\t'));
 

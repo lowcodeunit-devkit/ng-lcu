@@ -57,7 +57,7 @@ export function addScripts(options: any) {
       !options.singleBundle
         ? {
             key: `build:${projectSafeName}`,
-            value: `ng build demo --prod`
+            value: `ng build ${projectSafeName} --prod`
           }
         : {
             key: `build:${projectSafeName}`,
