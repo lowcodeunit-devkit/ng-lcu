@@ -89,8 +89,6 @@ export function updateTsConfig(context: SchematicContext, options: any) {
       delete tsConfigJson.paths[pathKey];
     });
 
-    context.logger.info(tsConfigJson);
-
     host.overwrite(tsConfigFilePath, JSON.stringify(tsConfigJson, null, '\t'));
 
     return host;
