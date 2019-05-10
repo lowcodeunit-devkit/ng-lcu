@@ -86,7 +86,7 @@ export function addScripts(options: any) {
       },
       {
         key: `pack:join`,
-        value: `concat-glob-cli -f \"dist/lcu/wc/lcu.*.js\" -o dist/lcu/wc/lcu-${options.workspace}.lcu.js`
+        value: `concat-glob-cli -f \"dist/lcu/wc/lcu.*.js\" -o dist/lcu/wc/${options.workspace}.lcu.js`
       },
       {
         key: `pack:main`,
