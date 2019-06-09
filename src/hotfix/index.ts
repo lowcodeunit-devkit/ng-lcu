@@ -6,7 +6,7 @@ export function hotfix(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     setupOptions(host, options);
 
-    context.logger.debug(JSON.stringify(options));
+    context.logger.info(JSON.stringify(options));
 
     const rule = chain([updateTsConfig(context, options)]);
 
@@ -22,12 +22,12 @@ export function updateTsConfig(context: SchematicContext, options: any) {
 
     var tsConfigJson = tsConfigFile ? JSON.parse(tsConfigFile.content.toString('utf8')) : {};
 
-    context.logger.debug(JSON.stringify(tsConfigJson));
+    context.logger.info(JSON.stringify(tsConfigJson));
 
     var pathKeys = Object.keys(tsConfigJson.paths || {});
 
     pathKeys.forEach(pathKey => {
-      context.logger.debug(pathKey);
+      context.logger.info(pathKey);
   
       if (pathKey == options.name) {
         var newPath = pathKey.replace(options.name, `${options.scope}/${options.workspace}-${options.name}`);
@@ -40,7 +40,7 @@ export function updateTsConfig(context: SchematicContext, options: any) {
 
     var newTsConfigContent = JSON.stringify(tsConfigJson, null, '\t');
 
-    context.logger.debug(newTsConfigContent);
+    context.logger.info(newTsConfigContent);
   
     host.overwrite(tsConfigFilePath, newTsConfigContent);
 
