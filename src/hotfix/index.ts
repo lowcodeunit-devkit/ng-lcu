@@ -32,6 +32,10 @@ export function updateTsConfig(context: SchematicContext, options: any) {
       if (pathKey == options.name || `${pathKey}/*` == options.name) {
         var newPath = pathKey.replace(options.name, `${options.scope}/${options.workspace}-${options.name}`);
 
+        if (options.name.endsWith('/*') {
+          newPath += '/*';
+        }
+
         tsConfigJson.compilerOptions.paths[newPath] = tsConfigJson.compilerOptions.paths[pathKey];
 
         delete tsConfigJson.compilerOptions.paths[pathKey];
