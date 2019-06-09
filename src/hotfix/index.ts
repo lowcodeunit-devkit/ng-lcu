@@ -29,12 +29,10 @@ export function updateTsConfig(context: SchematicContext, options: any) {
     pathKeys.forEach(pathKey => {
       context.logger.info(pathKey);
   
-      if (pathKey == options.name || `${pathKey}/*` == options.name) {
+      if (pathKey == options.name || pathKey == `${options.name}/*`) {
         var newPath = pathKey.replace(options.name, `${options.scope}/${options.workspace}-${options.name}`);
 
-        if (options.name.endsWith('/*')) {
-          newPath += '/*';
-        }
+        context.logger.info(newPath);
 
         tsConfigJson.compilerOptions.paths[newPath] = tsConfigJson.compilerOptions.paths[pathKey];
 
