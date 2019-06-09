@@ -20,9 +20,13 @@ export function updateTsConfig(context: SchematicContext, options: any) {
 
     var tsConfigJson = tsConfigFile ? JSON.parse(tsConfigFile.content.toString('utf8')) : {};
 
+    context.logger.debug(tsConfigJson);
+
     var pathKeys = Object.keys(tsConfigJson.paths || {});
 
     pathKeys.forEach(pathKey => {
+      context.logger.debug(pathKey);
+  
       if (pathKey == options.name) {
         var newPath = pathKey.replace(options.name, `${options.scope}/${options.workspace}-${options.name}`);
 
@@ -32,7 +36,11 @@ export function updateTsConfig(context: SchematicContext, options: any) {
       }
     });
 
-    host.overwrite(tsConfigFilePath, JSON.stringify(tsConfigJson, null, '\t'));
+    var newTsConfigContent = JSON.stringify(tsConfigJson, null, '\t');
+
+    context.logger.debug(newTsConfigContent);
+  
+    host.overwrite(tsConfigFilePath, newTsConfigContent);
 
     return host;
   };
