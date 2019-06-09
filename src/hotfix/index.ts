@@ -24,17 +24,17 @@ export function updateTsConfig(context: SchematicContext, options: any) {
 
     context.logger.info(JSON.stringify(tsConfigJson));
 
-    var pathKeys = Object.keys(tsConfigJson.paths || {});
+    var pathKeys = Object.keys(tsConfigJson.compilerOptions.paths || {});
 
     pathKeys.forEach(pathKey => {
       context.logger.info(pathKey);
   
-      if (pathKey == options.name) {
+      if (pathKey == options.name || `${pathKey}/*` == options.name) {
         var newPath = pathKey.replace(options.name, `${options.scope}/${options.workspace}-${options.name}`);
 
-        tsConfigJson.paths[newPath] = tsConfigJson.paths[pathKey];
+        tsConfigJson.compilerOptions.paths[newPath] = tsConfigJson.compilerOptions.paths[pathKey];
 
-        delete tsConfigJson.paths[pathKey];
+        delete tsConfigJson.compilerOptions.paths[pathKey];
       }
     });
 
