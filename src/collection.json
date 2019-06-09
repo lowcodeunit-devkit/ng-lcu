@@ -40,6 +40,10 @@
     "lcu": {
       "description": "A blank schematic.",
       "factory": "./lcu/index#lcu"
+    },
+    "hotfix": {
+      "description": "A blank schematic.",
+      "factory": "./hotfix/index#hotfix"
     }
   }
 }

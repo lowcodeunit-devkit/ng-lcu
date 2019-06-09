@@ -15,7 +15,8 @@ import {
   mergeWith,
   template,
   chain,
-  externalSchematic
+  externalSchematic,
+  branchAndMerge
 } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path, join } from '@angular-devkit/core';
@@ -27,12 +28,12 @@ export function library(options: any): Rule {
     setupOptions(host, options);
 
     const rule = chain([
-      externalSchematic('@schematics/angular', 'library', {
+      branchAndMerge(externalSchematic('@schematics/angular', 'library', {
         name: options.name,
         entryFile: options.entryFile,
         prefix: options.prefix,
         skipInstall: true
-      }),
+      })),
       processInitWith(options, context),
       addDeployScripts(options),
       manageDeployAllScript(options),
@@ -79,14 +80,14 @@ export function updateTsConfig(context: SchematicContext, options: any) {
 
     var tsConfigJson = tsConfigFile ? JSON.parse(tsConfigFile.content.toString('utf8')) : {};
 
-    var pathKeys = Object.keys(tsConfigJson.paths || {});
+    var pathKeys = Object.keys(tsConfigJson.compilerOptions.paths || {});
 
     pathKeys.forEach(pathKey => {
       var newPath = pathKey.replace(options.name, `${options.scope}/${options.workspace}-${options.name}`);
 
-      tsConfigJson.paths[newPath] = tsConfigJson.paths[pathKey];
+      tsConfigJson.compilerOptions.paths[newPath] = tsConfigJson.compilerOptions.paths[pathKey];
 
-      delete tsConfigJson.paths[pathKey];
+      delete tsConfigJson.compilerOptions.paths[pathKey];
     });
 
     host.overwrite(tsConfigFilePath, JSON.stringify(tsConfigJson, null, '\t'));
