@@ -8,45 +8,9 @@ export function hotfix(options: any): Rule {
 
     context.logger.info(JSON.stringify(options));
 
-    const rule = chain([updateTsConfig(context, options)]);
+    const rule = chain([]);
 
     return rule(host, context);
-  };
-}
-
-export function updateTsConfig(context: SchematicContext, options: any) {
-  return (host: Tree) => {
-    var tsConfigFilePath = 'tsconfig.json';
-
-    var tsConfigFile = host.get(tsConfigFilePath);
-
-    var tsConfigJson = tsConfigFile ? JSON.parse(tsConfigFile.content.toString('utf8')) : {};
-
-    context.logger.info(JSON.stringify(tsConfigJson));
-
-    var pathKeys = Object.keys(tsConfigJson.compilerOptions.paths || {});
-
-    pathKeys.forEach(pathKey => {
-      context.logger.info(pathKey);
-  
-      if (pathKey == options.name || pathKey == `${options.name}/*`) {
-        var newPath = pathKey.replace(options.name, `${options.scope}/${options.workspace}-${options.name}`);
-
-        context.logger.info(newPath);
-
-        tsConfigJson.compilerOptions.paths[newPath] = tsConfigJson.compilerOptions.paths[pathKey];
-
-        delete tsConfigJson.compilerOptions.paths[pathKey];
-      }
-    });
-
-    var newTsConfigContent = JSON.stringify(tsConfigJson, null, '\t');
-
-    context.logger.info(newTsConfigContent);
-  
-    host.overwrite(tsConfigFilePath, newTsConfigContent);
-
-    return host;
   };
 }
 
