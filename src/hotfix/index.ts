@@ -6,6 +6,8 @@ export function hotfix(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     setupOptions(host, options);
 
+    context.logger.debug(JSON.stringify(options));
+
     const rule = chain([updateTsConfig(context, options)]);
 
     return rule(host, context);
@@ -20,7 +22,7 @@ export function updateTsConfig(context: SchematicContext, options: any) {
 
     var tsConfigJson = tsConfigFile ? JSON.parse(tsConfigFile.content.toString('utf8')) : {};
 
-    context.logger.debug(tsConfigJson);
+    context.logger.debug(JSON.stringify(tsConfigJson));
 
     var pathKeys = Object.keys(tsConfigJson.paths || {});
 
