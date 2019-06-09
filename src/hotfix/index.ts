@@ -32,7 +32,7 @@ export function updateTsConfig(context: SchematicContext, options: any) {
       if (pathKey == options.name || `${pathKey}/*` == options.name) {
         var newPath = pathKey.replace(options.name, `${options.scope}/${options.workspace}-${options.name}`);
 
-        if (options.name.endsWith('/*') {
+        if (options.name.endsWith('/*')) {
           newPath += '/*';
         }
 
