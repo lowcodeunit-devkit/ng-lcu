@@ -15,7 +15,8 @@ import {
   mergeWith,
   template,
   chain,
-  externalSchematic
+  externalSchematic,
+  branchAndMerge
 } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path, join } from '@angular-devkit/core';
@@ -27,12 +28,12 @@ export function library(options: any): Rule {
     setupOptions(host, options);
 
     const rule = chain([
-      externalSchematic('@schematics/angular', 'library', {
+      branchAndMerge(externalSchematic('@schematics/angular', 'library', {
         name: options.name,
         entryFile: options.entryFile,
         prefix: options.prefix,
         skipInstall: true
-      }),
+      })),
       processInitWith(options, context),
       addDeployScripts(options),
       manageDeployAllScript(options),
