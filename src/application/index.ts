@@ -49,9 +49,9 @@ export function addScripts(options: any) {
   return (host: Tree) => {
     const workspace = getWorkspace(host);
 
-    var project = workspace.projects[options.name];
+    let project = workspace.projects[options.name];
 
-    var projectSafeName = strings.dasherize(options.name);
+    let projectSafeName = strings.dasherize(options.name);
 
     addScriptsToPackageFile(host, [
       !options.singleBundle
@@ -76,15 +76,15 @@ export function addScripts(options: any) {
 }
 
 export function createPackageJson(host: Tree, options: any, projectName: string, context: SchematicContext) {
-  var workspace = getWorkspace(host);
+  let workspace = getWorkspace(host);
 
-  var project = workspace.projects[projectName];
+  let project = workspace.projects[projectName];
 
-  var packageFilePath = join(project.root as Path, 'package.json');
+  let packageFilePath = join(project.root as Path, 'package.json');
 
   context.logger.info(`Loading package at path: ${packageFilePath}`);
 
-  var packageJson = {
+  let packageJson = {
     name: `${options.scope}/${options.workspace}-${projectName}`,
     version: '0.0.1',
     peerDependencies: {
@@ -97,15 +97,15 @@ export function createPackageJson(host: Tree, options: any, projectName: string,
 }
 
 export function updatePolyfills(host: Tree, options: any, projectName: string, context: SchematicContext) {
-  var workspace = getWorkspace(host);
+  let workspace = getWorkspace(host);
 
-  var project = workspace.projects[projectName];
+  let project = workspace.projects[projectName];
 
-  var polysFilePath = join(project.root as Path, 'polyfills.ts');
+  let polysFilePath = join(project.root as Path, 'polyfills.ts');
 
-  var polysFile = host.get(polysFilePath);
+  let polysFile = host.get(polysFilePath);
 
-  var polysContent = polysFile ? polysFile.content.toString('utf8') : '';
+  let polysContent = polysFile ? polysFile.content.toString('utf8') : '';
 
   if (options.webCompPolys) polysContent += `\r\nimport '@webcomponents/custom-elements/custom-elements.min';`;
 
@@ -114,17 +114,17 @@ export function updatePolyfills(host: Tree, options: any, projectName: string, c
 
 export function manageAppAssets(options: any, context: SchematicContext) {
   return (host: Tree) => {
-    var projectSafeName = strings.dasherize(options.name);
+    let projectSafeName = strings.dasherize(options.name);
 
-    var packageGlob = {
+    let packageGlob = {
       glob: 'package.json',
       input: `./projects/${projectSafeName}/`,
       output: '/'
     };
 
-    var angularFile = host.get('angular.json');
+    let angularFile = host.get('angular.json');
 
-    var angularJson = angularFile ? JSON.parse(angularFile.content.toString('utf8')) : {};
+    let angularJson = angularFile ? JSON.parse(angularFile.content.toString('utf8')) : {};
 
     angularJson.projects[projectSafeName].architect.build.options.assets.push(packageGlob);
 
@@ -161,15 +161,15 @@ export function manageAppAssets(options: any, context: SchematicContext) {
 
 export function manageDeployAllScript(options: any) {
   return (host: Tree) => {
-    var projectSafeName = strings.dasherize(options.name);
+    let projectSafeName = strings.dasherize(options.name);
 
-    var deployProj = `npm run deploy:${projectSafeName}`;
+    let deployProj = `npm run deploy:${projectSafeName}`;
 
-    var packageFile = host.get('package.json');
+    let packageFile = host.get('package.json');
 
-    var packageJson = packageFile ? JSON.parse(packageFile.content.toString('utf8')) : {};
+    let packageJson = packageFile ? JSON.parse(packageFile.content.toString('utf8')) : {};
 
-    var deployAll = packageJson.scripts['deploy:all'];
+    let deployAll = packageJson.scripts['deploy:all'];
 
     if (deployAll) deployAll += ` && ${deployProj}`;
     else deployAll = deployProj;
@@ -182,23 +182,27 @@ export function manageDeployAllScript(options: any) {
   };
 }
 
-function blankOutLibrary(options: any, context: SchematicContext, exceptModule: boolean) {
+function blankOutLibrary(options: any, context: SchematicContext, exceptModule: boolean, includeLCUCore: boolean) {
   return (host: Tree) => {
-    var projectName = options.name;
+    let projectName = options.name;
 
-    var workspace = getWorkspace(host);
+    let workspace = getWorkspace(host);
 
-    var project = workspace.projects[projectName];
+    let project = workspace.projects[projectName];
 
-    var srcRoot = join(project.root as Path, 'src');
+    let srcRoot = join(project.root as Path, 'src');
 
-    var appRoot = join(srcRoot, 'app');
+    let appRoot = join(srcRoot, 'app');
 
-    var files = [`app.component.html`, `app.component.scss`, `app.component.spec.ts`, `app.component.ts`, `app-routing.module.ts`];
+    let files = [`app.component.html`, `app.component.scss`, `app.component.spec.ts`, `app.component.ts`, `app-routing.module.ts`];
 
     if (!exceptModule) files.push(`app.module.ts`);
 
     removeFilesFromRoot(host, appRoot, files);
+
+    let coreFiles = [`index.html`, `styles.scss`];  
+
+    removeFilesFromRoot(host, srcRoot, coreFiles);
 
     return host;
   };
@@ -208,19 +212,19 @@ function processInitWith(options: any, context: SchematicContext) {
   return (host: Tree) => {
     context.logger.info(`Processing Initialization for ${options.initWith}...`);
 
-    var rule: Rule = noop();
+    let rule: Rule = noop();
 
     switch (options.initWith) {
       case 'Default':
         break;
 
       case 'Blank':
-        rule = blankOutLibrary(options, context, false);
+        rule = blankOutLibrary(options, context, false, false);
         break;
 
-      case 'Forge':
+      case 'LCU Core App':
         rule = chain([
-          blankOutLibrary(options, context, false),
+          blankOutLibrary(options, context, false, true),
           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'forge', {
             name: options.name,
             project: options.name
@@ -229,7 +233,7 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
       case 'Module':
-        rule = blankOutLibrary(options, context, true);
+        rule = blankOutLibrary(options, context, true, false);
         break;
     }
 
@@ -240,9 +244,9 @@ function processInitWith(options: any, context: SchematicContext) {
 }
 
 export function setupOptions(host: Tree, options: any): Tree {
-  var lcuFile = host.get('lcu.json');
+  let lcuFile = host.get('lcu.json');
 
-  var lcuJson = lcuFile ? JSON.parse(lcuFile.content.toString('utf8')) : {};
+  let lcuJson = lcuFile ? JSON.parse(lcuFile.content.toString('utf8')) : {};
 
   options.scope = lcuJson.templates.scope;
 
