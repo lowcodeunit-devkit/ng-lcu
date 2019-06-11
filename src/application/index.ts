@@ -225,7 +225,7 @@ function processInitWith(options: any, context: SchematicContext) {
       case 'LCU Core App':
         rule = chain([
           blankOutLibrary(options, context, false, true),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'forge', {
+          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
             name: options.name,
             project: options.name
           })
