@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {
-  HomeComponent,
-  FlexLayoutComponent,
-  ReactiveFormComponent,
-  PageNotFoundComponent,
-  TutorialsComponent,
-  UserComponent} from '@fathym-it/hello-world-common';
+import { HomeComponent } from './controls/home/home.component';
+import { FlexLayoutComponent } from './controls/flex-layout/flex-layout.component';
+import { ReactiveFormComponent } from './controls/reactive-form/reactive-form.component';
+import { TutorialsComponent } from './controls/tutorials/tutorials.component';
+import { UserComponent } from './controls/user/user.component';
+import { PageNotFoundComponent } from './controls/page-not-found/page-not-found.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},

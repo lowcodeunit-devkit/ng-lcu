@@ -1,4 +1,4 @@
-import { NavLinkModel } from '@fathym-it/hello-world-common';
+import { NavLinkModel } from '../../models/nav-link.model';
 
 // @dynamic
 /**
