@@ -1,8 +1,12 @@
+import { NavigationConstants } from './utils/constants/navigation.constants';
 
 import { Component, OnInit, Input } from '@angular/core';
-import { NavLinkModel, SharedNotificationService, TutorialService, TutorialModel, ParseRouteUtil, } from '@fathym-it/hello-world-common';
-import { NavigationConstants } from '../utils/constants/navigation.constants';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NavLinkModel } from './models/nav-link.model';
+import { SharedNotificationService } from './services/shared-notification.service';
+import { TutorialService } from './services/tutorial.service';
+import { ParseRouteUtil } from './utils/parse-route.utils';
+import { TutorialModel } from './models/tutorial.model';
 
 
 @Component({
