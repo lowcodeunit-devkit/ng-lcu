@@ -11,9 +11,11 @@ export function lcuCoreApp(options: any): Rule {
 
     var project = workspace.projects[options.project];
 
+    // where to place files
     const targetPath = normalize(project.root + '/src/');
 
-    const solutionSource = apply(url('./files/src'), [
+    // where to get files from
+    const solutionSource = apply(url('./files/src/'), [
       template({
         ...strings,
         ...options,
