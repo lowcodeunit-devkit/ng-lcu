@@ -12,8 +12,8 @@ export function lcuCoreApp(options: any): Rule {
     var project = workspace.projects[options.project];
 
     const targetPath = normalize(project.root + '/src/');
-console.log('options', options);
-    const solutionSource = apply(url('./files/src'), [
+
+    const solutionSource = apply(url('./files/src/app'), [
       template({
         ...strings,
         ...options,
