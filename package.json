@@ -17,6 +17,9 @@
   "dependencies": {
     "@angular-devkit/core": "^7.1.2",
     "@angular-devkit/schematics": "^7.1.2",
+    "@angular/flex-layout": "^8.0.0-beta.26",
+    "@angular/forms": "^8.0.0",
+    "@lcu-ide/common": "^0.1.367-limit-connection-attempts",
     "@types/jasmine": "^2.6.0",
     "@types/node": "^8.0.31",
     "jasmine": "^2.8.0",

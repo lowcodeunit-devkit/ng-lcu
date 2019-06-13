@@ -21,14 +21,6 @@ export function lcuCoreApp(options: any): Rule {
       move(targetPath),
     ]);
 
-    const subSolutionSource = apply(url('./files/src/app'), [
-      template({
-        ...strings,
-        ...options,
-      }),
-      move(targetPath),
-    ]);
-
     // const docsSource = apply(url('./files/docs'), [
     //   template({
     //     ...strings,
