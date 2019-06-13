@@ -13,7 +13,7 @@ export function lcuCoreApp(options: any): Rule {
 
     const targetPath = normalize(project.root + '/src/');
 
-    const solutionSource = apply(url('./files/src/app'), [
+    const solutionSource = apply(url('./asd'), [
       template({
         ...strings,
         ...options,
