@@ -84,6 +84,9 @@ export function createPackageJson(host: Tree, options: any, projectName: string,
 
   context.logger.info(`Loading package at path: ${packageFilePath}`);
 
+  // testing - shannon
+  context.logger.info(`application index.ts project: ${project}`);
+
   let packageJson = {
     name: `${options.scope}/${options.workspace}-${projectName}`,
     version: '0.0.1',
@@ -211,7 +214,6 @@ function blankOutLibrary(options: any, context: SchematicContext, exceptModule: 
 function processInitWith(options: any, context: SchematicContext) {
   return (host: Tree) => {
     context.logger.info(`Processing Initialization for ${options.initWith}...`);
-    context.logger.info(`Getting options ${options}...`);
 
     let rule: Rule = noop();
 
@@ -224,6 +226,8 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
       case 'LCU Core App':
+        // testing - shannon
+        context.logger.info(`application context ${context}...`);
         rule = chain([
           blankOutLibrary(options, context, false, true),
           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
@@ -239,7 +243,9 @@ function processInitWith(options: any, context: SchematicContext) {
     }
 
     context.logger.info(`Processing Initialized for ${options.initWith}!`);
-    context.logger.info(`options ${options}...`);
+
+    //testing -shannon 
+    context.logger.info(`application options ${options}...`);
 
     return rule;
   };
