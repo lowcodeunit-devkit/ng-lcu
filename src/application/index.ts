@@ -84,9 +84,6 @@ export function createPackageJson(host: Tree, options: any, projectName: string,
 
   context.logger.info(`Loading package at path: ${packageFilePath}`);
 
-  // testing - shannon
-  context.logger.info(`application index.ts project: ${project}`);
-
   let packageJson = {
     name: `${options.scope}/${options.workspace}-${projectName}`,
     version: '0.0.1',
@@ -97,8 +94,6 @@ export function createPackageJson(host: Tree, options: any, projectName: string,
   };
 
   host.create(packageFilePath, JSON.stringify(packageJson, null, '\t'));
-  context.logger.info(`create name: ${packageJson.name}`)
-  context.logger.info(`create peerDependencies: ${JSON.stringify(packageJson.peerDependencies)}`);
 }
 
 export function updatePolyfills(host: Tree, options: any, projectName: string, context: SchematicContext) {
@@ -224,12 +219,12 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
       case 'Blank':
+        context.logger.info(`case blank ${options} : ${context}`);
         rule = blankOutLibrary(options, context, false, false);
         break;
 
       case 'LCU Core App':
-        // testing - shannon
-        context.logger.info(`application context ${context}...`);
+      context.logger.info(`case LCU Core App ${options} : ${context}`);
         rule = chain([
           blankOutLibrary(options, context, false, true),
           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
@@ -240,14 +235,12 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
       case 'Module':
+        context.logger.info(`case module ${options} : ${context}`);
         rule = blankOutLibrary(options, context, true, false);
         break;
     }
 
     context.logger.info(`Processing Initialized for ${options.initWith}!`);
-
-    //testing -shannon 
-    context.logger.info(`application options ${options}...`);
 
     return rule;
   };
