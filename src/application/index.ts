@@ -98,7 +98,7 @@ export function createPackageJson(host: Tree, options: any, projectName: string,
 
   host.create(packageFilePath, JSON.stringify(packageJson, null, '\t'));
   context.logger.info(`create name: ${packageJson.name}`)
-  context.logger.info(`create peerDependencies: ${JSON.stringify(packageJson.peerDependencies)});
+  context.logger.info(`create peerDependencies: ${JSON.stringify(packageJson.peerDependencies)}`);
 }
 
 export function updatePolyfills(host: Tree, options: any, projectName: string, context: SchematicContext) {
