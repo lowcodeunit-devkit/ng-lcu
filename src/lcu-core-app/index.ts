@@ -5,6 +5,9 @@ import { normalize, strings } from '@angular-devkit/core';
 
 export function lcuCoreApp(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
+
+    context.logger.info(`shannon lcuCoreApp ${options}`);
+
     setupOptions(host, options);
 
     const workspace = getWorkspace(host);
