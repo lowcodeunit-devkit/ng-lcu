@@ -1,0 +1,31 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav 
+    #drawer 
+    class="sidenav" 
+    fixedInViewport="false"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" 
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)">
+    <lcu-nav-list [nav-links]="NavLinks"></lcu-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+
+    <mat-toolbar color="primary" fxLayout="row">
+
+      <div fxFlex="20" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <img class="logo" [src]="LogoURL" alt="{{LogoAlt}}">
+      </div>
+
+      <div fxLayout="row" fxFlex fxLayoutGap="20px" fxLayoutAlign="end center">
+        <lcu-users-list [users]="Users"></lcu-users-list>
+      </div>
+
+    </mat-toolbar>
+
+    <!-- Content is injected here -->
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

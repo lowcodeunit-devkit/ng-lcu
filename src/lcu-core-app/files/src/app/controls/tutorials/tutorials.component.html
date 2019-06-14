@@ -1,0 +1,11 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+  <strong class="mat-display-2">Tutorials</strong>
+</div>
+<div fxLayout="row" fxLayoutAlign="start center">
+  <mat-list fxFlex>
+    <mat-list-item *ngFor="let tutorial of Tutorials; last as last">
+      <a href="{{tutorial.Url}}" target="{{tutorial.Target}}" mat-button>{{tutorial.Label}}</a>
+      <mat-divider *ngIf="!last"></mat-divider>
+    </mat-list-item>
+  </mat-list>
+</div>
