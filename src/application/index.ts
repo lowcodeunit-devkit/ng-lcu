@@ -210,7 +210,6 @@ function blankOutLibrary(options: any, context: SchematicContext, exceptModule: 
 
 function processInitWith(options: any, context: SchematicContext) {
   return (host: Tree) => {
-    
     context.logger.info(`Shannon Processing Initialization for ${options.initWith}...`);
 
     let rule: Rule = noop();
