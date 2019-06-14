@@ -213,7 +213,7 @@ function processInitWith(options: any, context: SchematicContext) {
 
         break;
 
-      case 'LCU Core App':
+      case 'LCU':
         rule = chain([
           blankOutLibrary(options, context),
           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
