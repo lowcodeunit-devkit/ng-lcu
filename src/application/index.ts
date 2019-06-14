@@ -219,12 +219,12 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
       case 'Blank':
-        context.logger.info(`case blank ${options} : ${context}`);
+        context.logger.info(`shannon case blank ${options} : ${context}`);
         rule = blankOutLibrary(options, context, false, false);
         break;
 
       case 'LCU Core App':
-      context.logger.info(`case LCU Core App ${options} : ${context}`);
+      context.logger.info(`shannon case LCU Core App ${options} : ${context}`);
         rule = chain([
           blankOutLibrary(options, context, false, true),
           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
@@ -235,7 +235,7 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
       case 'Module':
-        context.logger.info(`case module ${options} : ${context}`);
+        context.logger.info(`shannon case module ${options} : ${context}`);
         rule = blankOutLibrary(options, context, true, false);
         break;
     }
