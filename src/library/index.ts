@@ -192,6 +192,8 @@ function blankOutLibrary(options: any, context: SchematicContext) {
 function processInitWith(options: any, context: SchematicContext) {
   return (host: Tree) => {
     context.logger.info(`Processing Initialization for ${options.initWith}...`);
+    //  testing this output
+    context.logger.info(`Getting some options ${options}...`);
 
     var rule: Rule = noop();
 
