@@ -210,21 +210,16 @@ function blankOutLibrary(options: any, context: SchematicContext, exceptModule: 
 
 function processInitWith(options: any, context: SchematicContext) {
   return (host: Tree) => {
-    context.logger.info(`shannon Processing Initialization for ${options.initWith}...`);
+    context.logger.info(`Processing Initialization for ${options.initWith}...`);
 
     let rule: Rule = noop();
-    let option: string = options.initWith
-    ;
-    context.logger.info(`shannon options ${option}`);
 
-    switch (option.replace("'","")) {
+    switch (options.initWith) {
       case 'Blank':
-        context.logger.info(`shannon case blank ${options} : ${context}`);
         rule = blankOutLibrary(options, context, false, false);
         break;
 
-      case 'LCU Core App':
-      context.logger.info(`shannon case LCU Core App ${options} : ${context}`);
+      case 'LCU-Core-App':
         rule = chain([
           blankOutLibrary(options, context, false, true),
           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
@@ -234,34 +229,16 @@ function processInitWith(options: any, context: SchematicContext) {
         ]);
         break;
 
-        case 'LCU':
-            context.logger.info(`shannon case LCU ${options} : ${context}`);
-              rule = chain([
-                blankOutLibrary(options, context, false, true),
-                externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
-                  name: options.name,
-                  project: options.name
-                })
-              ]);
-              break;
-
       case 'Module':
-        context.logger.info(`shannon case module ${options} : ${context}`);
         rule = blankOutLibrary(options, context, true, false);
         break;
 
         case 'Default':
-            context.logger.info(`shannon case default ${options} : ${context}`);
             break;
-
-        default:
-            context.logger.info(`shannon case default, nothing matched ${options} : ${context}`);
     
     }
 
-    context.logger.info(`shannon Processing Initialized for ${options.initWith}!`);
-
-    context.logger.info(`shannon rule ${rule}!`);
+    context.logger.info(`Processing Initialized for ${options.initWith}!`);
 
     return rule;
   };
