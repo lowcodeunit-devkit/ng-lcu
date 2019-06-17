@@ -215,10 +215,10 @@ function processInitWith(options: any, context: SchematicContext) {
     let rule: Rule = noop();
 
     switch (options.initWith) {
-      case 'Blank':
-        context.logger.info(`shannon case blank ${options} : ${context}`);
-        rule = blankOutLibrary(options, context, false, false);
-        break;
+      // case 'Blank':
+      //   context.logger.info(`shannon case blank ${options} : ${context}`);
+      //   rule = blankOutLibrary(options, context, false, false);
+      //   break;
 
       case 'LCU Core App':
       case 'LCU':
@@ -232,13 +232,13 @@ function processInitWith(options: any, context: SchematicContext) {
         ]);
         break;
 
-      case 'Module':
-        context.logger.info(`shannon case module ${options} : ${context}`);
-        rule = blankOutLibrary(options, context, true, false);
-        break;
+      // case 'Module':
+      //   context.logger.info(`shannon case module ${options} : ${context}`);
+      //   rule = blankOutLibrary(options, context, true, false);
+      //   break;
 
-        case 'Default':
-        break;
+      //   case 'Default':
+      //   break;
     
     }
 
