@@ -122,11 +122,6 @@ export function updatePackageJsonName(context: SchematicContext, options: any) {
 
         host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
 
-        // testing - Shannon
-        context.logger.info(`index.ts packageFile.content: ${packageFile.content}`);
-        context.logger.info(`index.ts variant: ${variant}`);
-        context.logger.info(`index.ts options.workspace: ${options.workspace}`);
-
       } else {
         context.logger.info('No file found');
       }
@@ -198,9 +193,6 @@ function blankOutLibrary(options: any, context: SchematicContext) {
 function processInitWith(options: any, context: SchematicContext) {
   return (host: Tree) => {
     context.logger.info(`Processing Initialization for ${options.initWith}...`);
-
-    //  testing - shannon
-    context.logger.info(`lcu-core-app options ${options}...`);
 
     var rule: Rule = noop();
 
