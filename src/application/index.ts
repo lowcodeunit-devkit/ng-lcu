@@ -213,8 +213,10 @@ function processInitWith(options: any, context: SchematicContext) {
     context.logger.info(`shannon Processing Initialization for ${options.initWith}...`);
 
     let rule: Rule = noop();
+    let option: string = options.initWith;
+    context.logger.info(`shannon options ${option}`);
 
-    switch (options.initWith) {
+    switch (option) {
       case 'Blank':
         context.logger.info(`shannon case blank ${options} : ${context}`);
         rule = blankOutLibrary(options, context, false, false);
