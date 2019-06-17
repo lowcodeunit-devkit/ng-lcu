@@ -33,10 +33,10 @@ export function application(options: any): Rule {
         prefix: options.prefix,
         style: 'scss'
       }),
-      // processInitWith(options, context),
-      // options.blockDeploy ? noop() : addScripts(options),
-      // options.blockDeploy ? noop() : manageDeployAllScript(options),
-      // manageAppAssets(options, context)
+      processInitWith(options, context),
+      options.blockDeploy ? noop() : addScripts(options),
+      options.blockDeploy ? noop() : manageDeployAllScript(options),
+      manageAppAssets(options, context)
     ]);
 
     if (!options.skipInstall) context.addTask(new NodePackageInstallTask());
@@ -221,7 +221,6 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
       case 'LCU Core App':
-      case 'LCU':
       context.logger.info(`shannon case LCU Core App ${options} : ${context}`);
         rule = chain([
           blankOutLibrary(options, context, false, true),
