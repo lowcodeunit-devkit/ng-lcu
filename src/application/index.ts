@@ -210,7 +210,7 @@ function blankOutLibrary(options: any, context: SchematicContext, exceptModule: 
 
 function processInitWith(options: any, context: SchematicContext) {
   return (host: Tree) => {
-    context.logger.info(`Shannon Processing Initialization for ${options.initWith}...`);
+    context.logger.info(`shannon Processing Initialization for ${options.initWith}...`);
 
     let rule: Rule = noop();
 
@@ -232,7 +232,7 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
         case 'LCU':
-            context.logger.info(`shannon case LCU Core App ${options} : ${context}`);
+            context.logger.info(`shannon case LCU ${options} : ${context}`);
               rule = chain([
                 blankOutLibrary(options, context, false, true),
                 externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
@@ -248,11 +248,12 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
         case 'Default':
+            context.logger.info(`shannon case default ${options} : ${context}`);
             break;
     
     }
 
-    context.logger.info(`Processing Initialized for ${options.initWith}!`);
+    context.logger.info(`shannon Processing Initialized for ${options.initWith}!`);
 
     return rule;
   };
