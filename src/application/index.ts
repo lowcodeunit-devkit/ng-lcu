@@ -194,11 +194,11 @@ function blankOutLibrary(options: any, context: SchematicContext, exceptModule: 
 
     let appRoot = join(srcRoot, 'app');
 
-    let files = [`app.component.html`, `app.component.scss`, `app.component.spec.ts`, `app.component.ts`, `app-routing.module.ts`];
+  //  let files = [`app.component.html`, `app.component.scss`, `app.component.spec.ts`, `app.component.ts`, `app-routing.module.ts`];
 
-    if (!exceptModule) files.push(`app.module.ts`);
+  //  if (!exceptModule) files.push(`app.module.ts`);
 
-    removeFilesFromRoot(host, appRoot, files);
+   // removeFilesFromRoot(host, appRoot, files);
 
     let coreFiles = [`index.html`, `styles.scss`];  
 
