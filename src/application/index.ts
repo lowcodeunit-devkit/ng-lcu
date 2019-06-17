@@ -194,11 +194,11 @@ function blankOutLibrary(options: any, context: SchematicContext, exceptModule: 
 
     let appRoot = join(srcRoot, 'app');
 
-  //  let files = [`app.component.html`, `app.component.scss`, `app.component.spec.ts`, `app.component.ts`, `app-routing.module.ts`];
+    let files = [`app.component.html`, `app.component.scss`, `app.component.spec.ts`, `app.component.ts`, `app-routing.module.ts`];
 
-  //  if (!exceptModule) files.push(`app.module.ts`);
+    if (!exceptModule) files.push(`app.module.ts`);
 
-   // removeFilesFromRoot(host, appRoot, files);
+    removeFilesFromRoot(host, appRoot, files);
 
     let coreFiles = [`index.html`, `styles.scss`];  
 
@@ -220,17 +220,17 @@ function processInitWith(options: any, context: SchematicContext) {
       //   rule = blankOutLibrary(options, context, false, false);
       //   break;
 
-      case 'LCU Core App':
-      case 'LCU':
-      context.logger.info(`shannon case LCU Core App ${options} : ${context}`);
-        rule = chain([
-          blankOutLibrary(options, context, false, true),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
-            name: options.name,
-            project: options.name
-          })
-        ]);
-        break;
+      // case 'LCU Core App':
+      // case 'LCU':
+      // context.logger.info(`shannon case LCU Core App ${options} : ${context}`);
+      //   rule = chain([
+      //     blankOutLibrary(options, context, false, true),
+      //     externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
+      //       name: options.name,
+      //       project: options.name
+      //     })
+      //   ]);
+      //   break;
 
       // case 'Module':
       //   context.logger.info(`shannon case module ${options} : ${context}`);

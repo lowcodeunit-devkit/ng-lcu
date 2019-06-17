@@ -213,16 +213,16 @@ function processInitWith(options: any, context: SchematicContext) {
 
       //   break;
 
-      case 'LCU':
-      case 'LCU Core App':
-        rule = chain([
-          blankOutLibrary(options, context),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
-            name: options.name,
-            project: options.name
-          })
-        ]);
-      break;
+      // case 'LCU':
+      // case 'LCU Core App':
+      //   rule = chain([
+      //     blankOutLibrary(options, context),
+      //     externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
+      //       name: options.name,
+      //       project: options.name
+      //     })
+      //   ]);
+      // break;
 
       // case 'Solution':
       //   rule = chain([
