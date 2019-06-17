@@ -255,6 +255,8 @@ function processInitWith(options: any, context: SchematicContext) {
 
     context.logger.info(`shannon Processing Initialized for ${options.initWith}!`);
 
+    context.logger.info(`shannon rule ${rule}!`);
+
     return rule;
   };
 }
