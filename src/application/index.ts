@@ -136,9 +136,9 @@ export function manageAppAssets(options: any, context: SchematicContext) {
       ].architect.build.options.assets.filter((a: any) => a != `projects/${projectSafeName}/src/assets`);
 
       angularJson.projects[projectSafeName].architect.build.options.assets.push({
-        glob: "lcu.json",
-        input: "./",
-        output: "/"
+        glob: 'lcu.json',
+        input: './',
+        output: '/'
       });
     }
 
@@ -200,9 +200,11 @@ function blankOutLibrary(options: any, context: SchematicContext, exceptModule: 
 
     removeFilesFromRoot(host, appRoot, files);
 
-    let coreFiles = [`index.html`, `styles.scss`];  
+    if (includeLCUCore) {
+      let coreFiles = [`index.html`, `styles.scss`];
 
-    removeFilesFromRoot(host, srcRoot, coreFiles);
+      removeFilesFromRoot(host, srcRoot, coreFiles);
+    }
 
     return host;
   };
@@ -235,7 +237,6 @@ function processInitWith(options: any, context: SchematicContext) {
 
         case 'Default':
             break;
-    
     }
 
     context.logger.info(`Processing Initialized for ${options.initWith}!`);
