@@ -205,15 +205,16 @@ function processInitWith(options: any, context: SchematicContext) {
     var rule: Rule = noop();
 
     switch (options.initWith) {
-      case 'Default':
-        break;
+      // case 'Default':
+      //   break;
 
-      case 'Blank':
-        rule = blankOutLibrary(options, context);
+      // case 'Blank':
+      //   rule = blankOutLibrary(options, context);
 
-        break;
+      //   break;
 
       case 'LCU':
+      case 'LCU Core App':
         rule = chain([
           blankOutLibrary(options, context),
           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
@@ -223,41 +224,41 @@ function processInitWith(options: any, context: SchematicContext) {
         ]);
       break;
 
-      case 'Solution':
-        rule = chain([
-          blankOutLibrary(options, context),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'solution', {
-            name: options.name,
-            project: options.name
-          })
-        ]);
-        break;
+      // case 'Solution':
+      //   rule = chain([
+      //     blankOutLibrary(options, context),
+      //     externalSchematic('@lowcodeunit-devkit/ng-lcu', 'solution', {
+      //       name: options.name,
+      //       project: options.name
+      //     })
+      //   ]);
+      //   break;
 
-      case 'Element':
-        rule = chain([
-          blankOutLibrary(options, context),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
-            name: options.name,
-            project: options.name
-          })
-        ]);
-        break;
+      // case 'Element':
+      //   rule = chain([
+      //     blankOutLibrary(options, context),
+      //     externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
+      //       name: options.name,
+      //       project: options.name
+      //     })
+      //   ]);
+      //   break;
 
-      case 'SPE':
-        rule = chain([
-          blankOutLibrary(options, context),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
-            name: options.name,
-            path: 'lib/elements',
-            project: options.name
-          }),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'solution', {
-            name: options.name,
-            path: 'lib/solutions',
-            project: options.name
-          })
-        ]);
-        break;
+      // case 'SPE':
+      //   rule = chain([
+      //     blankOutLibrary(options, context),
+      //     externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
+      //       name: options.name,
+      //       path: 'lib/elements',
+      //       project: options.name
+      //     }),
+      //     externalSchematic('@lowcodeunit-devkit/ng-lcu', 'solution', {
+      //       name: options.name,
+      //       path: 'lib/solutions',
+      //       project: options.name
+      //     })
+      //   ]);
+      //   break;
     }
 
     context.logger.info(`Processing Initialized for ${options.initWith}!`);
