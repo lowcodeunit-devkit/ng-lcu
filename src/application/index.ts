@@ -214,13 +214,13 @@ function processInitWith(options: any, context: SchematicContext) {
 
     let rule: Rule = noop();
 
-    // switch (options.initWith) {
-    //   case 'Blank':
-    //     context.logger.info(`shannon case blank ${options} : ${context}`);
-    //     rule = blankOutLibrary(options, context, false, false);
-    //     break;
+    switch (options.initWith) {
+      case 'Blank':
+        context.logger.info(`shannon case blank ${options} : ${context}`);
+        rule = blankOutLibrary(options, context, false, false);
+        break;
 
-     // case 'LCU Core App':
+      case 'LCU Core App':
       context.logger.info(`shannon case LCU Core App ${options} : ${context}`);
         rule = chain([
           blankOutLibrary(options, context, false, true),
@@ -229,17 +229,28 @@ function processInitWith(options: any, context: SchematicContext) {
             project: options.name
           })
         ]);
-     //   break;
+        break;
 
-    //   case 'Module':
-    //     context.logger.info(`shannon case module ${options} : ${context}`);
-    //     rule = blankOutLibrary(options, context, true, false);
-    //     break;
+        case 'LCU':
+            context.logger.info(`shannon case LCU Core App ${options} : ${context}`);
+              rule = chain([
+                blankOutLibrary(options, context, false, true),
+                externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
+                  name: options.name,
+                  project: options.name
+                })
+              ]);
+              break;
 
-    //     case 'Default':
-    //         break;
+      case 'Module':
+        context.logger.info(`shannon case module ${options} : ${context}`);
+        rule = blankOutLibrary(options, context, true, false);
+        break;
+
+        case 'Default':
+            break;
     
-    // }
+    }
 
     context.logger.info(`Processing Initialized for ${options.initWith}!`);
 
