@@ -250,6 +250,9 @@ function processInitWith(options: any, context: SchematicContext) {
         case 'Default':
             context.logger.info(`shannon case default ${options} : ${context}`);
             break;
+
+        default:
+            context.logger.info(`shannon case default, nothing matched ${options} : ${context}`);
     
     }
 
