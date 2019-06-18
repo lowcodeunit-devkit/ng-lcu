@@ -231,6 +231,16 @@ function processInitWith(options: any, context: SchematicContext) {
         ]);
         break;
 
+      case 'LCU-Form':
+        rule = chain([
+          blankOutLibrary(options, context, false, true),
+          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-form', {
+            name: options.name,
+            project: options.name
+          })
+        ]);
+        break;
+
       case 'Module':
         rule = blankOutLibrary(options, context, true, false);
         break;

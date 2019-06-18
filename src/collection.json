@@ -44,6 +44,10 @@
     "lcu-core-app": {
       "description": "Schematics for seeding LCU Core App.",
       "factory": "./lcu-core-app/index#lcuCoreApp"
+    },
+    "lcu-form": {
+      "description": "Schematics for seeding an LCU form.",
+      "factory": "./lcu-form/index#lcuForm"
     }
   }
 }
