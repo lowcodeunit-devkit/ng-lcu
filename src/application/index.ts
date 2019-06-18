@@ -258,7 +258,7 @@ export function setupOptions(host: Tree, options: any): Tree {
 
   options.blockDeploy = options.blockDeploy || false;
 
-  options.initWith = options.initWith || 'Default';
+  options.initWith = options.initWith || 'LCU-Core-App';
 
   options.isDefault = options.isDefault || false;
 
