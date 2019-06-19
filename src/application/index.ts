@@ -84,6 +84,7 @@ export function createPackageJson(host: Tree, options: any, projectName: string,
 
   context.logger.info(`Loading package at path: ${packageFilePath}`);
 
+  //  TODO:  Will need a way to force just using the project name and never combining with workspace
   var repoName = options.workspace == projectName ? projectName : `${options.workspace}-${projectName}`
   
   let packageJson = {
