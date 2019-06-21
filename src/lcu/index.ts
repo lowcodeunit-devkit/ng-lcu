@@ -42,7 +42,7 @@ export function lcu(options: any): Rule {
       }),
       externalSchematic('@lowcodeunit-devkit/ng-lcu', 'application', {
         name: 'demo',
-        initWith: 'Default'
+        initWith: 'LCU-Core-App'
       }),
       externalSchematic('@schematics/angular', 'module', {
         name: `${options.workspace}`,
