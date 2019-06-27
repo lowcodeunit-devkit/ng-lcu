@@ -1,0 +1,12 @@
+@import '../../../../../node_modules/@lcu-ide/common/assets/colors/fathym-arctic';
+
+// $primary-arctic-color: mat-get($fathym-ivy-arctic-primary);
+
+$primary: mat-palette($fathym-ivy-arctic-primary);
+$accent: mat-palette($fathym-ivy-arctic-accent, 800);
+// $warn: mat-palette($mat-deep-orange, 200);
+
+$arctic-theme: mat-light-theme(
+    $primary,
+    $accent
+    );

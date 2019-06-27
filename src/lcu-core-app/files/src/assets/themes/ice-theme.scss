@@ -1,0 +1,10 @@
+@import '../../../../../node_modules/@lcu-ide/common/assets/colors/fathym-ice';
+
+$primary: mat-palette($fathym-ivy-ice-primary);
+$accent: mat-palette($fathym-ivy-ice-accent, 800);
+// $warn: mat-palette($mat-deep-orange, 200);
+
+$ice-theme: mat-light-theme(
+    $primary,
+    $accent
+    );

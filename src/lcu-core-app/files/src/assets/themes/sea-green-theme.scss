@@ -1,0 +1,10 @@
+@import '../../../../../node_modules/@lcu-ide/common/assets/colors/fathym-sea-green';
+
+$primary: mat-palette($fathym-ivy-sea-green-primary);
+$accent: mat-palette($fathym-ivy-sea-green-accent, 300);
+// $warn: mat-palette($mat-deep-orange, 200);
+
+$sea-green-theme: mat-dark-theme(
+    $primary,
+    $accent
+    );

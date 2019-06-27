@@ -1,5 +1,5 @@
 <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>face</mat-icon>
+    <mat-icon color="accent">face</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
       <button 
@@ -8,7 +8,7 @@
         [routerLink]="['/user']" 
         [queryParams]="{id: user.Id}" 
         [disabled]="UserId === user.Id">
-      <mat-icon [ngClass]="{disabled:UserId === user.Id}">{{ user.Icon }}</mat-icon>
+      <mat-icon color="accent" [ngClass]="{disabled:UserId === user.Id}">{{ user.Icon }}</mat-icon>
       <span>{{ user.Name }}</span>
     </button>
   </mat-menu>

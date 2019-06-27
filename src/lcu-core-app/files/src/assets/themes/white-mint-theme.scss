@@ -1,0 +1,10 @@
+@import '../../../../../node_modules/@lcu-ide/common/assets/colors/fathym-white-mint';
+
+$primary: mat-palette($fathym-ivy-white-mint-primary);
+$accent: mat-palette($fathym-ivy-white-mint-accent, 800);
+// $warn: mat-palette($mat-deep-orange, 200);
+
+$white-mint-theme: mat-light-theme(
+    $primary,
+    $accent
+    );

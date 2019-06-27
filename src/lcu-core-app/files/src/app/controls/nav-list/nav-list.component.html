@@ -4,7 +4,7 @@
     <mat-nav-list *ngFor="let link of NavLinks">
       <div fxLayout="row" fxLayoutGap="20px">
         <a mat-list-item [routerLink]="link.RouterURL" routerLinkActive="active">
-            <mat-icon *ngIf="link.Icon">{{ link.Icon }}</mat-icon>
+            <mat-icon color="primary" *ngIf="link.Icon">{{ link.Icon }}</mat-icon>
             {{ link.Label }}
         </a>
       </div>
