@@ -1,0 +1,10 @@
+@import '../../../../../node_modules/@lcu-ide/common/assets/colors/fathym-contrast';
+
+$primary: mat-palette($fathym-contrast-gray);
+$accent: mat-palette($fathym-contrast-accent);
+// $warn: mat-palette($mat-deep-orange, 200);
+
+$contrast-theme: mat-dark-theme(
+    $primary,
+    $accent
+    );

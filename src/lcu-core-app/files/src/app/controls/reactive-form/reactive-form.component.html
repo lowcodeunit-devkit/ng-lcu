@@ -4,7 +4,7 @@
   <mat-card class="example-card">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image">
-          <mat-icon class="title-icon">{{ TitleIcon }}</mat-icon>
+          <mat-icon color="primary" class="title-icon">{{ TitleIcon }}</mat-icon>
         </div>
         <mat-card-title>{{ Title }}</mat-card-title>
         <mat-card-subtitle>{{ SubTitle }}</mat-card-subtitle>
@@ -19,7 +19,7 @@
 
         <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
           <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
-            <mat-icon color="accent">face</mat-icon>
+            <mat-icon color="primary">face</mat-icon>
             <mat-form-field fxFlex>
               <input formControlName="firstNameControl" matInput placeholder="First Name" required>
               <mat-error *ngIf="FirstNameControl.hasError('required')">
@@ -29,7 +29,7 @@
           </div>
 
           <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
-              <mat-icon color="accent">face</mat-icon>
+              <mat-icon color="primary">face</mat-icon>
               <mat-form-field fxFlex>
                 <input formControlName="lastNameControl" matInput placeholder="Last Name" required>
                 <mat-error *ngIf="LastNameControl.hasError('required')">
@@ -43,7 +43,7 @@
 
         <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
             <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
-              <mat-icon color="accent">face</mat-icon>
+              <mat-icon color="primary">face</mat-icon>
               <mat-form-field fxFlex>
                 <input formControlName="usernameControl" matInput placeholder="Username" required>
                 <mat-error *ngFor="let validation of VMUsername">
@@ -57,7 +57,7 @@
             </div>
   
             <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
-                <mat-icon color="accent">email</mat-icon>
+                <mat-icon color="primary">email</mat-icon>
                 <mat-form-field fxFlex>
                   <input formControlName="emailControl" matInput placeholder="Email" required autocomplete="email">
                     <mat-error *ngFor="let validation of VMEmail">
@@ -75,10 +75,10 @@
 
           <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
               <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
-                <mat-icon color="accent">lock</mat-icon>
+                <mat-icon color="primary">lock</mat-icon>
                 <mat-form-field fxFlex>
                   <input formControlName="passwordControl" matInput placeholder="Password" [type]="HidePassword ? 'password' : 'text'" required autocomplete="new-password">
-                  <mat-icon matSuffix (click)="HidePassword = !HidePassword" class="cursor-pointer">{{HidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  <mat-icon color="primary" matSuffix (click)="HidePassword = !HidePassword" class="cursor-pointer">{{HidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                   <mat-error *ngFor="let validation of VMPassword">
                       <mat-error *ngIf="PasswordControl.hasError(validation.Type) && PasswordControl.dirty || PasswordControl.touched">
                         <mat-error *ngIf="validation.Type === 'pattern'">
@@ -90,10 +90,10 @@
               </div>
     
               <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
-                  <mat-icon color="accent">lock</mat-icon>
+                  <mat-icon color="primary">lock</mat-icon>
                   <mat-form-field fxFlex>
                     <input formControlName="confirmPasswordControl" matInput placeholder="Confirm Password" [type]="HideConfirmPassword ? 'password' : 'text'" required>
-                    <mat-icon matSuffix (click)="HideConfirmPassword = !HideConfirmPassword" class="cursor-pointer">{{HideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <mat-icon color="primary" matSuffix (click)="HideConfirmPassword = !HideConfirmPassword" class="cursor-pointer">{{HideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     <mat-error *ngFor="let validation of VMConfirmPassword">
                       <mat-error *ngIf="ConfirmPasswordControl.hasError(validation.Type) && (ConfirmPasswordControl.dirty || ConfirmPasswordControl.touched)">{{validation.Message}}</mat-error>
                   </mat-error>
@@ -105,7 +105,7 @@
 
             <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
                 <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
-                  <mat-icon color="accent">home</mat-icon>
+                  <mat-icon color="primary">home</mat-icon>
                   <mat-form-field fxFlex>
                     <input formControlName="addressControl" matInput placeholder="Address" required>
                     <mat-error *ngIf="AddressControl.hasError('required')">
@@ -115,7 +115,7 @@
                 </div>
       
                 <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
-                    <mat-icon color="accent">home</mat-icon>
+                    <mat-icon color="primary">home</mat-icon>
                     <mat-form-field fxFlex>
                       <input matInput placeholder="State" aria-label="State" [matAutocomplete]="auto" formControlName="stateControl" required>
                       <mat-error *ngIf="StateControl.hasError('required')">
@@ -130,7 +130,7 @@
                   </div>
 
                 <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
-                  <mat-icon color="accent">home</mat-icon>
+                  <mat-icon color="primary">home</mat-icon>
                   <mat-form-field fxFlex>
                     <input formControlName="cityControl" matInput placeholder="City" required>
                     <mat-error *ngIf="CityControl.hasError('required')">
@@ -140,7 +140,7 @@
                 </div>
 
                   <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
-                      <mat-icon color="accent">home</mat-icon>
+                      <mat-icon color="primary">home</mat-icon>
                       <mat-form-field fxFlex>
                         <input formControlName="zipcodeControl" matInput placeholder="Zipcode" required>
                         <mat-error *ngFor="let validation of VMZipcode">
@@ -158,7 +158,7 @@
 
               <div fxLayout="row" fxLayoutAlign="start center">
                   <mat-slide-toggle color="primary" formControlName="termsControl" required [checked]="TermsChecked"></mat-slide-toggle>
-                  <button mat-button color="accent" (click)="ShowTermsAndConditions()">Agree to terms / conditions</button>
+                  <button mat-button color="primary" (click)="ShowTermsAndConditions()">Agree to terms / conditions</button>
                 </div>
 
               <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">

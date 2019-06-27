@@ -1,12 +1,17 @@
-import { NavigationConstants } from './utils/constants/navigation.constants';
-
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import {OverlayContainer} from '@angular/cdk/overlay';
+
+import { Subscription } from 'rxjs';
+import { NavigationConstants } from './utils/constants/navigation.constants';
+
 import { NavLinkModel } from './models/nav-link.model';
 import { SharedNotificationService } from './services/shared-notification.service';
 import { TutorialService } from './services/tutorial.service';
 import { ParseRouteUtil } from './utils/parse-route.utils';
 import { TutorialModel } from './models/tutorial.model';
+import { ToggleThemeUtil } from './utils/toggle-theme.utils';
+
 
 
 @Component({
@@ -19,21 +24,32 @@ export class AppComponent implements OnInit {
 
   public BackgroundImage: string;
 
+  public DarkTheme: boolean;
+
   public Links: Array<NavLinkModel>;
 
+  public SelectedTheme: string;
+
   public title = 'demo';
+
+  protected themesSubscriptions: Subscription;
 
   constructor(
     protected router: Router,
     protected activatedRoute: ActivatedRoute,
     protected sharedNotificationService: SharedNotificationService,
-    protected tutorialsService: TutorialService) {
+    protected tutorialsService: TutorialService,
+    protected overlayContainer: OverlayContainer) {
 
     this.BackgroundImage = '../assets/images/bg_image.jpg';
   }
 
   public ngOnInit(): void {
     this.Links = NavigationConstants.MENU_ITEMS;
+
+    this.themesSubscriptions = this.sharedNotificationService.ThemeChanged.subscribe((val: string) => {
+      this.changeTheme(val);
+    });
   }
 
   /**
@@ -44,6 +60,21 @@ export class AppComponent implements OnInit {
   public OnActivate(evt: Event): void {
     this.routeChanged();
   }
+
+  /**
+   * Toggle themes
+   * 
+   * @param val theme to change to
+   */
+  protected changeTheme(val: string): void {
+    this.SelectedTheme = val;
+
+    const element: HTMLElement = this.overlayContainer.getContainerElement();
+    const classList: DOMTokenList = element.classList;
+
+    const toggleTheme: ToggleThemeUtil = new ToggleThemeUtil();
+    classList.add(ToggleThemeUtil.Toggle(element.classList, val));
+ }
 
   protected routeChanged(): void {
 

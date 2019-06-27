@@ -1,11 +1,12 @@
-<div style="height: 100%">
+<div [className]="SelectedTheme" style="height: 100%">
     <lcu-side-nav
         [nav-links]="Links" 
         logo-url="../assets/images/fathym_logo_screen.png" 
         logo-alt="Fathym Logo">
-        <div class="router-container" style="height: 90%;">
+        <div class="router-container " style="height: 90%;">
             <router-outlet (activate)="OnActivate($event)"></router-outlet>
         </div>
         <img class="bg-image" [src]="BackgroundImage" alt="">
     </lcu-side-nav>
 </div>
+
