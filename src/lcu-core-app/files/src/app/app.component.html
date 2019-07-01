@@ -1,7 +1,7 @@
 <div [className]="SelectedTheme" style="height: 100%">
     <lcu-side-nav
         [nav-links]="Links" 
-        logo-url="../assets/images/fathym_logo_screen.png" 
+        logo-class="primary-logo"
         logo-alt="Fathym Logo">
         <div class="router-container " style="height: 90%;">
             <router-outlet (activate)="OnActivate($event)"></router-outlet>

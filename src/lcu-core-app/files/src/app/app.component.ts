@@ -11,6 +11,7 @@ import { TutorialService } from './services/tutorial.service';
 import { ParseRouteUtil } from './utils/parse-route.utils';
 import { TutorialModel } from './models/tutorial.model';
 import { ToggleThemeUtil } from './utils/toggle-theme.utils';
+import { FaviconsService } from './services/favicons.service';
 
 
 
@@ -39,7 +40,8 @@ export class AppComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected sharedNotificationService: SharedNotificationService,
     protected tutorialsService: TutorialService,
-    protected overlayContainer: OverlayContainer) {
+    protected overlayContainer: OverlayContainer,
+    protected faviconsService: FaviconsService) {
 
     this.BackgroundImage = '../assets/images/bg_image.jpg';
   }
@@ -50,6 +52,8 @@ export class AppComponent implements OnInit {
     this.themesSubscriptions = this.sharedNotificationService.ThemeChanged.subscribe((val: string) => {
       this.changeTheme(val);
     });
+
+    this.resetFavicon();
   }
 
   /**
@@ -61,9 +65,25 @@ export class AppComponent implements OnInit {
     this.routeChanged();
   }
 
+   /**
+    * Set default favicon
+    */
+    protected resetFavicon(): void {
+      this.faviconsService.reset();
+    }
+
+  /**
+   * change favicon
+   *
+   * @param name favicon name
+   */
+  protected changeFavicon( name: string ): void {
+    this.faviconsService.activate(name);
+  }
+
   /**
    * Toggle themes
-   * 
+   *
    * @param val theme to change to
    */
   protected changeTheme(val: string): void {
@@ -74,6 +94,9 @@ export class AppComponent implements OnInit {
 
     const toggleTheme: ToggleThemeUtil = new ToggleThemeUtil();
     classList.add(ToggleThemeUtil.Toggle(element.classList, val));
+
+    // update favicon when theme changes
+    // this.changeFavicon(this.SelectedTheme);
  }
 
   protected routeChanged(): void {

@@ -44,6 +44,10 @@ export class SideNavComponent {
   @Input('logo-url')
   public LogoURL: string;
 
+  // tslint:disable-next-line:no-input-rename
+  @Input('logo-class')
+  public LogoClass: string;
+
   /**
    * Input property for logo alt text
    */

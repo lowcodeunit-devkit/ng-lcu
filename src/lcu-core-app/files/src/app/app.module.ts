@@ -18,6 +18,7 @@ import { UserComponent } from './controls/user/user.component';
 import { UsersListComponent } from './controls/users-list/users-list.component';
 import { NavListComponent } from './controls/nav-list/nav-list.component';
 import { TutorialService } from './services/tutorial.service';
+import { FaviconsService, BrowserFavicons, BROWSER_FAVICONS_CONFIG } from './services/favicons.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,42 @@ import { TutorialService } from './services/tutorial.service';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [TutorialService],
+  providers: [TutorialService,
+  {
+    provide: FaviconsService, useClass: BrowserFavicons
+  },
+  {
+    provide: BROWSER_FAVICONS_CONFIG,
+    useValue: {
+      icons: {
+        'arctic-theme': {
+          type: 'image/png',
+          href: '../assets/images/favicons/thinky_arctic.png'
+        },
+        'cool-candy': {
+          type: 'image/png',
+          href: '../assets/images/favicons/thinky_cool_candy.png'
+        },
+        flipper: {
+          type: 'image/png',
+          href: '../assets/images/favicons/thinky_flipper.png'
+        },
+        ice: {
+          type: 'image/png',
+          href: '../assets/images/favicons/thinky_ice.png'
+        },
+        circle: {
+          type: 'image/png',
+          href: '../assets/images/favicons/thinky_circle_red.png',
+          isDefault: true
+        }
+      },
+       // determine whether or not a random token is auto-appended to the HREF
+      // values whenever an icon is injected into the document
+      cacheBusting: true
+    }
+  }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
