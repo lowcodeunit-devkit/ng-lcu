@@ -16,7 +16,10 @@
                 <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
                   <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
                 </button>
-                <img class="logo" [src]="LogoURL" alt="{{LogoAlt}}">
+                <div class="logo">
+                  <img *ngIf="LogoURL" [src]="LogoURL" alt="{{LogoAlt}}">
+                  <div *ngIf="LogoClass" [ngClass]="LogoClass"></div>
+                </div>
               </div>
                 <div fxLayout="row" fxFlex fxLayoutGap="20px" fxLayoutAlign="end center">
                   <lcu-users-list [users]="Users"></lcu-users-list>
