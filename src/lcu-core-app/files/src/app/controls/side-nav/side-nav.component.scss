@@ -6,6 +6,13 @@
 //   $warn:  map-get($theme, warn);
 // }
 
+.name {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'encode sans semi', sans-serif;
+}
+
 .sidenav-container {
   height: 100%;
 }
