@@ -19,7 +19,7 @@
 }
 
 .foreground-color {
- // color: mat-color($primary);
+ color: mat-color($primary) !important;
 }
 
 @mixin opacity($opacity) {
@@ -33,6 +33,7 @@
   width: $size;
 }
 
+// for updating components with themes
 @mixin component-themes($theme) {
   // @include user-component-theme($theme);
   // @include user-list-component-theme($theme);
