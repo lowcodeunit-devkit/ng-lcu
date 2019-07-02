@@ -1,22 +1,13 @@
 @import '../../../node_modules/@angular/material/prebuilt-themes/pink-bluegrey';
 @import '../../../node_modules/@lcu-ide/common/assets/styles/fathym-global.styles';
+@import '../../../node_modules/@lcu-ide/common/assets/styles/branding/fathym-branding';
 @import '../../../node_modules/@lcu-ide/common/assets/theming/fathym-default-theme';
-// @import '../../../node_modules/@lcu-ide/common/assets/theming/fathym-dark-theme';
-@import '../../../node_modules/@lcu-ide/common/assets/styles/logos/fathym-icons';
+@import './assets/themes/fathym-themes.scss';
 
-@import '../src/assets/themes/arctic-theme.scss';
-@import '../src/assets/themes/contrast-theme.scss';
-@import '../src/assets/themes/cool-candy-theme.scss';
-@import '../src/assets/themes/flipper-theme.scss';
-@import '../src/assets/themes/ice-theme.scss';
-@import '../src/assets/themes/sea-green-theme.scss';
-@import '../src/assets/themes/white-mint-theme.scss';
 
-@include custom-theme($default-theme);
-
-.primary-logo {
-  background-image: url($fathym-white-logo);
-}
+// .primary-logo {
+//   background-image: url($fathym-white-logo);
+// }
 
 .foreground-color {
  color: mat-color($primary) !important;
@@ -40,17 +31,6 @@
   // @include side-nav-component-theme($theme);
 }
 
-html,
-body {
-  height: 100%;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    //font-family: Roboto, sans-serif;
-  }
-
   .app-background {
     display: flex;
     flex-direction: column;
@@ -62,14 +42,15 @@ body {
    .arctic-theme {
     @include custom-theme($arctic-theme);
     .primary-logo {
-		  background-image: url($fathym-white-logo);
+      background-image: url($fathym-full-ice-logo);
+      // @include primary-logo($fathym-full-ice-logo, 150px);
     }
    }
 
    .contrast-theme {
     @include custom-theme($contrast-theme);
     .primary-logo {
-		  background-image: url($fathym-red-logo);
+		  background-image: url($fathym-full-red-logo);
     }
    }
 
@@ -83,35 +64,30 @@ body {
    .flipper-theme {
     @include custom-theme($flipper-theme);
     .primary-logo {
-		  background-image: url($fathym-primary-ice-logo);
+		  background-image: url($fathym-full-ice-logo);
     }
    }
 
    .ice-theme {
     @include custom-theme($ice-theme);
     .primary-logo {
-		  background-image: url($fathym-primary-flipper-logo);
+		  background-image: url($fathym-full-flipper-logo);
     }
    }
 
    .sea-green-theme {
     @include custom-theme($sea-green-theme);
     .primary-logo {
-		  background-image: url($fathym-primary-cool-candy-logo);
+		  background-image: url($fathym-full-cool-candy-logo);
     }
    }
 
    .white-mint-theme {
     @include custom-theme($white-mint-theme);
     .primary-logo {
-		  background-image: url($fathym-primary-flipper-logo);
+		  background-image: url($fathym-full-flipper-logo);
     }
    }
-
-  //  .primary-arctic {
-  //    color: $primary-arctic-color;
-  //    background-color: $primary-arctic-color;
-  //  }
 
   .disabled {
     @include opacity(.5);

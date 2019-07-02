@@ -14,31 +14,31 @@ export class ToggleThemeUtil {
         let theme: string;
 
         if (classList.contains('arctic-theme')) {
-        classList.remove('arctic-theme');
+            classList.remove('arctic-theme');
         }
 
         if (classList.contains('contrast-theme')) {
-        classList.remove('contrast-theme');
+            classList.remove('contrast-theme');
         }
 
         if (classList.contains('cool-candy-theme')) {
-        classList.remove('cool-candy-theme');
+            classList.remove('cool-candy-theme');
         }
 
         if (classList.contains('flipper-theme')) {
-        classList.remove('flipper-theme');
+            classList.remove('flipper-theme');
         }
 
         if (classList.contains('ice-theme')) {
-        classList.remove('ice-theme');
+            classList.remove('ice-theme');
         }
 
         if (classList.contains('sea-green-theme')) {
-        classList.remove('sea-green-theme');
+            classList.remove('sea-green-theme');
         }
 
         if (classList.contains('white-mint')) {
-        classList.remove('white-mint');
+            classList.remove('white-mint');
         }
 
         switch (val.toUpperCase()) {
