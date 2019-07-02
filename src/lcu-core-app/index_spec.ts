@@ -6,10 +6,10 @@ import * as path from 'path';
 const collectionPath = path.join(__dirname, '../collection.json');
 
 
-describe('hotfix', () => {
+describe('lcu-core-app', () => {
   it('works', () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = runner.runSchematic('hotfix', {}, Tree.empty());
+    const tree = runner.runSchematic('lcu-core-app', {}, Tree.empty());
 
     expect(tree.files).toEqual([]);
   });

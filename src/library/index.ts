@@ -121,6 +121,7 @@ export function updatePackageJsonName(context: SchematicContext, options: any) {
         packageJson.name = `${options.scope}/${options.workspace}${variant}`;
 
         host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
+
       } else {
         context.logger.info('No file found');
       }
@@ -204,6 +205,16 @@ function processInitWith(options: any, context: SchematicContext) {
 
         break;
 
+      case 'LCU':
+        rule = chain([
+          blankOutLibrary(options, context),
+          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
+            name: options.name,
+            project: options.name
+          })
+        ]);
+      break;
+
       case 'Solution':
         rule = chain([
           blankOutLibrary(options, context),
@@ -242,6 +253,7 @@ function processInitWith(options: any, context: SchematicContext) {
     }
 
     context.logger.info(`Processing Initialized for ${options.initWith}!`);
+    context.logger.info(`lcu-core-app Getting some more options ${options}...`);
 
     return rule;
   };

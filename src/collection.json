@@ -38,12 +38,16 @@
       "factory": "./forge/index#forge"
     },
     "lcu": {
-      "description": "A blank schematic.",
+      "description": "Schematic for seeding an LCU.",
       "factory": "./lcu/index#lcu"
     },
-    "hotfix": {
-      "description": "A blank schematic.",
-      "factory": "./hotfix/index#hotfix"
+    "lcu-core-app": {
+      "description": "Schematics for seeding LCU Core App.",
+      "factory": "./lcu-core-app/index#lcuCoreApp"
+    },
+    "lcu-form": {
+      "description": "Schematics for seeding an LCU form.",
+      "factory": "./lcu-form/index#lcuForm"
     }
   }
 }
