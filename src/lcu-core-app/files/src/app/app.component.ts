@@ -53,6 +53,7 @@ export class AppComponent implements OnInit {
       this.changeTheme(val);
     });
 
+    this.resetTheme();
     this.resetFavicon();
   }
 
@@ -79,6 +80,10 @@ export class AppComponent implements OnInit {
    */
   protected changeFavicon( name: string ): void {
     this.faviconsService.activate(name);
+  }
+
+  protected resetTheme(): void {
+    this.changeTheme('arctic-theme');
   }
 
   /**
