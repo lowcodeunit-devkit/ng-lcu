@@ -82,6 +82,9 @@ export class AppComponent implements OnInit {
     this.faviconsService.activate(name);
   }
 
+  /**
+   * Set default theme
+   */
   protected resetTheme(): void {
     this.changeTheme('arctic-theme');
   }
@@ -101,7 +104,7 @@ export class AppComponent implements OnInit {
     classList.add(ToggleThemeUtil.Toggle(element.classList, val));
 
     // update favicon when theme changes
-    // this.changeFavicon(this.SelectedTheme);
+    this.changeFavicon(this.SelectedTheme);
  }
 
   protected routeChanged(): void {

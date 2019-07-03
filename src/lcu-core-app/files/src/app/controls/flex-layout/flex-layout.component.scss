@@ -1,0 +1,34 @@
+@import '~@angular/material/theming';
+
+@mixin flex-layout-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent:  map-get($theme, accent);
+  $warn:  map-get($theme, warn);
+
+    .parent {
+        height: 100px;
+        @include background-color(mat-color($primary, 700));
+    }
+
+    .child-one {
+        @include background-color(mat-color($accent));
+    }
+
+    .child-two {
+        @include background-color(mat-color($accent, 900));
+    }
+
+    .child-three {
+        @include background-color(mat-color($accent, 700));
+    }
+
+    .child-four {
+        @include background-color(mat-color($accent, A700));
+    }
+}
+
+@mixin background-color($color) {
+    background-color: $color;
+  }
+
+  

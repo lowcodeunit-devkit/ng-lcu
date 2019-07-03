@@ -3,7 +3,6 @@ import { StatesModel } from '../models/states.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
 
-
 const states: Array<StatesModel> = [
     {
         Name: 'Alabama',
