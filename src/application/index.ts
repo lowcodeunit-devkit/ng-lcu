@@ -39,7 +39,7 @@ export function application(options: any): Rule {
       manageAppAssets(options, context)
     ]);
 
-    if (!options.skipInstall) context.addTask(new NodePackageInstallTask());
+    // if (!options.skipInstall) context.addTask(new NodePackageInstallTask());
 
     return rule(host, context);
   };
@@ -84,8 +84,11 @@ export function createPackageJson(host: Tree, options: any, projectName: string,
 
   context.logger.info(`Loading package at path: ${packageFilePath}`);
 
+  //  TODO:  Will need a way to force just using the project name and never combining with workspace
+  var repoName = options.workspace == projectName ? projectName : `${options.workspace}-${projectName}`
+  
   let packageJson = {
-    name: `${options.scope}/${options.workspace}-${projectName}`,
+    name: `${options.scope}/${repoName}`,
     version: '0.0.1',
     peerDependencies: {
       '@angular/common': '^7.2.0',
@@ -268,7 +271,7 @@ export function setupOptions(host: Tree, options: any): Tree {
 
   options.blockDeploy = options.blockDeploy || false;
 
-  options.initWith = options.initWith || 'Default';
+  options.initWith = options.initWith || 'LCU-Core-App';
 
   options.isDefault = options.isDefault || false;
 

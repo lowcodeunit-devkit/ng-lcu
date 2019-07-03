@@ -42,7 +42,7 @@ export function lcu(options: any): Rule {
       }),
       externalSchematic('@lowcodeunit-devkit/ng-lcu', 'application', {
         name: 'demo',
-        initWith: 'Default'
+        initWith: options.initWith || 'LCU-Core-App'
       }),
       externalSchematic('@schematics/angular', 'module', {
         name: `${options.workspace}`,
@@ -147,6 +147,8 @@ export function setupOptions(host: Tree, options: any): Tree {
   options.scope = lcuJson.templates.scope;
 
   options.workspace = lcuJson.templates.workspace;
+
+  options.initWith = options.initWith;
 
   return host;
 }

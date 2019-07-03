@@ -77,8 +77,6 @@ export function adjustValueInPackageFile(host: Tree, key: string, name: string, 
 
     const packageJsonAst = _readJson(host, pkgPath);
 
-    console.log(packageJsonAst);
-
     const nameNode = findPropertyInAstObject(packageJsonAst, key);
 
     const recorder = host.beginUpdate(pkgPath);
@@ -98,8 +96,6 @@ export function adjustValueInPackageFile(host: Tree, key: string, name: string, 
     host.commitUpdate(recorder);
 
     const packageJsonAst2 = _readJson(host, pkgPath);
-
-    console.log("Read");
 
     return host;
 }
@@ -260,7 +256,6 @@ function _readJson(tree: Tree, path: string): JsonAstObject {
     }
     const content = buffer.toString();
 
-    console.log(content);
     const json = parseJsonAst(content, JsonParseMode.Strict);
     if (json.kind != "object") {
         throw new SchematicsException(`Invalid ${path}. Was expecting an object`);
