@@ -55,23 +55,31 @@ import { FaviconsService, BrowserFavicons, BROWSER_FAVICONS_CONFIG } from './ser
           type: 'image/png',
           href: '../assets/images/favicons/thinky_arctic.png'
         },
-        'cool-candy': {
+        'cool-candy-theme': {
           type: 'image/png',
           href: '../assets/images/favicons/thinky_cool_candy.png'
         },
-        flipper: {
+        'flipper-theme': {
           type: 'image/png',
           href: '../assets/images/favicons/thinky_flipper.png'
         },
-        ice: {
+        'ice-theme': {
           type: 'image/png',
-          href: '../assets/images/favicons/thinky_ice.png'
+          href: '../assets/images/favicons/thinky_flipper.png'
         },
-        circle: {
+        'white-mint-theme': {
+          type: 'image/png',
+          href: '../assets/images/favicons/thinky_flipper.png'
+        },
+        'contrast-theme': {
           type: 'image/png',
           href: '../assets/images/favicons/thinky_circle_red.png',
           isDefault: true
-        }
+        },
+        'sea-green-theme': {
+          type: 'image/png',
+          href: '../assets/images/favicons/thinky_arctic.png'
+        },
       },
        // determine whether or not a random token is auto-appended to the HREF
       // values whenever an icon is injected into the document
