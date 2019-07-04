@@ -53,32 +53,32 @@ import { FaviconsService, BrowserFavicons, BROWSER_FAVICONS_CONFIG } from './ser
       icons: {
         'arctic-theme': {
           type: 'image/png',
-          href: '/assets/images/favicons/thinky_arctic.png'
+          href: './assets/images/favicons/thinky_arctic.png'
         },
         'cool-candy-theme': {
           type: 'image/png',
-          href: '/assets/images/favicons/thinky_cool_candy.png'
+          href: './assets/images/favicons/thinky_cool_candy.png'
         },
         'flipper-theme': {
           type: 'image/png',
-          href: '/assets/images/favicons/thinky_flipper.png'
+          href: './assets/images/favicons/thinky_flipper.png'
         },
         'ice-theme': {
           type: 'image/png',
-          href: '/assets/images/favicons/thinky_flipper.png'
+          href: './assets/images/favicons/thinky_flipper.png'
         },
         'white-mint-theme': {
           type: 'image/png',
-          href: '/assets/images/favicons/thinky_flipper.png'
+          href: './assets/images/favicons/thinky_flipper.png'
         },
         'contrast-theme': {
           type: 'image/png',
-          href: '/assets/images/favicons/thinky_circle_red.png',
+          href: './assets/images/favicons/thinky_circle_red.png',
           isDefault: true
         },
         'sea-green-theme': {
           type: 'image/png',
-          href: '/assets/images/favicons/thinky_arctic.png'
+          href: './assets/images/favicons/thinky_arctic.png'
         },
       },
        // determine whether or not a random token is auto-appended to the HREF
