@@ -6,7 +6,11 @@
 @import '../src/app/controls/flex-layout/flex-layout.component.scss';
 @import './assets/themes/fathym-themes.scss';
 
-
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap');
+.font-test {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
 // .primary-logo {
 //   background-image: url($fathym-white-logo);
 // }
