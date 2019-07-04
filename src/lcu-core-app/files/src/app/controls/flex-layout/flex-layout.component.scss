@@ -33,6 +33,7 @@
     }
 
     .holy-grail {
+        @include background-color(mat-color($primary, 700));
         header {
             @extend .child-one;
         }
