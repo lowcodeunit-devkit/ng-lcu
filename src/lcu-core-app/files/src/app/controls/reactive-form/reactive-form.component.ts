@@ -153,6 +153,11 @@ export class ReactiveFormComponent implements OnInit {
   public Form: FormGroup;
 
   /**
+   * Title
+   */
+  public PageTitle: string;
+
+  /**
    * property to states list
    */
   public States: Array<StatesModel>;
@@ -208,6 +213,7 @@ export class ReactiveFormComponent implements OnInit {
     this.Title = 'Angular Reactive Form';
     this.TitleIcon = 'vertical_split';
     this.SubTitle = 'Responsive Form';
+    this.PageTitle = 'Reactive Form';
 
     this.VMConfirmPassword = ValidationMessages.ConfirmPassword;
     this.VMEmail = ValidationMessages.Email;

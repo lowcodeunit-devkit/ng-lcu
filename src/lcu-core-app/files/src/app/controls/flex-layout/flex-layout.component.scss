@@ -5,7 +5,13 @@
   $accent:  map-get($theme, accent);
   $warn:  map-get($theme, warn);
 
-    .parent {
+    .parent-one {
+        height: 100px;
+        max-width: 600px;
+        @include background-color(mat-color($primary, 700));
+    }
+
+    .parent-two {
         height: 100px;
         @include background-color(mat-color($primary, 700));
     }
@@ -25,10 +31,36 @@
     .child-four {
         @include background-color(mat-color($accent, A700));
     }
+
+    .holy-grail {
+        header {
+            @extend .child-one;
+        }
+
+        aside {
+            @extend .child-two;
+        }
+
+        article {
+            height: 300px;
+            @extend .child-three;
+        }
+
+        nav {
+            height: 300px;
+            @extend .child-four;
+        }
+
+        footer {
+            @extend .child-one;
+        }
+    }
 }
 
 @mixin background-color($color) {
     background-color: $color;
   }
+
+  
 
   

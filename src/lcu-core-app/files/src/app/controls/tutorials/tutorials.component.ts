@@ -14,11 +14,39 @@ import { TutorialService } from '../../services/tutorial.service';
 })
 export class TutorialsComponent implements OnInit, OnDestroy {
 
+  /**
+   * Title
+   */
+  public PageTitle: string;
+
+  /**
+   * Subtitle
+   */
+  public SubTitle: string;
+
+  /**
+   * Title
+   */
+  public Title: string;
+
+  /**
+   * Title Icon
+   */
+  public TitleIcon: string;
+
+  /**
+   * Tutorial Array
+   */
   public Tutorials: Array<TutorialModel>;
 
   protected tutorialDataSubscription: Subscription;
 
-  constructor(protected sharedNotificationService: SharedNotificationService, protected tutorialsService: TutorialService) { }
+  constructor(protected sharedNotificationService: SharedNotificationService, protected tutorialsService: TutorialService) { 
+    this.PageTitle = 'Tutorials';
+    this.Title = 'Angular Tutorials';
+    this.SubTitle = 'List of Tutorials';
+    this.TitleIcon = 'school';
+  }
 
   public ngOnInit() {
     this.tutorialsService.GetTutorials().subscribe((data: Array<TutorialModel>) => {

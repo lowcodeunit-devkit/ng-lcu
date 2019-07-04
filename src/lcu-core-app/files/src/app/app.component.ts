@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
     protected overlayContainer: OverlayContainer,
     protected faviconsService: FaviconsService) {
 
-    this.BackgroundImage = '../assets/images/bg_image.jpg';
+    this.BackgroundImage = '/assets/images/bg_image.jpg';
   }
 
   public ngOnInit(): void {
@@ -113,25 +113,25 @@ export class AppComponent implements OnInit {
 
     switch (root.toUpperCase()) {
       case 'HOME':
-        this.BackgroundImage = '../assets/images/bg_image.jpg';
+        this.BackgroundImage = '/assets/images/bg_image.jpg';
         break;
       case 'USER':
-        this.BackgroundImage = '../assets/images/bg-01.jpg';
+        this.BackgroundImage = '/assets/images/bg-01.jpg';
         break;
       case 'TUTORIALS':
-        this.BackgroundImage = '../assets/images/bg-02.jpg';
+        this.BackgroundImage = '/assets/images/bg-02.jpg';
         this.tutorialsService.GetTutorials().subscribe((data: Array<TutorialModel>) => {
           this.sharedNotificationService.UpdateTutorialData(data);
         });
         break;
       case 'REACTIVEFORM':
-        this.BackgroundImage = '../assets/images/bg-03.jpg';
+        this.BackgroundImage = '/assets/images/bg-03.jpg';
         break;
       case 'FXLAYOUT':
-        this.BackgroundImage = '../assets/images/bg-04.jpg';
+        this.BackgroundImage = '/assets/images/bg-04.jpg';
         break;
         default:
-        this.BackgroundImage = '../assets/images/bg_image.jpg';
+        this.BackgroundImage = '/assets/images/bg_image.jpg';
     }
   }
 }
