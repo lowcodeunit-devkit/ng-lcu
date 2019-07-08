@@ -17,18 +17,21 @@ export class FlexLayoutComponent implements OnInit {
    */
   public SubTitle: string;
   public SubTitleTwo: string;
+  public SubTitleThree: string;
 
   /**
    * Title
    */
   public Title: string;
   public TitleTwo: string;
+  public TitleThree: string;
 
   /**
    * Title Icon
    */
   public TitleIcon: string;
   public TitleIconTwo: string;
+  public TitleIconThree: string;
 
   constructor() {
     this.PageTitle = 'Angular Flex Layout';
@@ -39,6 +42,10 @@ export class FlexLayoutComponent implements OnInit {
     this.TitleTwo = 'Responsive API';
     this.SubTitleTwo = 'Holy Grail Layout';
     this.TitleIconTwo = 'view_carousel';
+
+    this.TitleThree = 'Grid';
+    this.SubTitleThree = 'Min / Max';
+    this.TitleIconThree = 'view_module';
   }
 
   ngOnInit() {
