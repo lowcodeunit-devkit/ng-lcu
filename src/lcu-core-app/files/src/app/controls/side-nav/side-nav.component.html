@@ -25,30 +25,21 @@
                 </div>
                
               </div>
-                <div fxLayout="row" fxFlex fxLayoutGap="20px" fxLayoutAlign="end center">
-                  <lcu-users-list [users]="Users"></lcu-users-list>
+                <div fxLayout="row" fxFlex="75%" fxLayoutGap="20px" fxLayoutAlign="end center">
+                    
                   <form fxLayout="column" [formGroup]="Form" novalidate>
-                  <mat-form-field>
-                      
-                    <mat-select formControlName="themesControl" (valueChange)="SelectTheme($event)">
-                        <!-- <mat-select-trigger>
+                    <mat-form-field>
+                      <mat-select formControlName="themesControl" (valueChange)="SelectTheme($event)">
+                          <mat-option *ngFor="let theme of Themes" [value]="theme.Value">
                             <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
-                                <mat-icon>{{theme.Icon}}</mat-icon>
                                 <span>{{theme.Label}}</span>
                             </div>
-                             </mat-select-trigger> -->
-                        <mat-option *ngFor="let theme of Themes" [value]="theme.Value">
-                        
-                          <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
-                              <!-- <mat-icon>{{theme.Icon}}</mat-icon> -->
-                              <span>{{theme.Label}}</span>
-                          </div>
-                          </mat-option>
-                        <!-- <mat-option value="default-theme">Light Theme</mat-option>
-                        <mat-option value="dark-theme">Dark Theme</mat-option> -->
-                    </mat-select>
-                </mat-form-field>
-              </form>
+                            </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </form>
+                  <lcu-logged-in-user></lcu-logged-in-user>
+                  <!-- <lcu-users-list [users]="Users"></lcu-users-list> -->
                 </div>
             </mat-toolbar>
        

@@ -1,3 +1,7 @@
+import { UserRoleAdminGuard } from './services/guards/user-role-admin.guard';
+import { AlwaysAuthChildrenGuard } from './services/guards/always-auth-children.guard';
+import { LoggedInGuard } from './services/guards/logged-in.guard';
+import { AlwaysAuthGuard } from './services/guards/always-auth.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './controls/home/home.component';
@@ -6,23 +10,53 @@ import { ReactiveFormComponent } from './controls/reactive-form/reactive-form.co
 import { TutorialsComponent } from './controls/tutorials/tutorials.component';
 import { UserComponent } from './controls/user/user.component';
 import { PageNotFoundComponent } from './controls/page-not-found/page-not-found.component';
+import { FormUnsavedChangesGuard } from './services/guards/form-unsaved-changes.guard';
+import { LoginComponent } from './controls/login/login.component';
+import { DashboardComponent } from './controls/dashboard/dashboard.component';
+import { UserRoleGuard } from './services/guards/user-role.guard';
+import { DashboardAdminComponent } from './controls/dashboard-admin/dashboard-admin.component';
+import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashboard-non-admin.component';
+import { UserRoleNonAdminGuard } from './services/guards/user-role-non-admin.guard';
 
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent},
   { path: 'home/:param', component: HomeComponent},
-  { path: 'fxLayout', component: FlexLayoutComponent, children: [
+  { path: 'fxLayout', component: FlexLayoutComponent,
+    canActivate: [LoggedInGuard, AlwaysAuthGuard],
+    canActivateChild: [AlwaysAuthChildrenGuard],
+    children: [
     { path: ':param', component: FlexLayoutComponent}
   ]},
-  { path: 'reactiveForm', component: ReactiveFormComponent, children: [
-    { path: ':param', component: ReactiveFormComponent}
-  ]},
+  { path: 'reactiveForm', component: ReactiveFormComponent,
+    canDeactivate: [FormUnsavedChangesGuard],
+      children: [
+        { path: ':param', component: ReactiveFormComponent}
+    ]
+  },
   { path: 'tutorials', component: TutorialsComponent},
-  { path: 'user', component: UserComponent, children: [
+  { path: 'user', component: UserComponent, children:
+  [
     { path: ':id/:name/:role', component: UserComponent},
   ]},
-  { path: '**', component: PageNotFoundComponent }
+  {
+    path: 'login', component: LoginComponent
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [LoggedInGuard, UserRoleAdminGuard],
+    // canActivateChild: [UserRoleAdminGuard],
+    // children: [
+    //   { path: '', redirectTo: 'admin', pathMatch: 'full' },
+    //   { path: 'admin', component: DashboardAdminComponent },
+    //   { path: 'user', component: DashboardNonAdminComponent }
+    // ]
+  },
+  {
+    path: '**', component: PageNotFoundComponent
+  }
   // { path: 'map/:Params', component: AmblOnMapComponent},
 
 ];

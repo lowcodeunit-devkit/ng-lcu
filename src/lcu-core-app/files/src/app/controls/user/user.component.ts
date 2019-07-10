@@ -11,11 +11,20 @@ import { Subscription } from 'rxjs';
 })
 export class UserComponent implements OnInit, OnDestroy {
 
-  public User: UserModel;
+  /**
+   * Current user changed subscription
+   */
+  protected currentUserSubscription: Subscription;
 
-  protected paramsSubscription: Subscription;
-
+  /**
+   * Routing params subscription
+   */
   protected queryParamsSubscription: Subscription;
+
+  /**
+   * User
+   */
+  public User: UserModel;
 
   constructor(protected activatedRouter: ActivatedRoute, protected userService: UsersService) { }
 
@@ -25,25 +34,15 @@ export class UserComponent implements OnInit, OnDestroy {
       this.getUserById(queryParams.id);
     });
 
-    // This will only happen once, when the component is loaded
-    // this.User = new UserModel(
-    //   this.activatedRouter.snapshot.params.id,
-    //   this.activatedRouter.snapshot.params.name,
-    //   this.activatedRouter.snapshot.params.role);
-
-     // Use this if the params will change when the component is already loaded
-     // If the component will never be sent new data, then don't do this
-    // this.paramsSubscription = this.activatedRouter.params.subscribe((params: Params) => {
-    //   this.User.Id = params.id;
-    //   this.User.Name = params.name;
-    //   this.User.Role = params.role;
-    // });
+    this.currentUserSubscription = this.userService.CurrentUserChanged.subscribe((user: UserModel) => {
+      this.User = user;
+    });
   }
 
   public ngOnDestroy(): void {
     // Angular will unsubscribe the route observable, but we can still do it ourselves
-    // this.paramsSubscription.unsubscribe();
     this.queryParamsSubscription.unsubscribe();
+    this.currentUserSubscription.unsubscribe();
   }
 
   /**

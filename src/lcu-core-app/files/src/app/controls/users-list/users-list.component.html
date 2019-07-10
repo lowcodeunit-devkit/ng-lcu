@@ -9,6 +9,6 @@
         [queryParams]="{id: user.Id}" 
         [disabled]="UserId === user.Id">
       <mat-icon color="accent" [ngClass]="{disabled:UserId === user.Id}">{{ user.Icon }}</mat-icon>
-      <span>{{ user.Name }}</span>
+      <span>{{ user.Username }}</span>
     </button>
   </mat-menu>

@@ -71,43 +71,33 @@ div.colorNested>div>div, div.coloredContainerX>div {
 	text-align: center;
 }
 div.box1, div.colorNested>div>div:nth-child(10n+1), div.coloredContainerX>div:nth-child(10n+1) {
-    // background-color: #009688;
     @include background-color(mat-color($primary));
 }
 div.box2, div.colorNested>div>div:nth-child(10n+2), div.coloredContainerX>div:nth-child(10n+2) {
-    // background-color: #3949ab;
     @include background-color(mat-color($primary, 100));
 }
 div.box3, div.colorNested>div>div:nth-child(10n+3), div.coloredChildren>div:nth-child(10n+3), div.coloredContainerX>div:nth-child(10n+3) {
-    // background-color: #9c27b0;
     @include background-color(mat-color($primary, A100));
 }
 div.colorNested>div>div:nth-child(10n+4), div.coloredChildren>div:nth-child(10n+4), div.coloredContainerX>div:nth-child(10n+4) {
-    // background-color: #b08752;
     @include background-color(mat-color($primary, 300));
 }
 div.colorNested>div>div:nth-child(10n+5), div.coloredChildren>div:nth-child(10n+5), div.coloredContainerX>div:nth-child(10n+5) {
-    // background-color: #5ca6b0;
     @include background-color(mat-color($primary, 400));
 }
 div.colorNested>div>div:nth-child(10n+6), div.coloredChildren>div:nth-child(10n+6), div.coloredContainerX>div:nth-child(10n+6) {
-    // background-color: #8bc34a;
     @include background-color(mat-color($primary, A200));
 }
 div.colorNested>div>div:nth-child(10n+7), div.coloredChildren>div:nth-child(10n+7), div.coloredContainerX>div:nth-child(10n+7) {
-    // background-color: #9c27b0;
     @include background-color(mat-color($primary, 800));
 }
 div.colorNested>div>div:nth-child(10n+8), div.coloredChildren>div:nth-child(10n+8), div.coloredContainerX>div:nth-child(10n+8) {
-    // background-color: #c9954e;
     @include background-color(mat-color($primary, 900));
 }
 div.colorNested>div>div:nth-child(10n+9), div.coloredChildren>div:nth-child(10n+9), div.coloredContainerX>div:nth-child(10n+9) {
-    // background-color: #ff5722;
     @include background-color(mat-color($primary, A400));
 }
 div.colorNested>div>div:nth-child(10n), div.coloredChildren>div:nth-child(10n), div.coloredContainerX>div:nth-child(10n) {
-    // background-color: #03a9f4;
     @include background-color(mat-color($primary, 700));
 }
 
