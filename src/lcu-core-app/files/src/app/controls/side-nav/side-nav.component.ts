@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NavLinkModel } from '../../models/nav-link.model';
 import { UserModel } from '../../models/user.model';
@@ -68,9 +68,9 @@ export class SideNavComponent {
     protected sharedNotificationService: SharedNotificationService) {}
 
   public ngOnInit(): void {
-    this.userService.GetUsers().subscribe((data: Array<UserModel>) => {
-      this.Users = data;
-    });
+    // this.userService.GetUsers().subscribe((data: Array<UserModel>) => {
+    //   this.Users = data;
+    // });
 
     this.setupForm();
 
@@ -88,7 +88,7 @@ export class SideNavComponent {
 
   protected setupForm(): void {
     this.Form = new FormGroup({
-      themesControl: new FormControl('arctic-theme')
+      themesControl: new FormControl('sea-green-theme')
     });
   }
 

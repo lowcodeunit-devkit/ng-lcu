@@ -12,6 +12,7 @@ export class NavigationConstants {
         { Label: 'Home', RouterURL: '/home', Icon: 'home'},
         { Label: 'Reactive Form', RouterURL: '/reactiveForm', Icon: 'vertical_split'},
         { Label: 'Tutorials', RouterURL: '/tutorials', Icon: 'school'},
-        { Label: 'Angular Flex Layout', RouterURL: '/fxLayout', Icon: 'view_quilt'}
+        { Label: 'Angular Flex Layout', RouterURL: '/fxLayout', Icon: 'view_quilt'},
+        { Label: 'Dashboard', RouterURL: '/dashboard', Icon: 'dashboard'}
     ]
 }
