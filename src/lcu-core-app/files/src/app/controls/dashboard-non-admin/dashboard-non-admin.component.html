@@ -1,0 +1,32 @@
+<mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image">
+        <mat-icon color="primary" class="title-icon">{{ TitleIcon }}</mat-icon>
+      </div>
+      <mat-card-title class="paragraph-title">{{ PageTitle }}</mat-card-title>
+      <mat-card-subtitle class="plain-text">{{ SubTitle }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="containerX">
+          <div class="colorNested box" fxLayout="row" *ngIf="isVisible">
+            <div [fxLayout]="cols.firstCol"
+                  [fxLayout.xs]="cols.firstColXs"
+                  [fxLayout.md]="cols.firstColMd"
+                  [fxLayout.lg]="cols.firstColLg"
+                  [fxLayout.gt-lg]="cols.firstColGtLg"
+                  fxFlex="50%"
+                  fxFlex.gt-sm="25"
+                  fxHide.md
+                  (click)="ToggleLayoutFor(1)" style="cursor: pointer;">
+              <div fxFlex>Col #1: First item in row</div>
+              <div fxFlex>Col #1: Second item in row</div>
+            </div>
+            <div [fxLayout]="cols.secondCol" fxFlex (click)="ToggleLayoutFor(2)"
+                  style="cursor: pointer;">
+              <div fxFlex>Col #2: First item in column</div>
+              <div fxFlex>Col #2: Second item in column</div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+</mat-card> 

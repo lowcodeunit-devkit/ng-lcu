@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, CanDeactivate } from '@angular/router';
 import { FormGroup, AbstractControl, FormControl, Validators } from '@angular/forms';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { StatesModel } from '../../models/states.model';
@@ -348,6 +348,13 @@ export class ReactiveFormComponent implements OnInit {
       startWith(''),
       map(state => state ? this.filterStateList(state) : this.States.slice())
     );
+  }
+
+  /**
+   * Check if form has changes, if so warn the user
+   */
+  public CanDeactivate(): boolean {
+    return !this.Form.dirty && !this.Form.touched;
   }
 
 }

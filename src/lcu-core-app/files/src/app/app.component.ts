@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
    * Set default theme
    */
   protected resetTheme(): void {
-    this.changeTheme('arctic-theme');
+    this.changeTheme('sea-green-theme');
   }
 
   /**

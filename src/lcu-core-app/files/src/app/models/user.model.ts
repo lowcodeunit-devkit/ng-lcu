@@ -1,6 +1,11 @@
 export class UserModel {
 
     /**
+     * User's first name
+     */
+    public FirstName: string;
+
+    /**
      * User icon (avatar)
      */
     public Icon?: string;
@@ -11,14 +16,24 @@ export class UserModel {
     public Id: number;
 
     /**
+     * Store logged in
+     */
+    public IsLoggedIn: boolean;
+
+    /**
+     * User's last name
+     */
+    public LastName: string;
+
+    /**
      * User message
      */
     public Message: string;
 
     /**
-     * User name
+     * User password
      */
-    public Name: string;
+    public Password: string;
 
     /**
      * User Role
@@ -26,18 +41,7 @@ export class UserModel {
     public Role: string;
 
     /**
-     * 
-     * @param id user id
-     * 
-     * @param name user name
-     * 
-     * @param role user role
+     * User name
      */
-    constructor(id: number, name: string, role: string, message: string, icon?: string) {
-        this.Id = id;
-        this.Message = message;
-        this.Name = name;
-        this.Role = role;
-        this.Icon = icon;
-    }
+    public Username: string;
 }
