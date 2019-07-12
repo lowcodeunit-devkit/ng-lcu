@@ -26,6 +26,20 @@ export function application(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     setupOptions(host, options);
 
+    const workspace = getWorkspace(host);
+
+    let project = workspace.projects[options.name];
+
+    const targetPath = normalize(project.root + '/src/');
+
+    const solutionSource = apply(url('./files'), [
+      template({
+        ...strings,
+        ...options,
+      }),
+      move(targetPath),
+    ]);
+
     const rule = chain([
       externalSchematic('@schematics/angular', 'application', {
         name: options.name,
@@ -34,6 +48,7 @@ export function application(options: any): Rule {
         style: 'scss'
       }),
       processInitWith(options, context),
+      options.blockFavicon ? noop() : mergeWith(solutionSource, MergeStrategy.Default),
       options.blockDeploy ? noop() : addScripts(options),
       options.blockDeploy ? noop() : manageDeployAllScript(options),
       manageAppAssets(options, context)
@@ -209,6 +224,13 @@ function blankOutLibrary(options: any, context: SchematicContext, exceptModule: 
       removeFilesFromRoot(host, srcRoot, coreFiles);
     }
 
+    if (!options.blockFavicon) {
+      let coreFiles = [`favicon.ico`];
+
+      removeFilesFromRoot(host, srcRoot, coreFiles);
+      
+    }
+
     return host;
   };
 }
@@ -244,6 +266,13 @@ function processInitWith(options: any, context: SchematicContext) {
         ]);
         break;
 
+        case 'Momentum':
+          rule = chain([        
+            externalSchematic('@lowcodeunit-devkit/ng-lcu', 'momentum', {
+            })
+          ]);
+          break;
+
       case 'Module':
         rule = blankOutLibrary(options, context, true, false);
         break;
@@ -270,6 +299,8 @@ export function setupOptions(host: Tree, options: any): Tree {
   options.entryFile = 'lcu.api';
 
   options.blockDeploy = options.blockDeploy || false;
+
+  options.blockFavicon = options.blockFavicon || false;
 
   options.initWith = options.initWith || 'LCU-Core-App';
 
