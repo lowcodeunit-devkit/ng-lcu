@@ -95,10 +95,6 @@ export function addScripts(options: any) {
       {
         key: `pack:pollyfills`,
         value: `concat-glob-cli -f \"dist/lcu/scripts.*.js\" -o dist/lcu/wc/lcu.pollyfills.js`
-      },
-      {
-        key: 'start:demo',
-        value: 'ng serve demo --port=42xx'
       }
     ]);
 

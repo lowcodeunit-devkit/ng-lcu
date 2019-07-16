@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl } from
 import { BaseModeledResponse, Status } from '@lcu-ide/common';
 import { SignInModel } from '../../models/sign-in.model';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { UserModel } from '../../models/user.model';
 
 @Component({
   selector: 'lcu-sign-in',
@@ -12,7 +13,7 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 })
 export class LoginComponent implements OnInit {
  //  Fields
- /**
+  /**
    * Local property for error
    */
   protected _error: string;
@@ -60,7 +61,7 @@ export class LoginComponent implements OnInit {
    */
   public HidePassword: boolean;
 
- /**
+  /**
    * Sign in form group
    */
   public Form: FormGroup;
@@ -69,6 +70,32 @@ export class LoginComponent implements OnInit {
    * Registration error
    */
   public LoginError: string;
+
+  /**
+   * Title
+   */
+  public PageTitle: string;
+
+  /**
+   * Subtitle
+   */
+  public SubTitle: string;
+
+  /**
+   * Title
+   */
+  public Title: string;
+
+  /**
+   * Title Icon
+   */
+  public TitleIcon: string;
+
+
+  /**
+   * Users
+   */
+  public Users: Array<UserModel>;
 
   /**
    * Output event for signing in
@@ -143,17 +170,17 @@ export class LoginComponent implements OnInit {
   //  Constructors
   constructor(protected userService: UsersService) {
     this.HidePassword = true;
-
-  //  this.SignIn = new EventEmitter<SignInModel>();
-
-  //  this.ForgotPassword = new EventEmitter<string>();
+    this.PageTitle = 'Login';
+    this.Title = 'Test Login';
+    this.TitleIcon = 'lock';
+    this.SubTitle = 'Select a user to the left to test';
   }
 
   // 	Life Cycle
 
- /**
- * On init setup form and fields
- */
+  /**
+   * On init setup form and fields
+   */
   public ngOnInit() {
     this.Form = new FormGroup({
       usernameControl: new FormControl('', {validators: Validators.required}),
@@ -163,6 +190,10 @@ export class LoginComponent implements OnInit {
 
     this.setInitialValues();
     this.onChanges();
+
+    this.userService.GetUsers().subscribe((data: Array<UserModel>) => {
+      this.Users = data;
+    });
   }
 
   // 	API Methods
@@ -188,6 +219,15 @@ export class LoginComponent implements OnInit {
     // this.ForgotPassword.emit(this.UsernameControl.value);
   }
 
+  /**
+   * Set login for testing
+   *
+   * @param user selected user
+   */
+  public SetLogin(user: UserModel): void {
+    this.UsernameControl.setValue(user.Username);
+    this.PasswordControl.setValue(user.Password);
+  }
   // 	Helpers
 
   /**
