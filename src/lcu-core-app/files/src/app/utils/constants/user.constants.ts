@@ -7,7 +7,7 @@
 export class UserConstants {
     public static readonly USER_ROLE_ADMIN: string = 'admin';
 
-    public static readonly USER_ROLE_CONTRIBUTOR: string = 'contributor';
+    public static readonly USER_ROLE_USER: string = 'user';
 
     public static readonly USER_ROLE_SUBSCRIBER: string = 'subscriber';
 

@@ -44,7 +44,7 @@ export class DashboardNonAdminComponent implements OnDestroy {
         this.activeMQC = events;
       });
 
-    this.PageTitle = 'Non-Admin Area';
+    this.PageTitle = 'User Dashboard Area';
     this.TitleIcon = 'lock';
     this.SubTitle = 'Your permission level is: ' + this.usersService.CurrentUser.Role;
   }

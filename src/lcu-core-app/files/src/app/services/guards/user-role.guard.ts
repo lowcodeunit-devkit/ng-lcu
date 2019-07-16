@@ -14,7 +14,7 @@ export class UserRoleGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>|Promise<boolean>|boolean {
         const userRole: string = this.usersService.UserRole();
 
-        if (userRole === UserConstants.USER_ROLE_ADMIN || userRole === UserConstants.USER_ROLE_CONTRIBUTOR) {
+        if (userRole === UserConstants.USER_ROLE_ADMIN || userRole === UserConstants.USER_ROLE_USER) {
             return true;
         } else {
             window.alert('You must have admin or contributor permissions to access');

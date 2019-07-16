@@ -44,7 +44,7 @@ export class DashboardAdminComponent implements OnDestroy {
         this.activeMQC = events;
       });
 
-    this.PageTitle = 'Admin Area';
+    this.PageTitle = 'Admin Dashboard Area';
     this.TitleIcon = 'accessibility';
     this.SubTitle = 'Your permission level is: ' + this.usersService.CurrentUser.Role;
   }
