@@ -9,12 +9,13 @@ import { UserConstants } from '../../utils/constants/user.constants';
     providedIn: 'root'
 })
 
-export class UserRoleAdminGuard implements CanActivate {
+export class DashboardGuard implements CanActivate {
     constructor(protected usersService: UsersService, protected userRolesService: UserRolesService, protected route: Router) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>|Promise<boolean>|boolean {
 
-        if (this.usersService.UserRole() === UserConstants.USER_ROLE_ADMIN ) {
+        if (this.usersService.UserRole() === UserConstants.USER_ROLE_ADMIN ||
+            this.usersService.UserRole() === UserConstants.USER_ROLE_USER) {
             return true;
         } else {
             window.alert('You must have admin permissions to access the dashboard, redirecting to home.');

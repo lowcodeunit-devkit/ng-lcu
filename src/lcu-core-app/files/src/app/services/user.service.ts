@@ -1,3 +1,4 @@
+import { UserRolesService } from './user-role.service';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { UserConstants } from '../utils/constants/user.constants';
 import { Injectable } from '@angular/core';
@@ -9,8 +10,8 @@ import { Subject } from 'rxjs/internal/Subject';
 const Users: Array<UserModel> = [
     {
         Id: 1,
-        FirstName: 'Admin',
-        LastName: 'User',
+        FirstName: 'User-One',
+        LastName: 'Lastname',
         Username: 'admin',
         Role: UserConstants.USER_ROLE_ADMIN,
         Message: 'Lorem ipsum dolor sit amet.',
@@ -20,48 +21,26 @@ const Users: Array<UserModel> = [
     },
     {
         Id: 2,
-        FirstName: 'User',
-        LastName: 'User 1',
+        FirstName: 'User-Two',
+        LastName: 'Lastname',
         Username: 'user',
-        Role: UserConstants.USER_ROLE_CONTRIBUTOR,
+        Role: UserConstants.USER_ROLE_USER,
         Message: 'Quis vel eros donec ac odio orci.',
         Icon: 'insert_emoticon',
         Password: 'password',
         IsLoggedIn: false
     },
-    // {
-    //     Id: 3,
-    //     FirstName: 'Test',
-    //     LastName: 'User 2',
-    //     Username: 'user2',
-    //     Role: UserConstants.USER_ROLE_SUBSCRIBER,
-    //     Message: 'Feugiat in ante metus dictum.',
-    //     Icon: 'child_care',
-    //     Password: 'password',
-    //     IsLoggedIn: false
-    // },
-    // {
-    //     Id: 4,
-    //     FirstName: 'Test',
-    //     LastName: 'User 3',
-    //     Username: 'user3',
-    //     Role: UserConstants.USER_ROLE_READ_ONLY,
-    //     Message: 'Scelerisque varius morbi enim nunc.',
-    //     Icon: 'sentiment_satisfied',
-    //     Password: 'password',
-    //     IsLoggedIn: false
-    // },
-    // {
-    //     Id: 5,
-    //     FirstName: 'Test',
-    //     LastName: 'User 4',
-    //     Username: 'user4',
-    //     Role: UserConstants.USER_ROLE_CONTRIBUTOR,
-    //     Message: 'Phasellus faucibus scelerisque.',
-    //     Icon: 'mood',
-    //     Password: 'password',
-    //     IsLoggedIn: false
-    // }
+    {
+        Id: 3,
+        FirstName: 'User-Three',
+        LastName: 'Lastname',
+        Username: 'readonly',
+        Role: UserConstants.USER_ROLE_READ_ONLY,
+        Message: 'Quis vel eros donec ac odio orci.',
+        Icon: 'insert_emoticon',
+        Password: 'password',
+        IsLoggedIn: false
+    }
 ];
 
 @Injectable({
@@ -78,10 +57,11 @@ export class UsersService {
 
     set CurrentUser(val: UserModel) {
         this._currentUser = val;
+        this.userRolesService.UpdateRoles(val.Role);
         this.CurrentUserChanged.next(val);
     }
 
-    constructor(protected route: Router) {}
+    constructor(protected route: Router, protected userRolesService: UserRolesService) {}
     /**
      * Notification of user change
      */
@@ -140,7 +120,7 @@ export class UsersService {
                 this.route.navigate(['/dashboard']);
                 // if (this.CurrentUser.Role === UserConstants.USER_ROLE_ADMIN) {
                 //     this.route.navigate(['/dashboard']);
-                // } else if (this.CurrentUser.Role === UserConstants.USER_ROLE_CONTRIBUTOR) {
+                // } else if (this.CurrentUser.Role === UserConstants.USER_ROLE_USER) {
                 //     this.route.navigate(['/dashboard/user']);
                 // }
                 return user.Username === username && user.Password === password;
