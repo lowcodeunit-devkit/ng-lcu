@@ -57,7 +57,7 @@ export class UsersService {
 
     set CurrentUser(val: UserModel) {
         this._currentUser = val;
-        this.userRolesService.UpdateRoles(val.Role);
+        // this.userRolesService.UpdateRoles(val.Role);
         this.CurrentUserChanged.next(val);
     }
 
