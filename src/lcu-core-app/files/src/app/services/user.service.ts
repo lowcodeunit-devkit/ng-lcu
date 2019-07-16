@@ -1,5 +1,6 @@
+import { Router } from '@angular/router';
 import { UserRolesService } from './user-role.service';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+
 import { UserConstants } from '../utils/constants/user.constants';
 import { Injectable } from '@angular/core';
 import { UserModel } from '../models/user.model';
@@ -57,7 +58,6 @@ export class UsersService {
 
     set CurrentUser(val: UserModel) {
         this._currentUser = val;
-        // this.userRolesService.UpdateRoles(val.Role);
         this.CurrentUserChanged.next(val);
     }
 
