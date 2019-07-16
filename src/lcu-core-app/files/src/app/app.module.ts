@@ -1,4 +1,3 @@
-import { AlwaysAuthGuard } from './services/guards/always-auth.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -26,7 +25,6 @@ import { DashboardComponent } from './controls/dashboard/dashboard.component';
 import { LoggedInUserComponent } from './controls/logged-in-user/logged-in-user.component';
 import { DashboardAdminComponent } from './controls/dashboard-admin/dashboard-admin.component';
 import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashboard-non-admin.component';
-import { UserHasRoleDirective } from './directives/user-has-role.directive';
 
 @NgModule({
   declarations: [
@@ -45,8 +43,7 @@ import { UserHasRoleDirective } from './directives/user-has-role.directive';
     DashboardComponent,
     LoggedInUserComponent,
     DashboardAdminComponent,
-    DashboardNonAdminComponent,
-    UserHasRoleDirective
+    DashboardNonAdminComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -109,8 +106,7 @@ import { UserHasRoleDirective } from './directives/user-has-role.directive';
     DashboardComponent,
     LoggedInUserComponent,
     DashboardAdminComponent,
-    DashboardNonAdminComponent,
-    UserHasRoleDirective],
+    DashboardNonAdminComponent],
   entryComponents: [LoginComponent, DashboardComponent, LoggedInUserComponent, DashboardAdminComponent, DashboardNonAdminComponent]
 })
 export class AppModule { }
