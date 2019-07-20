@@ -120,6 +120,8 @@ export function updatePackageJsonName(context: SchematicContext, options: any) {
 
         packageJson.name = `${options.scope}/${options.workspace}${variant}`;
 
+        context.logger.info(`Updating packageJson with name: ${packageJson.name}`);
+
         host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
 
       } else {
@@ -253,7 +255,6 @@ function processInitWith(options: any, context: SchematicContext) {
     }
 
     context.logger.info(`Processing Initialized for ${options.initWith}!`);
-    context.logger.info(`lcu-core-app Getting some more options ${options}...`);
 
     return rule;
   };
