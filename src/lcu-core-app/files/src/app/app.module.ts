@@ -1,4 +1,3 @@
-import { AlwaysAuthGuard } from './services/guards/always-auth.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -102,7 +101,12 @@ import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashb
   }
 ],
   bootstrap: [AppComponent],
-  exports: [LoginComponent, DashboardComponent, LoggedInUserComponent, DashboardAdminComponent, DashboardNonAdminComponent],
+  exports: [
+    LoginComponent,
+    DashboardComponent,
+    LoggedInUserComponent,
+    DashboardAdminComponent,
+    DashboardNonAdminComponent],
   entryComponents: [LoginComponent, DashboardComponent, LoggedInUserComponent, DashboardAdminComponent, DashboardNonAdminComponent]
 })
 export class AppModule { }

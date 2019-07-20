@@ -48,6 +48,10 @@
     "lcu-form": {
       "description": "Schematics for seeding an LCU form.",
       "factory": "./lcu-form/index#lcuForm"
+    },
+    "momentum": {
+      "description": "Schematics for seeding Momentum App.",
+      "factory": "./momentum/index#momentumApp"
     }
   }
 }

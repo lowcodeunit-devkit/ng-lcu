@@ -17,6 +17,7 @@ import { UserRoleGuard } from './services/guards/user-role.guard';
 import { DashboardAdminComponent } from './controls/dashboard-admin/dashboard-admin.component';
 import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashboard-non-admin.component';
 import { UserRoleNonAdminGuard } from './services/guards/user-role-non-admin.guard';
+import { DashboardGuard } from './services/guards/dashboard.guard';
 
 
 const routes: Routes = [
@@ -46,7 +47,7 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [LoggedInGuard, UserRoleAdminGuard],
+    canActivate: [LoggedInGuard, DashboardGuard],
     // canActivateChild: [UserRoleAdminGuard],
     // children: [
     //   { path: '', redirectTo: 'admin', pathMatch: 'full' },
