@@ -7,7 +7,7 @@
     "deploy:lib": "npm publish ./ --access public",
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && jasmine src/**/*_spec.js",
-    "test:init": "rimraf test && mkdir test && ng new tester --createApplication=false --newProjectRoot=projects --directory=./",
+    "test:init": "rimraf test && mkdir test && cd test && ng new tester --createApplication=false --newProjectRoot=projects --directory=./",
     "test:ng-add": "schematics ../src/collection.json:ng-add --scope=@tester --workspace=tester"
   },
   "keywords": [
