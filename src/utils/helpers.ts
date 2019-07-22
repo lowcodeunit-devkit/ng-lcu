@@ -33,6 +33,18 @@ export interface NodeKeyValue {
   value: string;
 }
 
+export function getWorkspace(tree: Tree) {
+  const wrkspcCfgBf = tree.read("angular.json");
+
+  if (!wrkspcCfgBf) {
+    throw new SchematicsException("Not an angular CLI workspace.");
+  }
+
+  const wrkspcCfg = JSON.parse(wrkspcCfgBf.toString());
+
+  return wrkspcCfg;
+}
+
 export function addIntoPackageJson(host: Tree, nodeName: string, kvp: NodeKeyValue): Tree {
   const packageJsonAst = _readJson(host, pkgJsonPath);
   const scriptsNode = findPropertyInAstObject(packageJsonAst, nodeName);

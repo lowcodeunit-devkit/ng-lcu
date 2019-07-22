@@ -1,0 +1,13 @@
+{ 
+    "templates": {
+        "scope": "@tester",
+        "workspace": "tester"
+    },
+    "config": {
+      "wc": ["wc/tester.lcu.js"],
+      "solutions": {},
+      "elements": {},
+      "flux": {},
+      "dependencies": {}
+    }
+}

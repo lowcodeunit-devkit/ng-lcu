@@ -1,15 +1,10 @@
 {
-  "name": "@lowcodeunit-devkit/ng-lcu",
-  "version": "0.0.183",
+  "name": "ng-add",
+  "version": "0.0.0",
   "description": "A blank schematics",
   "scripts": {
-    "deploy": "npm version patch && npm run build && npm run deploy:lib",
-    "deploy:lib": "npm publish ./ --access public",
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && jasmine src/**/*_spec.js",
-    "try": "npm run try:init && npm run try:ng-add",
-    "try:init": "rimraf test && mkdir test && cd test && ng new tester --createApplication=false --newProjectRoot=projects --directory=./",
-    "try:ng-add": "ng add @lowcodeunit-devkit/ng-lcu --scope=@tester --workspace=tester"
+    "test": "npm run build && jasmine src/**/*_spec.js"
   },
   "keywords": [
     "schematics"
@@ -18,8 +13,8 @@
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^7.3.1",
-    "@angular-devkit/schematics": "^7.3.1",
+    "@angular-devkit/core": "^8.1.2",
+    "@angular-devkit/schematics": "^8.1.2",
     "@types/jasmine": "^3.0.0",
     "@types/node": "^8.0.31",
     "jasmine": "^3.0.0",
