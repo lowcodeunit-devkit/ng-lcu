@@ -1,6 +1,5 @@
 { 
     "templates": {
-        "repository": "<%= repository %>",
         "scope": "<%= scope %>",
         "workspace": "<%= workspace %>"
     },
