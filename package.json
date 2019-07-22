@@ -6,7 +6,9 @@
     "deploy": "npm version patch && npm run build && npm run deploy:lib",
     "deploy:lib": "npm publish ./ --access public",
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && jasmine src/**/*_spec.js"
+    "test": "npm run build && jasmine src/**/*_spec.js",
+    "test:init": "rimraf test && mkdir test && ng new tester --createApplication=false --newProjectRoot=projects --directory=./",
+"test:"
   },
   "keywords": [
     "schematics"
@@ -15,18 +17,11 @@
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "8.1.2",
-    "@angular-devkit/schematics": "8.1.2",
-    "@types/jasmine": "~3.3.8",
-    "@types/node": "~8.9.4",
-    "jasmine": "^2.8.0",
-    "typescript": "~3.4.5"
-  },
-  "devDependencies": {
-    "@angular/cli": "~8.1.2",
-    "@angular/common": "~8.1.2",
-    "@angular/core": "~8.1.2",
-    "@schematics/angular": "8.1.2",
-    "user-home": "^2.0.0"
+    "@angular-devkit/core": "^7.3.1",
+    "@angular-devkit/schematics": "^7.3.1",
+    "@types/jasmine": "^3.0.0",
+    "@types/node": "^8.0.31",
+    "jasmine": "^3.0.0",
+    "typescript": "~3.2.2"
   }
 }

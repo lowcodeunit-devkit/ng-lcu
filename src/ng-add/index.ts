@@ -1,6 +1,5 @@
-import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template, chain } from '@angular-devkit/schematics';
-import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import { normalize, strings, Path } from '@angular-devkit/core';
+import { Rule, SchematicContext, Tree, apply, url, move, MergeStrategy, mergeWith, template, chain } from '@angular-devkit/schematics';
+import { strings } from '@angular-devkit/core';
 import { addScriptsToPackageFile, adjustValueInPackageFile } from '../utils/helpers';
 
 
@@ -8,8 +7,6 @@ import { addScriptsToPackageFile, adjustValueInPackageFile } from '../utils/help
 // per file.
 export function ngAdd(options: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    options.repository = options.repository || options.repo;
-
     const templateSource = apply(url('./files/project'), [
       template({
         ...strings,
