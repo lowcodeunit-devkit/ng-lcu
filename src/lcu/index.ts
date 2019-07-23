@@ -35,29 +35,29 @@ export function lcu(options: any): Rule {
         name: 'common',
         initWith: 'Blank'
       }),
-      // externalSchematic('@lowcodeunit-devkit/ng-lcu', 'application', {
-      //   name: 'lcu',
-      //   es5Patch: true,
-      //   initWith: 'Blank',
-      //   isDefault: true,
-      //   routing: false,
-      //   singleBundle: true,
-      //   webCompPolys: true
-      // }),
-      // externalSchematic('@lowcodeunit-devkit/ng-lcu', 'application', {
-      //   name: 'demo',
-      //   initWith: options.initWith || 'LCU-Core-App'
-      // }),
-      // externalSchematic('@schematics/angular', 'module', {
-      //   name: `${options.workspace}`,
-      //   project: 'common',
-      //   flat: true
-      // }),
-      // externalSchematic('@schematics/angular', 'module', {
-      //   name: `app`,
-      //   project: 'lcu',
-      //   flat: true
-      // }),
+      schematic('application', {
+        name: 'lcu',
+        es5Patch: true,
+        initWith: 'Blank',
+        isDefault: true,
+        routing: false,
+        singleBundle: true,
+        webCompPolys: true
+      }),
+      schematic('application', {
+        name: 'demo',
+        initWith: options.initWith || 'LCU-Core-App'
+      }),
+      externalSchematic('@schematics/angular', 'module', {
+        name: `${options.workspace}`,
+        project: 'common',
+        flat: true
+      }),
+      externalSchematic('@schematics/angular', 'module', {
+        name: `app`,
+        project: 'lcu',
+        flat: true
+      }),
       updateExport('common', options.workspace, context),
       addScripts(options),
       manageBuildScripts(options)
