@@ -17,6 +17,8 @@
   "dependencies": {
     "@angular-devkit/core": "^8.1.2",
     "@angular-devkit/schematics": "^8.1.2",
+    "@angular-devkit/schematics-cli": "^0.801.2",
+    "@schematics/schematics": "0.801.2",
     "@types/jasmine": "^2.6.0",
     "@types/node": "10.9.4",
     "jasmine": "^2.8.0",
@@ -27,7 +29,6 @@
     "@angular/cli": "^8.1.2",
     "@angular/common": "^8.1.2",
     "@angular/core": "^8.1.2",
-    "@angular-devkit/schematics-cli": "^0.801.2",
     "@schematics/angular": "^8.1.2",
     "uninstall": "0.0.0",
     "user-home": "^2.0.0"
