@@ -1,7 +1,28 @@
-// import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { Rule, SchematicContext, Tree, chain, externalSchematic } from '@angular-devkit/schematics';
-// import { strings, Path, join } from '@angular-devkit/core';
-// import { addScriptsToPackageFile, getWorkspace } from '../utils/helpers';
+import { getWorkspace } from '@schematics/angular/utility/config';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { buildDefaultPath } from '@schematics/angular/utility/project';
+import { parseName } from '@schematics/angular/utility/parse-name';
+import {
+  Rule,
+  SchematicContext,
+  Tree,
+  apply,
+  url,
+  noop,
+  filter,
+  move,
+  MergeStrategy,
+  mergeWith,
+  template,
+  chain,
+  externalSchematic,
+  branchAndMerge,
+  schematic
+} from '@angular-devkit/schematics';
+import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
+import { normalize, strings, Path, join } from '@angular-devkit/core';
+import { addScriptsToPackageFile } from '../utils/helpers';
+import { Logger } from '@angular-devkit/core/src/logger';
 
 export function library(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -154,95 +175,74 @@ export function library(options: any): Rule {
 
 //     var libRoot = join(srcRoot, 'lib');
 
-//     [
-//       `${projectName}.component.spec.ts`,
-//       `${projectName}.component.ts`,
-//       `${projectName}.module.ts`,
-//       `${projectName}.service.spec.ts`,
-//       `${projectName}.service.ts`
-//     ].forEach(filename => {
-//       var filePath = join(libRoot, filename);
+function processInitWith(options: any, context: SchematicContext) {
+  return (host: Tree) => {
+    context.logger.info(`Processing Initialization for ${options.initWith}...`);
 
-//       if (host.exists(filePath)) {
-//         host.delete(filePath);
-//       }
-//     });
+    var rule: Rule = noop();
 
-//     var lcuApi = join(srcRoot, `${options.entryFile}.ts`);
+    switch (options.initWith) {
+      case 'Default':
+        break;
 
-//     host.overwrite(lcuApi, '');
+      case 'Blank':
+        rule = blankOutLibrary(options, context);
 
-//     return host;
-//   };
-// }
+        break;
 
-// function processInitWith(options: any, context: SchematicContext) {
-//   return (_host: Tree) => {
-//     context.logger.info(`Processing Initialization for ${options.initWith}...`);
+      case 'LCU':
+        rule = chain([
+          blankOutLibrary(options, context),
+          schematic('lcu-core-app', {
+            name: options.name,
+            project: options.name
+          })
+        ]);
+      break;
 
-//     var rule: Rule = noop();
+      case 'Solution':
+        rule = chain([
+          blankOutLibrary(options, context),
+          schematic('solution', {
+            name: options.name,
+            project: options.name
+          })
+        ]);
+        break;
 
-//     switch (options.initWith) {
-//       case 'Default':
-//         break;
+      case 'Element':
+        rule = chain([
+          blankOutLibrary(options, context),
+          schematic('element', {
+            name: options.name,
+            project: options.name
+          })
+        ]);
+        break;
 
-//       case 'Blank':
-//         rule = blankOutLibrary(options, context);
+      case 'SPE':
+        rule = chain([
+          blankOutLibrary(options, context),
+          schematic('element', {
+            name: options.name,
+            path: 'lib/elements',
+            project: options.name
+          }),
+          schematic('solution', {
+            name: options.name,
+            path: 'lib/solutions',
+            project: options.name
+          })
+        ]);
+        break;
+    }
 
-//         break;
+    context.logger.info(`Processing Initialized for ${options.initWith}!`);
+    context.logger.info(`lcu-core-app Getting some more options ${options}...`);
 
-//       case 'LCU':
-//         rule = chain([
-//           blankOutLibrary(options, context),
-//           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
-//             name: options.name,
-//             project: options.name
-//           })
-//         ]);
-//         break;
-
-//       case 'Solution':
-//         rule = chain([
-//           blankOutLibrary(options, context),
-//           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'solution', {
-//             name: options.name,
-//             project: options.name
-//           })
-//         ]);
-//         break;
-
-//       case 'Element':
-//         rule = chain([
-//           blankOutLibrary(options, context),
-//           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
-//             name: options.name,
-//             project: options.name
-//           })
-//         ]);
-//         break;
-
-//       case 'SPE':
-//         rule = chain([
-//           blankOutLibrary(options, context),
-//           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
-//             name: options.name,
-//             path: 'lib/elements',
-//             project: options.name
-//           }),
-//           externalSchematic('@lowcodeunit-devkit/ng-lcu', 'solution', {
-//             name: options.name,
-//             path: 'lib/solutions',
-//             project: options.name
-//           })
-//         ]);
-//         break;
-//     }
-
-//     context.logger.info(`Processing Initialized for ${options.initWith}!`);
-
-//     return rule;
-//   };
-// }
+    return rule;
+  };
+}
 
 export function setupOptions(host: Tree, options: any): Tree {
   var lcuFile = host.get('lcu.json');
