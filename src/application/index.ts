@@ -15,7 +15,8 @@ import {
   mergeWith,
   template,
   chain,
-  externalSchematic
+  externalSchematic,
+  schematic
 } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path, join } from '@angular-devkit/core';
@@ -255,7 +256,7 @@ function processInitWith(options: any, context: SchematicContext) {
       case 'LCU-Core-App':
         rule = chain([
           blankOutLibrary(options, context, false, true),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
+          schematic('lcu-core-app', {
             name: options.name,
             project: options.name
           })
@@ -265,7 +266,7 @@ function processInitWith(options: any, context: SchematicContext) {
       case 'LCU-Form':
         rule = chain([
           blankOutLibrary(options, context, false, true),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-form', {
+          schematic('lcu-form', {
             name: options.name,
             project: options.name
           })
@@ -274,7 +275,7 @@ function processInitWith(options: any, context: SchematicContext) {
 
         case 'Momentum':
           rule = chain([        
-            externalSchematic('@lowcodeunit-devkit/ng-lcu', 'momentum', {
+            schematic('momentum', {
             })
           ]);
           break;
