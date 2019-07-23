@@ -18,8 +18,9 @@
     "@angular-devkit/core": "^8.1.2",
     "@angular-devkit/schematics": "^8.1.2",
     "@types/jasmine": "^2.6.0",
-    "@types/node": "^8.0.31",
+    "@types/node": "10.9.4",
     "jasmine": "^2.8.0",
+    "rxjs": "^6.4.0",
     "typescript": "^3.4.5"
   },
   "devDependencies": {
