@@ -29,151 +29,167 @@ export function library(options: any): Rule {
     setupOptions(host, options);
 
     const rule = chain([
-      externalSchematic('@schematics/angular', 'library', {
+      branchAndMerge(externalSchematic('@schematics/angular', 'library', {
         name: options.name,
         entryFile: options.entryFile,
         prefix: options.prefix,
         skipInstall: true
-      })
-      // processInitWith(options, context),
-      // addDeployScripts(options),
-      // manageDeployAllScript(options),
-      // updateTsConfig(context, options),
-      // updatePackageJsonName(context, options)
+      })),
+      processInitWith(options, context),
+      addDeployScripts(options),
+      manageDeployAllScript(options),
+      updateTsConfig(context, options),
+      updatePackageJsonName(context, options)
     ]);
 
-    // if (!options.skipInstall) context.addTask(new NodePackageInstallTask());
-    // processInitWith(options, context);
+    if (!options.skipInstall) context.addTask(new NodePackageInstallTask());
 
     return rule(host, context);
   };
 }
 
-// export function addDeployScripts(options: any) {
-//   return (host: Tree) => {
-//     const workspace = getWorkspace(host);
+export function addDeployScripts(options: any) {
+  return (host: Tree) => {
+    const workspace = getWorkspace(host);
 
-//     var project = workspace.projects[options.name];
+    var project = workspace.projects[options.name];
 
-//     var projectSafeName = strings.dasherize(options.name);
+    var projectSafeName = strings.dasherize(options.name);
 
-//     addScriptsToPackageFile(host, [
-//       {
-//         key: `build:${projectSafeName}`,
-//         value: `ng build ${projectSafeName}`
-//       },
-//       {
-//         key: `deploy:${projectSafeName}`,
-//         value:
-//           `npm version patch --prefix ${project.root} ` +
-//           `&& npm run build:${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`
-//       }
-//     ]);
+    addScriptsToPackageFile(host, [
+      {
+        key: `build:${projectSafeName}`,
+        value: `ng build ${projectSafeName}`
+      },
+      {
+        key: `deploy:${projectSafeName}`,
+        value:
+          `npm version patch --prefix ${project.root} ` +
+          `&& npm run build:${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`
+      }
+    ]);
 
-//     return host;
-//   };
-// }
+    return host;
+  };
+}
 
-// export function updateTsConfig(context: SchematicContext, options: any) {
-//   return (host: Tree) => {
-//     context.logger.debug('Updating TS Config...');
+export function updateTsConfig(context: SchematicContext, options: any) {
+  return (host: Tree) => {
+    var tsConfigFilePath = 'tsconfig.json';
 
-//     var tsConfigFilePath = 'tsconfig.json';
+    var tsConfigFile = host.get(tsConfigFilePath);
 
-//     var tsConfigFile = host.get(tsConfigFilePath);
+    var tsConfigJson = tsConfigFile ? JSON.parse(tsConfigFile.content.toString('utf8')) : {};
 
-//     var tsConfigJson = tsConfigFile ? JSON.parse(tsConfigFile.content.toString('utf8')) : {};
+    var pathKeys = Object.keys(tsConfigJson.compilerOptions.paths || {});
 
-//     var pathKeys = Object.keys(tsConfigJson.compilerOptions.paths || {});
+    pathKeys.forEach(pathKey => {
+      var newPath = pathKey.replace(options.name, `${options.scope}/${options.workspace}-${options.name}`);
 
-//     pathKeys.forEach(pathKey => {
-//       var newPath = pathKey.replace(options.name, `${options.scope}/${options.workspace}-${options.name}`);
+      tsConfigJson.compilerOptions.paths[newPath] = tsConfigJson.compilerOptions.paths[pathKey];
 
-//       tsConfigJson.compilerOptions.paths[newPath] = tsConfigJson.compilerOptions.paths[pathKey];
+      delete tsConfigJson.compilerOptions.paths[pathKey];
+    });
 
-//       delete tsConfigJson.compilerOptions.paths[pathKey];
-//     });
+    host.overwrite(tsConfigFilePath, JSON.stringify(tsConfigJson, null, '\t'));
 
-//     host.overwrite(tsConfigFilePath, JSON.stringify(tsConfigJson, null, '\t'));
+    return host;
+  };
+}
 
-//     return host;
-//   };
-// }
+export function updatePackageJsonName(context: SchematicContext, options: any) {
+  return (host: Tree) => {
+    var workspace = getWorkspace(host);
 
-// export function updatePackageJsonName(context: SchematicContext, options: any) {
-//   return (host: Tree) => {
-//     var workspace = getWorkspace(host);
+    var projectName: string = options.name;
 
-//     var projectName: string = options.name;
+    var project = workspace.projects[projectName];
 
-//     var project = workspace.projects[projectName];
+    var packageFilePath = join(project.root as Path, 'package.json');
 
-//     var packageFilePath = join(project.root as Path, 'package.json');
+    context.logger.info(`Loading package at path: ${packageFilePath}`);
 
-//     context.logger.info(`Loading package at path: ${packageFilePath}`);
+    var packageFile = host.get(packageFilePath);
 
-//     var packageFile = host.get(packageFilePath);
+    try {
+      if (packageFile && packageFile.content) {
+        var packageFileContent = packageFile.content.toString('utf8');
 
-//     try {
-//       if (packageFile && packageFile.content) {
-//         var packageFileContent = packageFile.content.toString('utf8');
+        var packageJson = packageFileContent ? JSON.parse(packageFileContent) : {};
 
-//         var packageJson = packageFileContent ? JSON.parse(packageFileContent) : {};
+        var variant = projectName ? `-${projectName}` : '';
 
-//         var variant = projectName ? `-${projectName}` : '';
+        packageJson.name = `${options.scope}/${options.workspace}${variant}`;
 
-//         packageJson.name = `${options.scope}/${options.workspace}${variant}`;
+        host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
 
-//         context.logger.info(`Updating packageJson with name: ${packageJson.name}`);
+      } else {
+        context.logger.info('No file found');
+      }
+    } catch (err) {
+      context.logger.error(err);
+    }
 
-//         host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
-//       } else {
-//         context.logger.info('No file found');
-//       }
-//     } catch (err) {
-//       context.logger.error(err);
-//     }
+    return host;
+  };
+}
 
-//     return host;
-//   };
-// }
+export function manageDeployAllScript(options: any) {
+  return (host: Tree) => {
+    var projectSafeName = strings.dasherize(options.name);
 
-// export function manageDeployAllScript(options: any) {
-//   return (host: Tree) => {
-//     var projectSafeName = strings.dasherize(options.name);
+    var deployProj = `npm run deploy:${projectSafeName}`;
 
-//     var deployProj = `npm run deploy:${projectSafeName}`;
+    var packageFile = host.get('package.json');
 
-//     var packageFile = host.get('package.json');
+    var packageJson = packageFile ? JSON.parse(packageFile.content.toString('utf8')) : {};
 
-//     var packageJson = packageFile ? JSON.parse(packageFile.content.toString('utf8')) : {};
+    var deployAll = packageJson.scripts['deploy:all'];
 
-//     var deployAll = packageJson.scripts['deploy:all'];
+    if (deployAll) deployAll += ` && ${deployProj}`;
+    else deployAll = deployProj;
 
-//     if (deployAll) deployAll += ` && ${deployProj}`;
-//     else deployAll = deployProj;
+    packageJson.scripts['deploy:all'] = deployAll;
 
-//     packageJson.scripts['deploy:all'] = deployAll;
+    host.overwrite('package.json', JSON.stringify(packageJson, null, '\t'));
 
-//     host.overwrite('package.json', JSON.stringify(packageJson, null, '\t'));
+    return host;
+  };
+}
 
-//     return host;
-//   };
-// }
+function blankOutLibrary(options: any, context: SchematicContext) {
+  return (host: Tree) => {
+    var projectName = options.name;
 
-// function blankOutLibrary(options: any, context: SchematicContext) {
-//   return (host: Tree) => {
-//     context.logger.debug('Blanking out library');
+    var workspace = getWorkspace(host);
 
-//     var projectName = options.name;
+    var project = workspace.projects[projectName];
 
-//     var workspace = getWorkspace(host);
+    var srcRoot = join(project.root as Path, 'src');
 
-//     var project = workspace.projects[projectName];
+    var libRoot = join(srcRoot, 'lib');
 
-//     var srcRoot = join(project.root as Path, 'src');
+    [
+      `${projectName}.component.spec.ts`,
+      `${projectName}.component.ts`,
+      `${projectName}.module.ts`,
+      `${projectName}.service.spec.ts`,
+      `${projectName}.service.ts`
+    ].forEach(filename => {
+      var filePath = join(libRoot, filename);
 
-//     var libRoot = join(srcRoot, 'lib');
+      if (host.exists(filePath)) {
+        host.delete(filePath);
+      }
+    });
+
+    var lcuApi = join(srcRoot, `${options.entryFile}.ts`);
+
+    host.overwrite(lcuApi, '');
+
+    return host;
+  };
+}
 
 function processInitWith(options: any, context: SchematicContext) {
   return (host: Tree) => {
