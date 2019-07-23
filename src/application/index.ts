@@ -40,7 +40,7 @@ export function application(options: any): Rule {
       manageAppAssets(options, context)
     ]);
 
-    // if (!options.skipInstall) context.addTask(new NodePackageInstallTask());
+    if (!options.skipInstall) context.addTask(new NodePackageInstallTask());
 
     return rule(host, context);
   };
