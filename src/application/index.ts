@@ -26,6 +26,28 @@ export function application(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     setupOptions(host, options);
 
+    const rule = chain([
+      externalSchematic('@schematics/angular', 'application', {
+        name: options.name,
+        routing: options.routing,
+        prefix: options.prefix,
+        style: 'scss'
+      }),
+      processInitWith(options, context),
+      options.blockFavicon ? noop() : mergeFiles(options),
+      options.blockDeploy ? noop() : addScripts(options),
+      options.blockDeploy ? noop() : manageDeployAllScript(options),
+      manageAppAssets(options, context)
+    ]);
+
+    // if (!options.skipInstall) context.addTask(new NodePackageInstallTask());
+
+    return rule(host, context);
+  };
+}
+
+export function mergeFiles(options: any) {
+  return (host: Tree) => {
     const workspace = getWorkspace(host);
 
     let project = workspace.projects[options.name];
@@ -40,23 +62,7 @@ export function application(options: any): Rule {
       move(targetPath),
     ]);
 
-    const rule = chain([
-      externalSchematic('@schematics/angular', 'application', {
-        name: options.name,
-        routing: options.routing,
-        prefix: options.prefix,
-        style: 'scss'
-      }),
-      processInitWith(options, context),
-      options.blockFavicon ? noop() : mergeWith(solutionSource, MergeStrategy.Default),
-      options.blockDeploy ? noop() : addScripts(options),
-      options.blockDeploy ? noop() : manageDeployAllScript(options),
-      manageAppAssets(options, context)
-    ]);
-
-    // if (!options.skipInstall) context.addTask(new NodePackageInstallTask());
-
-    return rule(host, context);
+    return mergeWith(solutionSource, MergeStrategy.Default);
   };
 }
 
