@@ -27,6 +27,7 @@
     "@angular/cli": "^8.1.2",
     "@angular/common": "^8.1.2",
     "@angular/core": "^8.1.2",
+    "@angular-devkit/schematics-cli": "^0.801.2",
     "@schematics/angular": "^8.1.2",
     "uninstall": "0.0.0",
     "user-home": "^2.0.0"
