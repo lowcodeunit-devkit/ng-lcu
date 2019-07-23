@@ -31,34 +31,34 @@ export function lcu(options: any): Rule {
     setupOptions(host, options);
 
     const rule = chain([
-      schematic('library', {
-        name: 'common',
-        initWith: 'Blank'
-      }),
-      schematic('application', {
-        name: 'lcu',
-        es5Patch: true,
-        initWith: 'Blank',
-        isDefault: true,
-        routing: false,
-        singleBundle: true,
-        webCompPolys: true
-      }),
-      schematic('application', {
-        name: 'demo',
-        initWith: options.initWith || 'LCU-Core-App'
-      }),
-      externalSchematic('@schematics/angular', 'module', {
-        name: `${options.workspace}`,
-        project: 'common',
-        flat: true
-      }),
-      externalSchematic('@schematics/angular', 'module', {
-        name: `app`,
-        project: 'lcu',
-        flat: true
-      }),
-      updateExport('common', options.workspace, context),
+      // schematic('library', {
+      //   name: 'common',
+      //   initWith: 'Blank'
+      // }),
+      // schematic('application', {
+      //   name: 'lcu',
+      //   es5Patch: true,
+      //   initWith: 'Blank',
+      //   isDefault: true,
+      //   routing: false,
+      //   singleBundle: true,
+      //   webCompPolys: true
+      // }),
+      // schematic('application', {
+      //   name: 'demo',
+      //   initWith: options.initWith || 'LCU-Core-App'
+      // }),
+      // externalSchematic('@schematics/angular', 'module', {
+      //   name: `${options.workspace}`,
+      //   project: 'common',
+      //   flat: true
+      // }),
+      // externalSchematic('@schematics/angular', 'module', {
+      //   name: `app`,
+      //   project: 'lcu',
+      //   flat: true
+      // }),
+      // updateExport('common', options.workspace, context),
       addScripts(options),
       manageBuildScripts(options)
     ]);
