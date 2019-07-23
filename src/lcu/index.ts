@@ -24,6 +24,8 @@ import { Logger } from '@angular-devkit/core/src/logger';
 
 export function lcu(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
+    context.logger.debug('Starting LCU...');
+    
     setupOptions(host, options);
 
     const rule = chain([
