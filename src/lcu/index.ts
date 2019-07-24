@@ -15,7 +15,9 @@ import {
   mergeWith,
   template,
   chain,
-  externalSchematic
+  externalSchematic,
+  schematic,
+  ExecutionOptions
 } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path, join } from '@angular-devkit/core';
@@ -24,14 +26,16 @@ import { Logger } from '@angular-devkit/core/src/logger';
 
 export function lcu(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
+    context.logger.debug('Starting LCU...');
+
     setupOptions(host, options);
 
     const rule = chain([
-      externalSchematic('@lowcodeunit-devkit/ng-lcu', 'library', {
+      schematic('library', {
         name: 'common',
         initWith: 'Blank'
       }),
-      externalSchematic('@lowcodeunit-devkit/ng-lcu', 'application', {
+      schematic('application', {
         name: 'lcu',
         es5Patch: true,
         initWith: 'Blank',
@@ -40,7 +44,7 @@ export function lcu(options: any): Rule {
         singleBundle: true,
         webCompPolys: true
       }),
-      externalSchematic('@lowcodeunit-devkit/ng-lcu', 'application', {
+      schematic('application', {
         name: 'demo',
         initWith: options.initWith || 'LCU-Core-App'
       }),

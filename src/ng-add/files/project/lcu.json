@@ -1,14 +1,14 @@
-{ 
-    "templates": {
-        "repository": "<%= repository %>",
-        "scope": "<%= scope %>",
-        "workspace": "<%= workspace %>"
-    },
-    "config": {
-      "wc": ["wc/<%= workspace %>.lcu.js"],
-      "solutions": {},
-      "elements": {},
-      "flux": {},
-      "dependencies": {}
-    }
+{
+  "templates": {
+    "repository": "<%= repository %>",
+    "scope": "<%= scope %>",
+    "workspace": "<%= workspace %>"
+  },
+  "config": {
+    "wc": ["wc/<%= workspace %>.lcu.js"],
+    "solutions": {},
+    "elements": {},
+    "flux": {},
+    "dependencies": {}
+  }
 }

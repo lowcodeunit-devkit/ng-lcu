@@ -15,7 +15,8 @@ import {
   mergeWith,
   template,
   chain,
-  externalSchematic
+  externalSchematic,
+  schematic
 } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path, join } from '@angular-devkit/core';
@@ -27,11 +28,11 @@ export function forge(options: any): Rule {
     setupOptions(host, options);
 
     const rule = chain([
-      externalSchematic('@lowcodeunit-devkit/ng-lcu', 'library', {
+      schematic('library', {
         name: 'common',
         initWith: 'Blank'
       }),
-      externalSchematic('@lowcodeunit-devkit/ng-lcu', 'application', {
+      schematic('application', {
         name: options.name,
         initWith: 'Default'
       }),

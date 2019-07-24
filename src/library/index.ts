@@ -16,7 +16,8 @@ import {
   template,
   chain,
   externalSchematic,
-  branchAndMerge
+  branchAndMerge,
+  schematic
 } from '@angular-devkit/schematics';
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path, join } from '@angular-devkit/core';
@@ -120,8 +121,6 @@ export function updatePackageJsonName(context: SchematicContext, options: any) {
 
         packageJson.name = `${options.scope}/${options.workspace}${variant}`;
 
-        context.logger.info(`Updating packageJson with name: ${packageJson.name}`);
-
         host.overwrite(packageFilePath, JSON.stringify(packageJson, null, '\t'));
 
       } else {
@@ -210,7 +209,7 @@ function processInitWith(options: any, context: SchematicContext) {
       case 'LCU':
         rule = chain([
           blankOutLibrary(options, context),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'lcu-core-app', {
+          schematic('lcu-core-app', {
             name: options.name,
             project: options.name
           })
@@ -220,7 +219,7 @@ function processInitWith(options: any, context: SchematicContext) {
       case 'Solution':
         rule = chain([
           blankOutLibrary(options, context),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'solution', {
+          schematic('solution', {
             name: options.name,
             project: options.name
           })
@@ -230,7 +229,7 @@ function processInitWith(options: any, context: SchematicContext) {
       case 'Element':
         rule = chain([
           blankOutLibrary(options, context),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
+          schematic('element', {
             name: options.name,
             project: options.name
           })
@@ -240,12 +239,12 @@ function processInitWith(options: any, context: SchematicContext) {
       case 'SPE':
         rule = chain([
           blankOutLibrary(options, context),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'element', {
+          schematic('element', {
             name: options.name,
             path: 'lib/elements',
             project: options.name
           }),
-          externalSchematic('@lowcodeunit-devkit/ng-lcu', 'solution', {
+          schematic('solution', {
             name: options.name,
             path: 'lib/solutions',
             project: options.name
@@ -255,6 +254,7 @@ function processInitWith(options: any, context: SchematicContext) {
     }
 
     context.logger.info(`Processing Initialized for ${options.initWith}!`);
+    context.logger.info(`lcu-core-app Getting some more options ${options}...`);
 
     return rule;
   };

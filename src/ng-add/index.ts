@@ -9,7 +9,7 @@ import { addScriptsToPackageFile, adjustValueInPackageFile } from '../utils/help
 export function ngAdd(options: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     options.repository = options.repository || options.repo;
-
+    
     const templateSource = apply(url('./files/project'), [
       template({
         ...strings,
