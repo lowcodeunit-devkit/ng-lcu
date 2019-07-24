@@ -1,6 +1,6 @@
 {
-  "name": "ng-lcu",
-  "version": "0.0.0",
+  "name": "@lowcodeunit-devkit/ng-lcu",
+  "version": "0.0.183",
   "description": "A blank schematics",
   "scripts": {
     "deploy": "npm version patch && npm run build && npm run deploy:lib",
@@ -12,7 +12,7 @@
     "schematics"
   ],
   "author": "",
-  "license": "MIT",
+  "license": "Apache",
   "schematics": "./src/collection.json",
   "dependencies": {
     "@angular-devkit/core": "^8.1.2",
