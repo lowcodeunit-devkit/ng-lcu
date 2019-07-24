@@ -2,6 +2,8 @@
   "name": "@tester/tester",
   "version": "0.0.1",
   "scripts": {
+    "deploy": "npm version patch && npm run deploy:all",
+    "deploy:all": "",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -19,7 +21,7 @@
     "@angular/platform-browser": "~8.1.2",
     "@angular/platform-browser-dynamic": "~8.1.2",
     "@angular/router": "~8.1.2",
-    "@lowcodeunit-devkit/ng-lcu": "^0.37.217-integration",
+    "@lowcodeunit-devkit/ng-lcu": "^0.37.219-integration",
     "rxjs": "~6.4.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
