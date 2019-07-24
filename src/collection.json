@@ -1,61 +1,9 @@
 {
   "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
-    "ng-add": {
-      "description": "The default schematic to use when ng-lcu is added to an Angular project.",
-      "factory": "./ng-add/index#ngAdd"
-    },
-    "application": {
-      "description": "The Schematic used to initialize a new LCU Application.",
-      "factory": "./application/index#application",
-      "aliases": [
-        "app"
-      ]
-    },
-    "library": {
-      "description": "The Schematic used to initialize a new LCU Library.",
-      "factory": "./library/index#library",
-      "aliases": [
-        "lib"
-      ]
-    },
-    "element": {
-      "description": "Schematic for creating a new LCU Page Element.",
-      "factory": "./element/index#element",
-      "aliases": [
-        "el"
-      ]
-    },
-    "solution": {
-      "description": "Schematic for creating a new LCU Solution.",
-      "factory": "./solution/index#solution",
-      "aliases": [
-        "sln"
-      ]
-    },
-    "forge": {
-      "description": "Schematic for seeding a forge application.",
-      "factory": "./forge/index#forge"
-    },
-    "lcu": {
-      "description": "Schematic for seeding an LCU.",
-      "factory": "./lcu/index#lcu"
-    },
-    "lcu-core-app": {
-      "description": "Schematics for seeding LCU Core App.",
-      "factory": "./lcu-core-app/index#lcuCoreApp"
-    },
-    "lcu-form": {
-      "description": "Schematics for seeding an LCU form.",
-      "factory": "./lcu-form/index#lcuForm"
-    },
-    "momentum": {
-      "description": "Schematics for seeding Momentum App.",
-      "factory": "./momentum/index#momentumApp"
-    },
-    "blah": {
+    "ng-lcu": {
       "description": "A blank schematic.",
-      "factory": "./blah/index#blah"
+      "factory": "./ng-add/index#ngAdd"
     }
   }
 }

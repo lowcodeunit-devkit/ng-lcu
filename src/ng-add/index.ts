@@ -1,6 +1,5 @@
-import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template, chain } from '@angular-devkit/schematics';
-import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import { normalize, strings, Path } from '@angular-devkit/core';
+import { Rule, SchematicContext, Tree, apply, url, move, MergeStrategy, mergeWith, template, chain } from '@angular-devkit/schematics';
+import { strings } from '@angular-devkit/core';
 import { addScriptsToPackageFile, adjustValueInPackageFile } from '../utils/helpers';
 
 
