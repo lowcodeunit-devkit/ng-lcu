@@ -4,7 +4,7 @@ import {
   apply, branchAndMerge, mergeWith, template, url,
 } from '@angular-devkit/schematics';
  
-export default function (options: any): Rule {
+export function lcuCoreApp(options: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     if (!options.name) {
       throw new SchematicsException('Option (name) is required.');
