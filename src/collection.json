@@ -1,13 +1,9 @@
 {
   "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
-    "ng-add": {
-      "description": "Initial add schematic.",
-      "factory": "./ng-add/index#ngAdd"
-    },
-    "lcu-core-app": {
-      "description": "The schematic for the default LCU App.",
-      "factory": "./lcu-core-app/index#lcuCoreApp"
+    "hello": {
+      "description": "A blank schematic.",
+      "factory": "./hello/index#hello"
     }
   }
 }
