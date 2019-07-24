@@ -1,4 +1,3 @@
-import { getWorkspace } from "@schematics/angular/utility/config";
 import { SchematicsException, Tree } from "@angular-devkit/schematics";
 import {
     JsonAstArray,
