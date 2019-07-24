@@ -7,15 +7,12 @@ import {
     JsonValue,
     parseJsonAst,
     JsonParseMode,
-    strings,
     join,
     Path
 } from "@angular-devkit/core";
 import { UpdateRecorder } from "@angular-devkit/schematics";
 
 const pkgJsonPath = "/package.json";
-const angularJsonPath = "/angular.json";
-const configJsonPath = "/../../.rocket-rc.json";
 
 export enum NodeDependencyType {
     Default = "dependencies",
