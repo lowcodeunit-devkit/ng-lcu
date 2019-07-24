@@ -4,6 +4,10 @@
     "hello": {
       "description": "A blank schematic.",
       "factory": "./hello/index#hello"
+    },
+    "ng-add": {
+      "description": "A blank schematic.",
+      "factory": "./ng-add/index#ngAdd"
     }
   }
 }
