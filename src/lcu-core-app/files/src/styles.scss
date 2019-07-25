@@ -1,0 +1,136 @@
+@import '../../../node_modules/@angular/material/prebuilt-themes/pink-bluegrey';
+@import '../../../node_modules/@lcu-ide/common/assets/styles/fathym-global.styles';
+@import '../../../node_modules/@lcu-ide/common/assets/styles/branding/fathym-branding';
+@import '../../../node_modules/@lcu-ide/common/assets/theming/fathym-default-theme';
+
+@import '../src/app/controls/flex-layout/flex-layout.component.scss';
+@import './assets/themes/fathym-themes.scss';
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap');
+.font-test {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+// .primary-logo {
+//   background-image: url($fathym-white-logo);
+// }
+
+.foreground-color {
+ color: mat-color($primary) !important;
+}
+
+@mixin set-theme($theme) {
+  @include custom-theme($theme);
+  @include component-themes($theme);
+}
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  filter: alpha(opacity=$opacity); /* For IE8 and earlier */
+}
+
+@mixin mat-icon-size($size: 24px) {
+  font-size: $size;
+  height: $size;
+  width: $size;
+}
+
+// for updating components with themes
+@mixin component-themes($theme) {
+  @include flex-layout-component-theme($theme);
+  // @include user-list-component-theme($theme);
+  // @include side-nav-component-theme($theme);
+}
+
+  .app-background {
+    display: flex;
+    flex-direction: column;
+    min-height: -webkit-fill-available;
+    min-width: 300px;
+    max-height: -webkit-fill-available;
+  }
+
+   .arctic-theme {
+    @include set-theme($arctic-theme);
+    .primary-logo {
+      background-image: url($fathym-full-ice-logo);
+      // @include primary-logo($fathym-full-ice-logo, 150px);
+    }
+   }
+
+   .contrast-theme {
+    @include set-theme($contrast-theme);
+    .primary-logo {
+		  background-image: url($fathym-full-contrast-logo);
+    }
+   }
+
+   .cool-candy-theme {
+    @include set-theme($cool-candy-theme);
+    .primary-logo {
+		  background-image: url($fathym-full-arctic-logo);
+    }
+   }
+
+   .flipper-theme {
+    @include set-theme($flipper-theme);
+    .primary-logo {
+		  background-image: url($fathym-full-ice-logo);
+    }
+   }
+
+   .ice-theme {
+    @include set-theme($ice-theme);
+    .primary-logo {
+		  background-image: url($fathym-full-flipper-logo);
+    }
+   }
+
+   .sea-green-theme {
+    @include set-theme($sea-green-theme);
+    .primary-logo {
+		  background-image: url($fathym-full-cool-candy-logo);
+    }
+   }
+
+   .white-mint-theme {
+    @include set-theme($white-mint-theme);
+    .primary-logo {
+		  background-image: url($fathym-full-flipper-logo);
+    }
+   }
+
+  .disabled {
+    @include opacity(.5);
+   }
+
+  .bg-image {
+    z-index: -100;
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 1024px;
+      
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+      
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    @include opacity(.35);
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  
+  @media screen and (max-width: 1024px) { /* Specific to this particular image */
+    .bg-image {
+      left: 50%;
+      margin-left: -512px;   /* 50% */
+    }
+
+    
+  }

@@ -1,0 +1,8 @@
+$primary: mat-palette($fathym-arctic-primary);
+$accent: mat-palette($fathym-arctic-accent);
+// $warn: mat-palette($mat-deep-orange, 200);
+
+$arctic-theme: mat-light-theme(
+    $primary,
+    $accent
+    );

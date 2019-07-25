@@ -10,11 +10,11 @@ jsconfig.json
 
 # Misc
 node_modules/
+dist/
 npm-debug.log*
 yarn-error.log*
+test/
 
 # Mac OSX Finder files.
 **/.DS_Store
 .DS_Store
-test/
-tester/

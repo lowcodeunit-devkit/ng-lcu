@@ -1,0 +1,50 @@
+
+    <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav 
+          #drawer 
+          class="sidenav" 
+          fixedInViewport="false"
+          [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" 
+          [mode]="(isHandset$ | async) ? 'over' : 'side'"
+          [opened]="!(isHandset$ | async)">
+          <lcu-nav-list [nav-links]="NavLinks"></lcu-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content>
+          
+            <mat-toolbar color="primary" fxLayout="row">
+              <div fxFlex="20" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
+                  <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+                </button>
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+                  <div class="logo">
+                    <img *ngIf="LogoURL" [src]="LogoURL" alt="{{LogoAlt}}">
+                    <div *ngIf="LogoClass" [ngClass]="LogoClass"></div>
+                  </div>
+                  <!-- <div class="name mat-display-1">Fathym</div> -->
+                </div>
+               
+              </div>
+                <div fxLayout="row" fxFlex="75%" fxLayoutGap="20px" fxLayoutAlign="end center">
+                    
+                  <form fxLayout="column" [formGroup]="Form" novalidate>
+                    <mat-form-field>
+                      <mat-select formControlName="themesControl" (valueChange)="SelectTheme($event)">
+                          <mat-option *ngFor="let theme of Themes" [value]="theme.Value">
+                            <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+                                <span>{{theme.Label}}</span>
+                            </div>
+                            </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </form>
+                  <lcu-logged-in-user></lcu-logged-in-user>
+                  <!-- <lcu-users-list [users]="Users"></lcu-users-list> -->
+                </div>
+            </mat-toolbar>
+       
+          <!-- Content is injected here -->
+          <ng-content></ng-content>
+        </mat-sidenav-content>
+      </mat-sidenav-container>
+     
