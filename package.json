@@ -30,6 +30,7 @@
     "@angular/common": "^8.1.2",
     "@angular/core": "^8.1.2",
     "@schematics/angular": "^8.1.2",
+    "ng-momentum": "0.0.24",
     "uninstall": "0.0.0",
     "user-home": "^2.0.0"
   }
