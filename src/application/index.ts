@@ -63,7 +63,8 @@ export function mergeFiles(options: any) {
       move(targetPath),
     ]);
 
-    return mergeWith(solutionSource, MergeStrategy.Default);
+    return mergeWith(solutionSource, MergeStrategy.Overwrite);
+    //return mergeWith(solutionSource, MergeStrategy.Default);
   };
 }
 
@@ -276,6 +277,8 @@ function processInitWith(options: any, context: SchematicContext) {
         case 'Momentum':
           rule = chain([        
             schematic('momentum', {
+              name: options.name,
+              project: options.name
             })
           ]);
           break;

@@ -9,13 +9,14 @@ export function momentumApp(options: any): Rule {
     setupOptions(host, options);
 
     const workspace = getWorkspace(host);
-    
+
     var project = workspace.projects[options.project];
 
     return chain([
-       externalSchematic('ng-momentum', 'ng-add', {
-       }),
-      externalSchematic('ng-momentum', 'scaffold', {
+      externalSchematic('ng-momentum', 'ng-add', {
+        project: options.project
+      }),
+       externalSchematic('ng-momentum', 'scaffold', {
         project: project,
         spec: false,
         force: true,
