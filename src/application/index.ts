@@ -26,7 +26,7 @@ import { Logger } from '@angular-devkit/core/src/logger';
 export function application(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     setupOptions(host, options);
-
+    context.logger.info("Look Here in Application!");
     const rule = chain([
       externalSchematic('@schematics/angular', 'application', {
         name: options.name,
