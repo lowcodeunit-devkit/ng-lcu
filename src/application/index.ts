@@ -26,7 +26,7 @@ import { Logger } from '@angular-devkit/core/src/logger';
 export function application(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     setupOptions(host, options);
-    context.logger.info("Look Here in Application!");
+
     const rule = chain([
       externalSchematic('@schematics/angular', 'application', {
         name: options.name,
@@ -246,7 +246,7 @@ function blankOutLibrary(options: any, context: SchematicContext, exceptModule: 
 function processInitWith(options: any, context: SchematicContext) {
   return (host: Tree) => {
     context.logger.info(`Processing Initialization for ${options.initWith}...`);
-
+    context.logger.info("Look Here in Application!");
     let rule: Rule = noop();
 
     switch (options.initWith) {
