@@ -11,7 +11,7 @@ export function momentumApp(options: any): Rule {
     const workspace = getWorkspace(host);
 
     var project = workspace.projects[options.project];
-
+    context.logger.info("Look Here!");
     return chain([
       externalSchematic('ng-momentum', 'ng-add', {
         project: options.project
