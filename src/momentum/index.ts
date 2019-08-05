@@ -15,8 +15,6 @@ export function momentumApp(options: any): Rule {
     return chain([
        externalSchematic('ng-momentum', 'scaffold', {
         project: options.project,
-        spec: false,
-        force: true,
       })
     ]);
   };
