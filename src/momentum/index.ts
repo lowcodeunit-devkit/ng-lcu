@@ -12,6 +12,8 @@ export function momentumApp(options: any): Rule {
 
     var project = workspace.projects[options.project];
 
+    context.logger.info("PROJECT: ${options.project}...");
+
     context.logger.info("Look Here!");
     return chain([
       externalSchematic('ng-momentum', 'scaffold', { 
