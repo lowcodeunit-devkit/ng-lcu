@@ -14,9 +14,7 @@ export function momentumApp(options: any): Rule {
 
     context.logger.info("Look Here!");
     return chain([
-      externalSchematic('ng-momentum', 'ng-add', {
-       package: 'ng-momentum', 
-       project: options.project,
+      externalSchematic('ng-momentum', 'scaffold', { 
      })
     ]);
   };
