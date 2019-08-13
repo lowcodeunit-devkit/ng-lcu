@@ -12,14 +12,16 @@ export function momentumApp(options: any): Rule {
 
     var project = workspace.projects[options.project];
 
+    const targetPath = normalize(project.root + '/src/');
+
     context.logger.info(`PROJECT: ${options.project}...`);
 
-    context.logger.info(`PATH: ${options.path}...`);
+    context.logger.info(`ROOT: ${project.root}...`);
 
     return chain([
       externalSchematic('ng-momentum', 'scaffold', { 
         project: options.project,
-        path: options.path
+        path: project.root
      })
     ]);
   };
