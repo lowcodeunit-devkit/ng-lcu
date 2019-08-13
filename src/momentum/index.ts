@@ -14,13 +14,12 @@ export function momentumApp(options: any): Rule {
 
     context.logger.info(`PROJECT: ${options.project}...`);
 
-    context.logger.info("Look Here!");
+    context.logger.info(`PATH: ${options.path}...`);
+
     return chain([
-       externalSchematic('ng-momentum', 'ng-add', { 
-         project: options.project,
-      }),
       externalSchematic('ng-momentum', 'scaffold', { 
         project: options.project,
+        path: options.path
      })
     ]);
   };
