@@ -18,12 +18,14 @@ export function momentumApp(options: any): Rule {
 
     context.logger.info(`ROOT: ${project.root}...`);
 
-    return chain([
+    const rule = chain([
       externalSchematic('ng-momentum', 'scaffold', { 
-        project: options.project,
-        path: project.root
-     })
+        project: project.root,
+        path: project.root,
+        
+     }),
     ]);
+    return rule(host, context);
   };
 }
 
