@@ -9,23 +9,21 @@ export function momentumApp(options: any): Rule {
     setupOptions(host, options);
 
     const workspace = getWorkspace(host);
+    
+    options.project = 'application';
 
     var project = workspace.projects[options.project];
+    context.logger.info(`MOMENTUM OPTIONS: ${JSON.stringify(options)}...`);
 
-    const targetPath = normalize(project.root + '/src/');
-
-    context.logger.info(`PROJECT: ${options.project}...`);
-
-    context.logger.info(`ROOT: ${project.root}...`);
-
-    const rule = chain([
-      externalSchematic('ng-momentum', 'scaffold', { 
-        project: project.root,
-        path: project.root,
-        
-     }),
+    return chain([
+      externalSchematic('ng-momentum', 'ng-add', {
+        // project: options.project
+      }),
+      externalSchematic('ng-momentum', 'scaffold', {
+        spec: false,
+        force: true
+      })
     ]);
-    return rule(host, context);
   };
 }
 

@@ -1,0 +1,179 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+    <strong class="mat-display-2 title margin-bottom-2">{{PageTitle}}</strong>
+  </div>
+  <mat-card class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image">
+          <mat-icon color="primary" class="title-icon">{{ TitleIcon }}</mat-icon>
+        </div>
+        <mat-card-title class="paragraph-title">{{ Title }}</mat-card-title>
+        <mat-card-subtitle class="plain-text">{{ SubTitle }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+
+      <form
+        fxLayout="column"
+        fxLayoutGap="10px"
+        [formGroup]="Form"
+        novalidate>
+
+        <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <mat-icon color="primary">face</mat-icon>
+            <mat-form-field fxFlex>
+              <input formControlName="firstNameControl" matInput placeholder="First Name" required>
+              <mat-error *ngIf="FirstNameControl.hasError('required')">
+                A value is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+              <mat-icon color="primary">face</mat-icon>
+              <mat-form-field fxFlex>
+                <input formControlName="lastNameControl" matInput placeholder="Last Name" required>
+                <mat-error *ngIf="LastNameControl.hasError('required')">
+                  A value is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+        </div>
+
+        <!--First / Last Names-->
+
+        <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+              <mat-icon color="primary">face</mat-icon>
+              <mat-form-field fxFlex>
+                <input formControlName="usernameControl" matInput placeholder="Username" required>
+                <mat-error *ngFor="let validation of VMUsername">
+                    <mat-error *ngIf="UsernameControl && (UsernameControl.hasError(validation.Type))">
+                      <mat-error *ngIf="validation.Type === 'pattern'">
+                          {{validation.Message}}
+                      </mat-error>
+                    </mat-error>
+                </mat-error>
+              </mat-form-field>
+            </div>
+  
+            <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <mat-icon color="primary">email</mat-icon>
+                <mat-form-field fxFlex>
+                  <input formControlName="emailControl" matInput placeholder="Email" required autocomplete="email">
+                    <mat-error *ngFor="let validation of VMEmail">
+                      <mat-error *ngIf="EmailControl.hasError(validation.Type) && EmailControl.dirty || EmailControl.touched">
+                        <mat-error *ngIf="validation.Type === 'pattern'">
+                          {{validation.Message}}
+                        </mat-error>
+                      </mat-error>
+                    </mat-error>
+                </mat-form-field>
+              </div>
+          </div>
+          
+          <!--Username / Email-->
+
+          <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+              <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <mat-icon color="primary">lock</mat-icon>
+                <mat-form-field fxFlex>
+                  <input formControlName="passwordControl" matInput placeholder="Password" [type]="HidePassword ? 'password' : 'text'" required autocomplete="new-password">
+                  <mat-icon color="primary" matSuffix (click)="HidePassword = !HidePassword" class="cursor-pointer">{{HidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  <mat-error *ngFor="let validation of VMPassword">
+                      <mat-error *ngIf="PasswordControl.hasError(validation.Type) && PasswordControl.dirty || PasswordControl.touched">
+                        <mat-error *ngIf="validation.Type === 'pattern'">
+                            {{validation.Message}}
+                        </mat-error>
+                      </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+    
+              <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+                  <mat-icon color="primary">lock</mat-icon>
+                  <mat-form-field fxFlex>
+                    <input formControlName="confirmPasswordControl" matInput placeholder="Confirm Password" [type]="HideConfirmPassword ? 'password' : 'text'" required>
+                    <mat-icon color="primary" matSuffix (click)="HideConfirmPassword = !HideConfirmPassword" class="cursor-pointer">{{HideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <mat-error *ngFor="let validation of VMConfirmPassword">
+                      <mat-error *ngIf="ConfirmPasswordControl.hasError(validation.Type) && (ConfirmPasswordControl.dirty || ConfirmPasswordControl.touched)">{{validation.Message}}</mat-error>
+                  </mat-error>
+                  </mat-form-field>
+                </div>
+            </div>
+            
+            <!--password / confirm password-->
+
+            <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+                  <mat-icon color="primary">home</mat-icon>
+                  <mat-form-field fxFlex>
+                    <input formControlName="addressControl" matInput placeholder="Address" required>
+                    <mat-error *ngIf="AddressControl.hasError('required')">
+                      A value is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+      
+                <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+                    <mat-icon color="primary">home</mat-icon>
+                    <mat-form-field fxFlex>
+                      <input matInput placeholder="State" aria-label="State" [matAutocomplete]="auto" formControlName="stateControl" required>
+                      <mat-error *ngIf="StateControl.hasError('required')">
+                        A value is required
+                      </mat-error>
+                      <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let state of StatesFiltered | async" [value]="state.Name">
+                          <span>{{state.Name}}</span>
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+
+                <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+                  <mat-icon color="primary">home</mat-icon>
+                  <mat-form-field fxFlex>
+                    <input formControlName="cityControl" matInput placeholder="City" required>
+                    <mat-error *ngIf="CityControl.hasError('required')">
+                      A value is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                  <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+                      <mat-icon color="primary">home</mat-icon>
+                      <mat-form-field fxFlex>
+                        <input formControlName="zipcodeControl" matInput placeholder="Zipcode" required>
+                        <mat-error *ngFor="let validation of VMZipcode">
+                        <mat-error *ngIf="ZipcodeControl.hasError(validation.Type) && ZipcodeControl.dirty || ZipcodeControl.touched">
+                        <mat-error *ngIf="validation.Type === 'pattern'">
+                          {{validation.Message}}
+                        </mat-error>
+                        </mat-error>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+              </div>
+              
+              <!--address / city / state / zipcode-->
+
+              <div fxLayout="row" fxLayoutAlign="start center">
+                  <mat-slide-toggle color="primary" formControlName="termsControl" required [checked]="TermsChecked"></mat-slide-toggle>
+                  <button mat-button color="primary" (click)="ShowTermsAndConditions()">Agree to terms / conditions</button>
+                </div>
+
+              <div fxFlex fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+                  <div fxFlex>
+                    <button mat-raised-button color="primary" [disabled]="!Form.valid" (click)="Register()">
+                        Register
+                    </button>
+                  </div>
+                  <div fxFlex>
+                      <button mat-raised-button color="warn" [disabled]="!Form.dirty" (click)="ClearForm()">
+                          Clear
+                      </button>
+                    </div>
+              </div>  
+      </form>
+
+      </mat-card-content>
+    </mat-card>

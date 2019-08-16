@@ -1,0 +1,8 @@
+$primary: mat-palette($fathym-flipper-primary);
+$accent: mat-palette($fathym-flipper-accent);
+// $warn: mat-palette($mat-deep-orange, 200);
+
+$flipper-theme: mat-dark-theme(
+    $primary,
+    $accent
+    );

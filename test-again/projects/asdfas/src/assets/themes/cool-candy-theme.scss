@@ -1,0 +1,8 @@
+$primary: mat-palette($fathym-cool-candy-primary);
+$accent: mat-palette($fathym-cool-candy-accent, 800);
+// $warn: mat-palette($mat-deep-orange, 200);
+
+$cool-candy-theme: mat-dark-theme(
+    $primary,
+    $accent
+    );

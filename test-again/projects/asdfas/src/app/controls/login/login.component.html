@@ -1,0 +1,72 @@
+
+<div fxLayout="row" fxLayoutAlign="start center">
+    <strong class="mat-display-2 title margin-bottom-3">{{PageTitle}}</strong>
+  </div>
+  <mat-card class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image">
+          <mat-icon color="primary" class="title-icon">{{ TitleIcon }}</mat-icon>
+        </div>
+        <mat-card-title class="paragraph-title">{{ Title }}</mat-card-title>
+        <mat-card-subtitle class="plain-text">{{ SubTitle }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        
+<div fxFlex fxLayout="row" fxLayoutGap="10px">
+    <form [formGroup]="Form" fxLayout="column" autocomplete="off">
+      <mat-card fxFlex fxLayoutAlign="start" fxLayout="column">
+        <div *ngIf="LoginError?.length > 0" fxLayout="row" fxLayoutAlign="center center">
+          <mat-error>
+            {{ LoginError }}
+          </mat-error>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-icon class="mr-10" color="accent">face</mat-icon>
+          <mat-form-field class="full-width">
+            <input formControlName="usernameControl" matInput placeholder="Username" required>
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-icon class="icon-color" color="accent">lock</mat-icon>
+          <mat-form-field fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+            <input matInput placeholder="Password" formControlName="passwordControl"
+              [type]="HidePassword ? 'password' : 'text'" required>
+            <mat-icon matSuffix (click)="HidePassword = !HidePassword" class="hide-password" color="accent">
+              {{HidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="mt-10" fxLayout="column" fxLayoutAlign="center center">
+          <button mat-raised-button color="primary" class="mat-button-lg full-width" [disabled]="!Form.valid"
+            (click)="SignInHandler()">
+            Sign In
+          </button>
+        </div>
+      </mat-card>
+    </form>
+    <mat-card fxFlex>
+        <mat-list  fxLayout="column" fxLayoutAlign="start center">
+          <mat-list-item *ngFor="let user of Users; last as last">
+            <a mat-button (click)="SetLogin(user)">
+              {{user.FirstName}}  
+              {{user.LastName}}  |  
+              {{user.Username}}  | 
+              {{user.Role.toUpperCase()}}      | 
+              {{user.Password}}
+            </a>
+            <mat-divider *ngIf="!last"></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </mat-card>
+</div>
+  </mat-card-content>
+</mat-card> 
+
+<!-- FirstName: 'Admin',
+        LastName: 'User',
+        Username: 'admin',
+        Role: UserConstants.USER_ROLE_ADMIN,
+        Message: 'Lorem ipsum dolor sit amet.',
+        Icon: 'face',
+        Password: 'password',
+        IsLoggedIn: false -->
