@@ -1,0 +1,14 @@
+{ 
+    "templates": {
+        "repository": "lowcodeunit-devkit/lcu-cli-templates-core",
+        "scope": "@kksdf",
+        "workspace": "asdfwe"
+    },
+    "config": {
+      "wc": ["wc/asdfwe.lcu.js"],
+      "solutions": {},
+      "elements": {},
+      "flux": {},
+      "dependencies": {}
+    }
+}

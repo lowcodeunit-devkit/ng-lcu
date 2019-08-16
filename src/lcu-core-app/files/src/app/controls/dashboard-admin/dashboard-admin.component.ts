@@ -2,13 +2,15 @@ import { UsersService } from './../../services/user.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { UserStateModel } from '../../models/user-state-model';
+import { UsersStateManagerContext } from '../../state/users/user-state-manager.context';
 
 @Component({
   selector: 'lcu-dashboard-admin',
   templateUrl: './dashboard-admin.component.html',
   styleUrls: ['./dashboard-admin.component.scss']
 })
-export class DashboardAdminComponent implements OnDestroy {
+export class DashboardAdminComponent implements OnInit, OnDestroy {
   cols: {[key: string]: string} = {
     firstCol: 'row',
     firstColXs: 'column',
@@ -34,11 +36,20 @@ export class DashboardAdminComponent implements OnDestroy {
    */
   public SubTitle: string;
 
+  /**
+   * User state model
+   */
+  public State: UserStateModel;
+
 
   protected activeMQC: MediaChange[];
   protected subscription: Subscription;
 
-  constructor(protected mediaService: MediaObserver, protected usersService: UsersService) {
+  constructor(
+    protected mediaService: MediaObserver,
+    protected usersService: UsersService,
+    protected userCtxt: UsersStateManagerContext) {
+
     this.subscription = mediaService.asObservable()
       .subscribe((events: MediaChange[]) => {
         this.activeMQC = events;
@@ -47,6 +58,17 @@ export class DashboardAdminComponent implements OnDestroy {
     this.PageTitle = 'Admin Dashboard Area';
     this.TitleIcon = 'accessibility';
     this.SubTitle = 'Your permission level is: ' + this.usersService.CurrentUser.Role;
+  }
+
+  public ngOnInit(): void {
+    // when user state changes
+    // this.userCtxt.Context.subscribe(state => {
+    //   this.State = state;
+
+    //   if (this.State) {
+    //     this.stateChanged();
+    //   }
+    // });
   }
 
   public ngOnDestroy(): void {
@@ -67,6 +89,13 @@ export class DashboardAdminComponent implements OnDestroy {
           break;
       }
     });
+  }
+
+  /**
+   * When state changes
+   */
+  protected stateChanged(): void {
+    // this.SubTitle = 'Your permission level is: ' + this.State.CurrentUser.Role;
   }
 }
 

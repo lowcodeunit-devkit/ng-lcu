@@ -1,0 +1,8 @@
+$primary: mat-palette($fathym-ice-primary);
+$accent: mat-palette($fathym-ice-accent, 800);
+// $warn: mat-palette($mat-deep-orange, 200);
+
+$ice-theme: mat-light-theme(
+    $primary,
+    $accent
+    );

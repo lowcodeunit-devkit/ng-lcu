@@ -1,0 +1,86 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+  <strong class="mat-display-2 title margin-bottom-3" color="primary">{{PageTitle}}</strong>
+</div>
+<div fxLayout="column" fxLayoutGap="10px">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image">
+        <mat-icon color="primary" class="title-icon">{{ TitleIcon }}</mat-icon>
+      </div>
+      <mat-card-title class="paragraph-title">{{ Title }}</mat-card-title>
+      <mat-card-subtitle class="plain-text">{{ SubTitle }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div fxLayout="column" fxLayoutGap="10px">
+        <div fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="center"
+          class="primary-background parent-one padding-2">
+          <div fxFlex="1 1 auto" class="child-one margin-right-1" ngClass.lt-md="margin-bottom-1">One</div>
+          <div fxFlex="5 1 auto" class="child-two margin-right-1" ngClass.lt-md="margin-bottom-1">Two</div>
+          <div fxFlex="1 1 auto" class="child-three margin-right-1" ngClass.lt-md="margin-bottom-1">Three</div>
+          <div fxFlex="1 1 auto" class="child-four" ngClass.lt-md="margin-right-1">Four</div>
+        </div>
+
+        <div fxLayout.lg="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="center"
+          class="primary-background parent-two padding-2">
+          <div fxFlex="1 1 auto" class="child-one margin-right-1" ngClass.lt-md="margin-bottom-1">One</div>
+          <div fxFlex="5 1 auto" class="child-two margin-right-1" ngClass.lt-md="margin-bottom-1">Two</div>
+          <div fxFlex="1 1 auto" class="child-three margin-right-1" ngClass.lt-md="margin-bottom-1">Three</div>
+          <div fxFlex="1 1 auto" class="child-four" ngClass.lt-md="margin-right-1">Four</div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image">
+        <mat-icon color="primary" class="title-icon">{{ TitleIconTwo }}</mat-icon>
+      </div>
+      <mat-card-title class="paragraph-title">{{ TitleTwo }}</mat-card-title>
+      <mat-card-subtitle class="plain-text">{{ SubTitleTwo }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div fxLayout="column" class="holy-grail padding-1">
+        <header class="margin-bottom-1">header</header>
+        <!-- fxFlexOrder fxFlexOrder.xs="3" -->
+        <div fxLayout="row" fxLayout.xs="column">
+          <nav class="margin-bottom-1" ngClass.gt-xs="margin-right-1" fxFlex="1 6 20%">nav</nav>
+          <article class="margin-bottom-1" ngClass.gt-xs="margin-right-1" fxFlex="3 1 60%">article</article>
+          <aside class="margin-bottom-1" fxFlex="1 6 20%">aside</aside>
+        </div>
+        <footer>footer</footer>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="card-demo mat-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image">
+        <mat-icon color="primary" class="title-icon">{{ TitleIconThree }}</mat-icon>
+      </div>
+      <mat-card-title class="paragraph-title">{{ TitleThree }}</mat-card-title>
+      <mat-card-subtitle class="plain-text">{{ SubTitleThree }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="containerX mat-card-content">
+      <div class="colorNested" style="height: auto;">
+        <div gdcolumns="repeat(auto-fill, minmax(200px, 1fr))" gdgap="10px"
+          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px 10px;">
+          <div class="box" gdcolumn="auto / span 2" style="grid-column: auto / span 2;">A</div>
+          <div class="box">B</div>
+          <div class="box">C</div>
+          <div class="box">D</div>
+          <div class="box">E</div>
+          <div class="box">F</div>
+          <div class="box" gdcolumn="auto / span 2" gdrow="auto / span 2"
+            style="grid-area: auto / auto / span 2 / span 2;">G</div>
+          <div class="box">H</div>
+          <div class="box">I</div>
+          <div class="box">J</div>
+          <div class="box" gdcolumn="auto / span 3" style="grid-column: auto / span 3;">K</div>
+          <div class="box">L</div>
+          <div class="box">M</div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

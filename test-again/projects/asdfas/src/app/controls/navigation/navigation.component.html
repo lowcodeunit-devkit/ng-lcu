@@ -1,0 +1,16 @@
+<mat-toolbar color="primary"  fxLayout="row">
+  <div fxFlex="20" fxLayoutAlign="start center">
+    <img [src]="LogoURL" alt="{{LogoAlt}}">
+  </div>
+  <div fxLayout="row" fxFlex fxLayoutGap="20px" fxLayoutAlign="end center">
+    <mat-icon class="example-icon" aria-hidden="false" aria-label="Example heart icon">favorite</mat-icon>
+    <mat-icon class="example-icon" aria-hidden="false" aria-label="Example delete icon">delete</mat-icon>
+    <button mat-icon-button [mat-menu-trigger-for]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu x-position="before" #menu="matMenu">
+        <button mat-menu-item>Option 1</button>
+        <button mat-menu-item>Option 2</button>
+      </mat-menu>
+  </div>
+</mat-toolbar>

@@ -1,0 +1,116 @@
+@import '~@angular/material/theming';
+
+@mixin flex-layout-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent:  map-get($theme, accent);
+  $warn:  map-get($theme, warn);
+
+    .parent-one {
+        height: 100px;
+        max-width: 600px;
+        @include background-color(mat-color($primary, 700));
+    }
+
+    .parent-two {
+        height: 100px;
+        @include background-color(mat-color($primary, 700));
+    }
+
+    .child-one {
+        @include background-color(mat-color($accent));
+    }
+
+    .child-two {
+        @include background-color(mat-color($accent, 900));
+    }
+
+    .child-three {
+        @include background-color(mat-color($accent, 700));
+    }
+
+    .child-four {
+        @include background-color(mat-color($accent, A700));
+    }
+
+    .holy-grail {
+        @include background-color(mat-color($primary, 700));
+        header {
+            @extend .child-one;
+        }
+
+        aside {
+            @extend .child-two;
+            height: 300px;
+        }
+
+        article {
+            height: 300px;
+            @extend .child-three;
+        }
+
+        nav {
+            height: 300px;
+            @extend .child-four;
+        }
+
+        footer {
+            @extend .child-one;
+        }
+    }
+
+     /**
+  * Styles for grid
+  */
+
+  
+div.colorNested>div>div, div.coloredContainerX>div {
+	padding: 8px;
+	box-shadow: 0 2px 5px 0 rgba(52,47,51,.63);
+	opacity: .9;
+	color: #fff;
+	text-align: center;
+}
+div.box1, div.colorNested>div>div:nth-child(10n+1), div.coloredContainerX>div:nth-child(10n+1) {
+    @include background-color(mat-color($primary));
+}
+div.box2, div.colorNested>div>div:nth-child(10n+2), div.coloredContainerX>div:nth-child(10n+2) {
+    @include background-color(mat-color($primary, 100));
+}
+div.box3, div.colorNested>div>div:nth-child(10n+3), div.coloredChildren>div:nth-child(10n+3), div.coloredContainerX>div:nth-child(10n+3) {
+    @include background-color(mat-color($primary, A100));
+}
+div.colorNested>div>div:nth-child(10n+4), div.coloredChildren>div:nth-child(10n+4), div.coloredContainerX>div:nth-child(10n+4) {
+    @include background-color(mat-color($primary, 300));
+}
+div.colorNested>div>div:nth-child(10n+5), div.coloredChildren>div:nth-child(10n+5), div.coloredContainerX>div:nth-child(10n+5) {
+    @include background-color(mat-color($primary, 400));
+}
+div.colorNested>div>div:nth-child(10n+6), div.coloredChildren>div:nth-child(10n+6), div.coloredContainerX>div:nth-child(10n+6) {
+    @include background-color(mat-color($primary, A200));
+}
+div.colorNested>div>div:nth-child(10n+7), div.coloredChildren>div:nth-child(10n+7), div.coloredContainerX>div:nth-child(10n+7) {
+    @include background-color(mat-color($primary, 800));
+}
+div.colorNested>div>div:nth-child(10n+8), div.coloredChildren>div:nth-child(10n+8), div.coloredContainerX>div:nth-child(10n+8) {
+    @include background-color(mat-color($primary, 900));
+}
+div.colorNested>div>div:nth-child(10n+9), div.coloredChildren>div:nth-child(10n+9), div.coloredContainerX>div:nth-child(10n+9) {
+    @include background-color(mat-color($primary, A400));
+}
+div.colorNested>div>div:nth-child(10n), div.coloredChildren>div:nth-child(10n), div.coloredContainerX>div:nth-child(10n) {
+    @include background-color(mat-color($primary, 700));
+}
+
+}
+
+@mixin background-color($color) {
+    background-color: $color;
+  }
+
+ 
+
+
+
+  
+
+  

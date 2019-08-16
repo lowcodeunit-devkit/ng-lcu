@@ -25,6 +25,7 @@ import { DashboardComponent } from './controls/dashboard/dashboard.component';
 import { LoggedInUserComponent } from './controls/logged-in-user/logged-in-user.component';
 import { DashboardAdminComponent } from './controls/dashboard-admin/dashboard-admin.component';
 import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashboard-non-admin.component';
+import { UserHasRoleDirective } from './directives/user-has-role.directive';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashb
     DashboardComponent,
     LoggedInUserComponent,
     DashboardAdminComponent,
-    DashboardNonAdminComponent
+    DashboardNonAdminComponent,
+    UserHasRoleDirective
   ],
   imports: [
     BrowserAnimationsModule,
@@ -106,7 +108,8 @@ import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashb
     DashboardComponent,
     LoggedInUserComponent,
     DashboardAdminComponent,
-    DashboardNonAdminComponent],
+    DashboardNonAdminComponent,
+    UserHasRoleDirective],
   entryComponents: [LoginComponent, DashboardComponent, LoggedInUserComponent, DashboardAdminComponent, DashboardNonAdminComponent]
 })
 export class AppModule { }

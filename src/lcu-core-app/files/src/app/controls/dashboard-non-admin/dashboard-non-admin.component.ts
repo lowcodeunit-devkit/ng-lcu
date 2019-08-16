@@ -2,13 +2,15 @@ import { UsersService } from './../../services/user.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {MediaChange, MediaObserver} from '@angular/flex-layout';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { UserStateModel } from '../../models/user-state-model';
+import { UsersStateManagerContext } from '../../state/users/user-state-manager.context';
 
 @Component({
   selector: 'lcu-dashboard-non-admin',
   templateUrl: './dashboard-non-admin.component.html',
   styleUrls: ['./dashboard-non-admin.component.scss']
 })
-export class DashboardNonAdminComponent implements OnDestroy {
+export class DashboardNonAdminComponent implements OnInit, OnDestroy {
   cols: {[key: string]: string} = {
     firstCol: 'row',
     firstColXs: 'column',
@@ -25,20 +27,28 @@ export class DashboardNonAdminComponent implements OnDestroy {
   public PageTitle: string;
 
   /**
-   * propery for form title icon
+   * User state model
    */
-  public TitleIcon: string;
+  public State: UserStateModel;
 
   /**
    * propery for form subtitle
    */
   public SubTitle: string;
 
+  /**
+   * propery for form title icon
+   */
+  public TitleIcon: string;
 
   protected activeMQC: MediaChange[];
   protected subscription: Subscription;
 
-  constructor(protected mediaService: MediaObserver, protected usersService: UsersService) {
+  constructor(
+    protected mediaService: MediaObserver,
+    protected usersService: UsersService,
+    protected userCtxt: UsersStateManagerContext) {
+
     this.subscription = mediaService.asObservable()
       .subscribe((events: MediaChange[]) => {
         this.activeMQC = events;
@@ -47,6 +57,17 @@ export class DashboardNonAdminComponent implements OnDestroy {
     this.PageTitle = 'User Dashboard Area';
     this.TitleIcon = 'lock';
     this.SubTitle = 'Your permission level is: ' + this.usersService.CurrentUser.Role;
+  }
+
+  public ngOnInit(): void {
+    // when user state changes
+    // this.userCtxt.Context.subscribe(state => {
+    //   this.State = state;
+
+    //   if (this.State) {
+    //     this.stateChanged();
+    //   }
+    // });
   }
 
   public ngOnDestroy(): void {
@@ -67,5 +88,12 @@ export class DashboardNonAdminComponent implements OnDestroy {
           break;
       }
     });
+  }
+
+  /**
+   * when state changes
+   */
+  protected stateChanged(): void {
+    // this.SubTitle = 'Your permission level is: ' + this.State.CurrentUser.Role;
   }
 }
