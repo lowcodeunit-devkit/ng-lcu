@@ -1,0 +1,8 @@
+$primary: mat-palette($fathym-white-mint-primary);
+$accent: mat-palette($fathym-white-mint-accent, 800);
+// $warn: mat-palette($mat-deep-orange, 200);
+
+$white-mint-theme: mat-light-theme(
+    $primary,
+    $accent
+    );

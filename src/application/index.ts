@@ -26,7 +26,7 @@ import { Logger } from '@angular-devkit/core/src/logger';
 export function application(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     setupOptions(host, options);
-
+    context.logger.info(`APPLICATON OPTIONS: ${options.name}...`);
     const rule = chain([
       externalSchematic('@schematics/angular', 'application', {
         name: options.name,
@@ -50,7 +50,7 @@ export function application(options: any): Rule {
 export function mergeFiles(options: any) {
   return (host: Tree) => {
     const workspace = getWorkspace(host);
-
+    
     let project = workspace.projects[options.name];
 
     const targetPath = normalize(project.root + '/src/');
@@ -63,7 +63,8 @@ export function mergeFiles(options: any) {
       move(targetPath),
     ]);
 
-    return mergeWith(solutionSource, MergeStrategy.Default);
+    // return mergeWith(solutionSource, MergeStrategy.Default);
+    return mergeWith(solutionSource, MergeStrategy.Overwrite);
   };
 }
 
@@ -113,8 +114,8 @@ export function createPackageJson(host: Tree, options: any, projectName: string,
     name: `${options.scope}/${repoName}`,
     version: '0.0.1',
     peerDependencies: {
-      '@angular/common': '^7.2.0',
-      '@angular/core': '^7.2.0'
+      '@angular/common': '~8.1.2',
+      '@angular/core': '~8.1.2'
     }
   };
 
@@ -274,6 +275,7 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
         case 'Momentum':
+            context.logger.info(`Application momentum switch case: ${JSON.stringify(options)}...`);
           rule = chain([        
             schematic('momentum', {
             })

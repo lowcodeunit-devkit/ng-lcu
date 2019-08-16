@@ -1,0 +1,22 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+    <strong class="mat-display-2 title margin-bottom-3">{{PageTitle}}</strong>
+  </div>
+  <mat-card class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image">
+          <mat-icon color="primary" class="title-icon">{{ TitleIcon }}</mat-icon>
+        </div>
+        <mat-card-title class="paragraph-title">{{ Title }}</mat-card-title>
+        <mat-card-subtitle class="plain-text">{{ SubTitle }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+          <div fxLayout="row" fxLayoutAlign="start center">
+              <mat-list fxFlex>
+                <mat-list-item *ngFor="let tutorial of Tutorials; last as last">
+                  <a href="{{tutorial.Url}}" target="{{tutorial.Target}}" mat-button>{{tutorial.Label}}</a>
+                  <mat-divider *ngIf="!last"></mat-divider>
+                </mat-list-item>
+              </mat-list>
+            </div>
+      </mat-card-content>
+  </mat-card> 

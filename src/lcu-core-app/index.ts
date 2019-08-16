@@ -9,7 +9,7 @@ export function lcuCoreApp(options: any): Rule {
     setupOptions(host, options);
 
     const workspace = getWorkspace(host);
-
+    context.logger.info(`LCU Core App OPTIONS: ${JSON.stringify(options)}...`);
     var project = workspace.projects[options.project];
 
     const targetPath = normalize(project.root + '/src/');

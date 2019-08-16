@@ -1,0 +1,16 @@
+
+<div *ngIf="!CurrentUser || (CurrentUser && CurrentUser.IsLoggedIn === false)" fxLayout="row" fxLayoutGap="10px">
+    <a mat-icon-button routerLink="/login"> 
+      <mat-icon class="margin-right-1">face</mat-icon>
+      <strong class="mat-h4 title">Login</strong> 
+    </a>
+</div>
+
+<div *ngIf="CurrentUser && CurrentUser.IsLoggedIn" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+  <button mat-button (click)="Logout()">
+      <mat-icon>power_settings_new</mat-icon>
+      <strong class="mat-h4 title">
+          {{ CurrentUser.FirstName }} {{ CurrentUser.LastName }}
+        </strong>
+  </button>
+</div>
