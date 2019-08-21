@@ -23,14 +23,14 @@ export function ngAdd(options: any): Rule {
       mergeWith(templateSource, MergeStrategy.Default),
       adjustPackageValues(options),
       addDeployScripts(),
-      updateGitIgnore(context)
+      updateGitIgnore()
     ]);
 
     return rule(tree, context);
   };
 }
 
-export function updateGitIgnore(context) {
+export function updateGitIgnore() {
   return (host: Tree) => {
 
     let gitignore = host.get('.gitignore');
