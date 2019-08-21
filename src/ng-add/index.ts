@@ -2,6 +2,7 @@ import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStra
 import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path } from '@angular-devkit/core';
 import { addScriptsToPackageFile, adjustValueInPackageFile } from '../utils/helpers';
+import { hostname } from 'os';
 
 
 // You don't have to export the function as default. You can also have more than one rule factory
@@ -21,11 +22,25 @@ export function ngAdd(options: any): Rule {
     const rule = chain([
       mergeWith(templateSource, MergeStrategy.Default),
       adjustPackageValues(options),
-      addDeployScripts()
+      addDeployScripts(),
+      updateGitIgnore()
     ]);
 
     return rule(tree, context);
   };
+}
+
+export function updateGitIgnore() {
+  return (host: Tree) => {
+
+    let gitignore = host.get('.gitignore');
+    
+    host.exists('.gitignore');
+    // context.logger.info(`Shannon .gitignore exists: ${host.exists('.gitignore')}...`);
+    // host.overwrite('gitignore', JSON.stringify(angularJson, null, '\t'));
+
+    return host;
+  }
 }
 
 export function addDeployScripts() {
