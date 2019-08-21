@@ -34,9 +34,11 @@ export function updateGitIgnore(context: SchematicContext) {
   return (host: Tree) => {
 
     let gitignore = host.get('.gitignore');
-    
+  
+   let gitignoreChange = gitignore ? JSON.parse(gitignore.content.toString('utf8')) : {};
+
     host.exists('.gitignore');
-    context.logger.info(`Shannon .gitignore exists: ${JSON.stringify(host.get('.gitignore'))}...`);
+    context.logger.info(`Shannon .gitignore: ${gitignoreChange}`);
     // host.overwrite('gitignore', JSON.stringify(angularJson, null, '\t'));
 
     return host;
