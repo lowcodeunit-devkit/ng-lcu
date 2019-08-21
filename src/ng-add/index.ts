@@ -23,20 +23,20 @@ export function ngAdd(options: any): Rule {
       mergeWith(templateSource, MergeStrategy.Default),
       adjustPackageValues(options),
       addDeployScripts(),
-      updateGitIgnore()
+      updateGitIgnore(context)
     ]);
 
     return rule(tree, context);
   };
 }
 
-export function updateGitIgnore() {
+export function updateGitIgnore(context: SchematicContext) {
   return (host: Tree) => {
 
     let gitignore = host.get('.gitignore');
     
     host.exists('.gitignore');
-    // context.logger.info(`Shannon .gitignore exists: ${host.exists('.gitignore')}...`);
+    context.logger.info(`Shannon .gitignore exists: ${host.exists('.gitignore')}...`);
     // host.overwrite('gitignore', JSON.stringify(angularJson, null, '\t'));
 
     return host;
