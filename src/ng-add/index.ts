@@ -34,12 +34,14 @@ export function updateGitIgnore(context: SchematicContext) {
   return (host: Tree) => {
 
     let gitignore = host.get('.gitignore');
+    const txt: string = '\n this is a test \n';
+    gitignore + txt;
   
     // let gitignoreChange = gitignore ? JSON.parse(gitignore.content.toString('utf8')) : null;
 
     // host.exists('.gitignore');
     // context.logger.info(`Shannon .gitignore: ${JSON.parse(gitignore.content.toString('utf8'))}`);
-    host.overwrite('gitignore', JSON.stringify(gitignore, null, '\t'));
+   host.overwrite('gitignore', JSON.stringify(gitignore, null, '\t'));
 
     return host;
   }
