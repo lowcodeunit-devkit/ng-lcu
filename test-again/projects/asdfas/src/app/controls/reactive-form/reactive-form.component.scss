@@ -1,9 +1,0 @@
-@mixin mat-icon-size($size: 24px) {
-    font-size: $size;
-    height: $size;
-    width: $size;
-  }
-
-  .title-icon {
-    @include mat-icon-size(36px);
-  }
