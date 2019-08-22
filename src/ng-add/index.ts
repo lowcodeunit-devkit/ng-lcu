@@ -43,7 +43,7 @@ export function updateGitIgnore(context: SchematicContext) {
 
     // host.exists('.gitignore');
     context.logger.info(`Shannon .gitignore: ${gitignoreString}`);
-  // host.overwrite('gitignore', JSON.stringify(gitignoreChange, null, '\t'));
+    host.overwrite('.gitignore', JSON.stringify(gitignoreString, null, '\t'));
 
     return host;
   }
