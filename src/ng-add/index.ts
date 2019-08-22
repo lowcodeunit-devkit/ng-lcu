@@ -39,10 +39,10 @@ export function updateGitIgnore(context: SchematicContext) {
     // if (deployAll) deployAll += ` && ${deployProj}`;
     gitignoreString += txt;
   
-    let gitignoreChange = JSON.parse(gitignoreString);
+    // let gitignoreChange = JSON.parse(gitignoreString);
 
     // host.exists('.gitignore');
-    context.logger.info(`Shannon .gitignore: ${gitignoreChange}`);
+    context.logger.info(`Shannon .gitignore: ${gitignoreString}`);
   // host.overwrite('gitignore', JSON.stringify(gitignoreChange, null, '\t'));
 
     return host;
