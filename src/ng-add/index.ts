@@ -36,8 +36,8 @@ export function updateGitIgnore(context: SchematicContext) {
     let gitignore = host.get('.gitignore');
     let gitignoreString: string = JSON.stringify(gitignore);
     const txt = '\n this is a test \n';
-    // if (deployAll) deployAll += ` && ${deployProj}`;
-    gitignoreString += txt;
+    // deployAll += ` && ${deployProj}`;
+    gitignoreString += `&& ${txt}`;
   
     // let gitignoreChange = JSON.parse(gitignoreString);
 
