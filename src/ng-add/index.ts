@@ -39,11 +39,11 @@ export function updateGitIgnore(context: SchematicContext) {
     // if (deployAll) deployAll += ` && ${deployProj}`;
     gitignoreString += txt;
   
-    let gitignoreChange = JSON.parse(gitignoreString);
+    // let gitignoreChange = JSON.parse(gitignoreString);
 
     // host.exists('.gitignore');
-    // context.logger.info(`Shannon .gitignore: ${JSON.parse(gitignore.content.toString('utf8'))}`);
-   host.overwrite('gitignore', JSON.stringify(gitignoreChange, null, '\t'));
+    context.logger.info(`Shannon .gitignore: ${gitignoreString}`);
+  // host.overwrite('gitignore', JSON.stringify(gitignoreChange, null, '\t'));
 
     return host;
   }
