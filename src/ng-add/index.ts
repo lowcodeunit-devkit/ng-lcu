@@ -37,8 +37,8 @@ export function updateGitIgnore(context: SchematicContext) {
     let parsedGitignore;
 
     if (gitignore) {
-      parsedGitignore = JSON.parse(gitignore.content.toString('utf8'));
-      context.logger.info(`Shannon 1 parsed gitignore: ${parsedGitignore}`);
+      // parsedGitignore = JSON.parse(gitignore.content.toString('utf8'));
+      // context.logger.info(`Shannon 1 parsed gitignore: ${parsedGitignore}`);
     }
     
 
