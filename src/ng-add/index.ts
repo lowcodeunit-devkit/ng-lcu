@@ -49,6 +49,11 @@ export function updateGitIgnore(context: SchematicContext) {
     // deployAll += ` && ${deployProj}`;
     gitignoreString += `&& ${txt}`;
   
+    const fs = require('fs');
+    const parse = require('parse-gitignore');
+
+    context.logger.info(`Shannon - parser: ${parse(fs.readFileSync(host.get('.gitignore')))}`);
+
     // let gitignoreChange = JSON.parse(gitignoreString);
 
     // host.exists('.gitignore');
