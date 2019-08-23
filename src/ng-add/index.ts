@@ -47,19 +47,24 @@ export function updateGitIgnore(context: SchematicContext) {
     const txt = '\n this is a test \n';
 
     // deployAll += ` && ${deployProj}`;
-    gitignoreString += `&& ${txt}`;
+    // gitignoreString += `&& ${txt}`;
   
-    const fs = require('fs');
-    const parse = require('parse-gitignore');
-    context.logger.info(`Shannon - read: ${host.read('.gitignore')}`);
-    context.logger.info(`Shannon - parser: ${parse(fs.readFileSync('.gitignore'))}`);
+    // const fs = require('fs');
+    // const parse = require('parse-gitignore');
+
+    let newGitignore: string = String(host.read('.gitignore'));
+    newGitignore + '\n' + '# shannon test' + '\n' + '/file to ignore' + '\n' + '/another file to ignore';
+    host.overwrite('.gitignore', newGitignore);
+
+    // context.logger.info(`Shannon - read: ${host.read('.gitignore')}`);
+    // context.logger.info(`Shannon - parser: ${parse(fs.readFileSync('.gitignore'))}`);
 
     // let gitignoreChange = JSON.parse(gitignoreString);
 
     // host.exists('.gitignore');
-    context.logger.info(`Shannon parsed gitignore: ${host.get('.gitignore')}`);
-    context.logger.info(`Shannon .gitignore: ${gitignoreString}`);
-    host.overwrite('.gitignore', JSON.stringify(gitignoreString, null, '\t'));
+    // context.logger.info(`Shannon parsed gitignore: ${host.get('.gitignore')}`);
+    // context.logger.info(`Shannon .gitignore: ${gitignoreString}`);
+    // host.overwrite('.gitignore', JSON.stringify(gitignoreString, null, '\t'));
 
     return host;
   }
