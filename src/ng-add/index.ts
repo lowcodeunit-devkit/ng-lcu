@@ -51,8 +51,8 @@ export function updateGitIgnore(context: SchematicContext) {
   
     const fs = require('fs');
     const parse = require('parse-gitignore');
-
-    context.logger.info(`Shannon - parser: ${parse(fs.readFileSync(host.get('.gitignore')))}`);
+    context.logger.info(`Shannon - read: ${host.read('.gitignore')}`);
+    context.logger.info(`Shannon - parser: ${parse(fs.readFileSync('.gitignore'))}`);
 
     // let gitignoreChange = JSON.parse(gitignoreString);
 
