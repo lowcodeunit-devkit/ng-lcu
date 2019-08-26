@@ -66,6 +66,7 @@ export function addLicense(context: SchematicContext, options: any) {
     let project = workspace.projects[projectName];
     
     context.logger.debug(`Shannon: ${workspace}`);
+    
     context.logger.debug(`Shannon: ${projectName}`);
     context.logger.debug(`Shannon: ${project}`);
     // let newLicense: string = String(host.read('LICENSE'));
