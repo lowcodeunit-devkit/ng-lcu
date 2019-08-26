@@ -548,10 +548,10 @@ export function addLicense(context: SchematicContext, options: any) {
   // host.overwrite('LICENSE', newLicense);
   host.create('LICENSE', license);
 
-  context.logger.info(`Shannon: ${workspace}`);
+  context.logger.info(`Shannon: ${JSON.stringify(workspace)}`);
     
   context.logger.info(`Shannon: ${projectName}`);
-  context.logger.info(`Shannon: ${project}`);
+  context.logger.info(`Shannon: ${JSON.stringify(project)}`);
   
   }
 }
