@@ -24,8 +24,7 @@ export function ngAdd(options: any): Rule {
       mergeWith(templateSource, MergeStrategy.Default),
       adjustPackageValues(options),
       addDeployScripts(),
-      addGitIgnore(),
-      addLicense(context, options)
+      addGitIgnore()
     ]);
 
     return rule(tree, context);
