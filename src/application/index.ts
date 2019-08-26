@@ -347,7 +347,10 @@ export function addLicense(context: SchematicContext, options: any) {
     let scope: string = options.scope;
 
     let project = workspace.projects[projectName];
-    
+   
+    let variant: string = projectName ? `-${projectName}` : '';
+
+    let fullProjectName = `${options.scope}/${options.workspace}${variant}`;
    
     // let newLicense: string = String(host.read('LICENSE'));
 
@@ -528,13 +531,7 @@ export function addLicense(context: SchematicContext, options: any) {
 
   END OF TERMS AND CONDITIONS
 
-  Shannon workspace: ${JSON.stringify(workspace)}
-
-  Shannon projectName: ${projectName}
-
-  Shannon project: ${JSON.stringify(project)}
-  
-  Shannon options: ${JSON.stringify(options)}
+  {fullProjectName}
 
   Copyright 2019 Fathym, Inc.
 
