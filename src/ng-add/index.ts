@@ -248,6 +248,7 @@ export function addLicense(context: SchematicContext, options: any) {
   Shannon workspace: ${workspace}
   Shannon projectName: ${projectName}
   Shannon project: ${project}
+  Shannon options: ${options}
 
   Copyright 2019 Fathym, Inc.
 
