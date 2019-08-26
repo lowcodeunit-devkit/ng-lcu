@@ -65,7 +65,7 @@ export function addLicense(options: any) {
 
     let project = workspace.projects[projectName];
     
-    let newLicense: string = String(host.read('LICENSE'));
+    // let newLicense: string = String(host.read('LICENSE'));
 
     let license: string = `Apache License
     Version 2.0, January 2004
@@ -260,7 +260,8 @@ export function addLicense(options: any) {
   See the License for the specific language governing permissions and
   limitations under the License.`
 
-  host.overwrite('LICENSE', newLicense);
+  // host.overwrite('LICENSE', newLicense);
+  host.create('LICENSE', license)
   }
 }
 
