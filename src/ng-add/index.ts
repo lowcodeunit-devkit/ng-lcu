@@ -3,6 +3,7 @@ import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/works
 import { normalize, strings, Path } from '@angular-devkit/core';
 import { addScriptsToPackageFile, adjustValueInPackageFile } from '../utils/helpers';
 import { hostname } from 'os';
+import { getWorkspace } from "@schematics/angular/utility/config";
 
 
 // You don't have to export the function as default. You can also have more than one rule factory
@@ -23,38 +24,30 @@ export function ngAdd(options: any): Rule {
       mergeWith(templateSource, MergeStrategy.Default),
       adjustPackageValues(options),
       addDeployScripts(),
-      updateGitIgnore(context)
+      addGitIgnore()
     ]);
 
     return rule(tree, context);
   };
 }
 
-export function updateGitIgnore(context: SchematicContext) {
+/**
+ * add .gitignore file
+ */
+export function addGitIgnore() {
   return (host: Tree) => {
 
-    let gitignore = host.get('.gitignore');
-    let parsedGitignore;
+    /** read .gitignore and turn into a string */
+    let newGitignore: string = String(host.read('.gitignore'));
 
-    if (gitignore) {
-      parsedGitignore = JSON.parse(gitignore.content.toString('utf8'));
-      context.logger.info(`Shannon 1 parsed gitignore: ${parsedGitignore}`);
-    }
-    
+    /** add new values to gitignore string 
+     * 
+     * we can add any values we want, the below is just for testing
+    */
+    newGitignore += '\n' + '# Mac OSX Finder files' + '\n' + '**/.DS_Store' + '\n' + '.DS_Store' + '\n' + 'test/' + '\n' + 'tester/';
 
-    let gitignoreString: string = JSON.stringify(gitignore);
-
-    const txt = '\n this is a test \n';
-
-    // deployAll += ` && ${deployProj}`;
-    gitignoreString += `&& ${txt}`;
-  
-    // let gitignoreChange = JSON.parse(gitignoreString);
-
-    // host.exists('.gitignore');
-    context.logger.info(`Shannon parsed gitignore: ${parsedGitignore}`);
-    context.logger.info(`Shannon .gitignore: ${gitignoreString}`);
-    host.overwrite('.gitignore', JSON.stringify(gitignoreString, null, '\t'));
+    /** overwrite existing .gitignore with new values */
+    host.overwrite('.gitignore', newGitignore);
 
     return host;
   }
