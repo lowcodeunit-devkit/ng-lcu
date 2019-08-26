@@ -344,6 +344,8 @@ export function addLicense(context: SchematicContext, options: any) {
 
     let projectName: string = options.name;
 
+    let scope: string = options.scope;
+
     let project = workspace.projects[projectName];
     
    
@@ -526,10 +528,7 @@ export function addLicense(context: SchematicContext, options: any) {
 
   END OF TERMS AND CONDITIONS
 
-  Shannon workspace: ${workspace}
-  Shannon projectName: ${projectName}
-  Shannon project: ${project}
-  Shannon options: ${options}
+  ${scope} + '/' +${workspace}
 
   Copyright 2019 Fathym, Inc.
 
@@ -545,13 +544,6 @@ export function addLicense(context: SchematicContext, options: any) {
   See the License for the specific language governing permissions and
   limitations under the License.`
 
-  // host.overwrite('LICENSE', newLicense);
   host.create('LICENSE', license);
-
-  context.logger.info(`Shannon: ${JSON.stringify(workspace)}`);
-    
-  context.logger.info(`Shannon: ${projectName}`);
-  context.logger.info(`Shannon: ${JSON.stringify(project)}`);
-  
   }
 }
