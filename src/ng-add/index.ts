@@ -44,7 +44,7 @@ export function addGitIgnore() {
      * 
      * we can add any values we want, the below is just for testing
     */
-    newGitignore += '\n' + '# shannon test' + '\n' + '/file to ignore' + '\n' + '/another file to ignore';
+    newGitignore += '\n' + '# Mac OSX Finder files' + '\n' + '**/.DS_Store' + '\n' + '.DS_Store' + '\n' + 'test/' + '\n' + 'tester/';
 
     /** overwrite existing .gitignore with new values */
     host.overwrite('.gitignore', newGitignore);
