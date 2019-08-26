@@ -531,7 +531,7 @@ export function addLicense(context: SchematicContext, options: any) {
 
   END OF TERMS AND CONDITIONS
 
-  {fullProjectName}
+  ${fullProjectName}
 
   Copyright 2019 Fathym, Inc.
 
