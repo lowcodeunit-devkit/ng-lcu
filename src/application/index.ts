@@ -528,7 +528,10 @@ export function addLicense(context: SchematicContext, options: any) {
 
   END OF TERMS AND CONDITIONS
 
-  ${scope} + '/' +${workspace}
+  Shannon workspace: ${JSON.stringify(workspace)}
+  Shannon projectName: ${projectName}
+  Shannon project: ${JSON.stringify(project)}
+  Shannon options: ${JSON.stringify(options)}
 
   Copyright 2019 Fathym, Inc.
 
