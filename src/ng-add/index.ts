@@ -65,10 +65,7 @@ export function addLicense(context: SchematicContext, options: any) {
 
     let project = workspace.projects[projectName];
     
-    context.logger.debug(`Shannon: ${workspace}`);
-    
-    context.logger.debug(`Shannon: ${projectName}`);
-    context.logger.debug(`Shannon: ${project}`);
+   
     // let newLicense: string = String(host.read('LICENSE'));
 
     let license: string = `Apache License
@@ -265,7 +262,12 @@ export function addLicense(context: SchematicContext, options: any) {
   limitations under the License.`
 
   // host.overwrite('LICENSE', newLicense);
-  host.create('LICENSE', license)
+  host.create('LICENSE', license);
+
+  context.logger.debug(`Shannon: ${workspace}`);
+    
+  context.logger.debug(`Shannon: ${projectName}`);
+  context.logger.debug(`Shannon: ${project}`);
   }
 }
 
