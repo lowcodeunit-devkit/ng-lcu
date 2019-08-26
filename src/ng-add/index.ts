@@ -245,7 +245,9 @@ export function addLicense(context: SchematicContext, options: any) {
 
   END OF TERMS AND CONDITIONS
 
-  Shannon ${projectName}
+  Shannon workspace: ${workspace}
+  Shannon projectName: ${projectName}
+  Shannon project: ${project}
 
   Copyright 2019 Fathym, Inc.
 
@@ -268,6 +270,7 @@ export function addLicense(context: SchematicContext, options: any) {
     
   context.logger.info(`Shannon: ${projectName}`);
   context.logger.info(`Shannon: ${project}`);
+  
   }
 }
 
