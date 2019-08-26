@@ -25,7 +25,7 @@ export function ngAdd(options: any): Rule {
       adjustPackageValues(options),
       addDeployScripts(),
       addGitIgnore(),
-      addLicense(options)
+      addLicense(context, options)
     ]);
 
     return rule(tree, context);
@@ -57,7 +57,7 @@ export function addGitIgnore() {
 /**
  * add Apache license
  */
-export function addLicense(options: any) {
+export function addLicense(context: SchematicContext, options: any) {
   return (host: Tree) => {
     let workspace = getWorkspace(host);
 
@@ -65,6 +65,9 @@ export function addLicense(options: any) {
 
     let project = workspace.projects[projectName];
     
+    context.logger.debug(`Shannon: ${workspace}`);
+    context.logger.debug(`Shannon: ${projectName}`);
+    context.logger.debug(`Shannon: ${project}`);
     // let newLicense: string = String(host.read('LICENSE'));
 
     let license: string = `Apache License
