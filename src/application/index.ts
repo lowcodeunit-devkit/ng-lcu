@@ -547,6 +547,12 @@ export function addLicense(context: SchematicContext, options: any) {
   See the License for the specific language governing permissions and
   limitations under the License.`
 
-  host.create('LICENSE', license);
+  if (!host.exists('LICENSE')) {
+    host.create('LICENSE', license);
+  } else {
+    host.overwrite('LICENSE', license);
+  }
+
+  
   }
 }
