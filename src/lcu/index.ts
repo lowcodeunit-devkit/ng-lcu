@@ -154,5 +154,6 @@ export function setupOptions(host: Tree, options: any): Tree {
 }
 
 export function randomizePort(){
-  return Math.floor(Math.random() * 10);
+  var num = Math.floor(Math.random() * 10);
+  return num;
 }
