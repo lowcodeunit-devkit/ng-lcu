@@ -35,17 +35,8 @@ export function solution(options: any): Rule {
       move(targetPath)
     ]);
 
-    const docsSource = apply(url('./files/docs'), [
-      template({
-        ...strings,
-        ...options
-      }),
-      move('./docs')
-    ]);
-
     return chain([
       mergeWith(solutionSource, MergeStrategy.Default),
-      !options.docs ? noop() : mergeWith(docsSource, MergeStrategy.Default),
       !options.export ? noop() : prepareLcuApiExport(project, options)
     ]);
   };
@@ -87,8 +78,6 @@ function setupOptions(host: Tree, options: any): Tree {
     : workspace.defaultProject
     ? <string>workspace.defaultProject
     : Object.keys(workspace.projects)[0];
-
-  options.docs = options.docs || false;
 
   options.path = options.path || 'lib/elements';
 
