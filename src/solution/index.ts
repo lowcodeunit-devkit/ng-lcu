@@ -1,6 +1,19 @@
 import { WorkspaceProject, ProjectType } from '@schematics/angular/utility/workspace-models';
 import { getWorkspace } from '@schematics/angular/utility/config';
-import { Rule, SchematicContext, Tree, apply, url, noop, filter, move, MergeStrategy, mergeWith, template, chain } from '@angular-devkit/schematics';
+import {
+  Rule,
+  SchematicContext,
+  Tree,
+  apply,
+  url,
+  noop,
+  filter,
+  move,
+  MergeStrategy,
+  mergeWith,
+  template,
+  chain
+} from '@angular-devkit/schematics';
 import { normalize, strings } from '@angular-devkit/core';
 
 export function solution(options: any): Rule {
@@ -17,22 +30,22 @@ export function solution(options: any): Rule {
       options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
       template({
         ...strings,
-        ...options,
+        ...options
       }),
-      move(targetPath),
+      move(targetPath)
     ]);
 
     const docsSource = apply(url('./files/docs'), [
       template({
         ...strings,
-        ...options,
+        ...options
       }),
-      move('./docs'),
+      move('./docs')
     ]);
 
     return chain([
       mergeWith(solutionSource, MergeStrategy.Default),
-      mergeWith(docsSource, MergeStrategy.Default),
+      !options.docs ? noop() : mergeWith(docsSource, MergeStrategy.Default),
       !options.export ? noop() : prepareLcuApiExport(project, options)
     ]);
   };
@@ -69,8 +82,13 @@ function setupOptions(host: Tree, options: any): Tree {
 
   options.workspace = lcuJson.templates.workspace;
 
-  options.project = options.project ? options.project :
-    workspace.defaultProject ? <string>workspace.defaultProject : Object.keys(workspace.projects)[0];
+  options.project = options.project
+    ? options.project
+    : workspace.defaultProject
+    ? <string>workspace.defaultProject
+    : Object.keys(workspace.projects)[0];
+
+  options.docs = options.docs || false;
 
   options.path = options.path || 'lib/elements';
 
