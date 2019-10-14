@@ -61,7 +61,7 @@ export function addScripts(options: any) {
       },
       {
         key: 'start:demo',
-        value: 'ng serve demo --port=42xx'
+        value: `ng serve demo --port=42${randomizePort()}${randomizePort()}`
       }
     ]);
 
@@ -77,7 +77,7 @@ export function manageBuildScripts(options: any) {
 
     packageJson.scripts['build'] = 'npm run build:common';
 
-    packageJson.scripts['start'] = `ng serve demo --port=42xx`;
+    packageJson.scripts['start'] = `ng serve demo --port=42${randomizePort()}${randomizePort()}`;
 
     host.overwrite('package.json', JSON.stringify(packageJson, null, '\t'));
 
@@ -112,4 +112,10 @@ export function setupOptions(host: Tree, options: any): Tree {
   options.workspace = lcuJson.templates.workspace;
 
   return host;
+}
+
+function randomizePort(){
+  var num = Math.floor(Math.random() * 10);
+  
+  return num;
 }

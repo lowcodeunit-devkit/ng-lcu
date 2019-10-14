@@ -114,7 +114,7 @@ export function manageBuildScripts(options: any) {
 
     packageJson.scripts['build'] = 'npm run build:common && npm run build:lcu';
 
-    packageJson.scripts['start'] = `ng serve demo --port=42${randomizePort}${randomizePort}`;
+    packageJson.scripts['start'] = `ng serve demo --port=42${randomizePort()}${randomizePort()}`;
 
     host.overwrite('package.json', JSON.stringify(packageJson, null, '\t'));
 
@@ -153,6 +153,8 @@ export function setupOptions(host: Tree, options: any): Tree {
   return host;
 }
 
-export function randomizePort(){
-  return Math.floor(Math.random() * 10);
+function randomizePort(){
+  var num = Math.floor(Math.random() * 10);
+  
+  return num;
 }
