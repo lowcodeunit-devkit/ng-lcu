@@ -1,7 +1,7 @@
 import { UsersService } from './../../services/user.service';
 import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl } from '@angular/forms';
-import { BaseModeledResponse, Status } from '@lcu-ide/common';
+import { BaseModeledResponse, Status } from '@lcu/common';
 import { SignInModel } from '../../models/sign-in.model';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { UserModel } from '../../models/user.model';

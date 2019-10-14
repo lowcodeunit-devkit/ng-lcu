@@ -1,6 +1,8 @@
 $primary: mat-palette($fathym-sea-green-primary);
-$accent: mat-palette($fathym-sea-green-accent, 300);
-// $warn: mat-palette($mat-deep-orange, 200);
+$accent: mat-palette($fathym-sea-green-accent);
+$warn: mat-palette($mat-deep-orange);
+// $primary-logo: $fathym-default-logo;
+$secondary-primary: mat-palette($fathym-contrast-primary);
 
 $sea-green-theme: mat-dark-theme(
     $primary,

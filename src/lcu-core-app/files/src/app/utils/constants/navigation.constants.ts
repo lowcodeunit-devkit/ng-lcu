@@ -13,6 +13,7 @@ export class NavigationConstants {
         { Label: 'Reactive Form', RouterURL: '/reactiveForm', Icon: 'vertical_split'},
         { Label: 'Tutorials', RouterURL: '/tutorials', Icon: 'school'},
         { Label: 'Angular Flex Layout', RouterURL: '/fxLayout', Icon: 'view_quilt'},
-        { Label: 'Dashboard', RouterURL: '/dashboard', Icon: 'dashboard'}
+        { Label: 'Dashboard', RouterURL: '/dashboard', Icon: 'dashboard'},
+        { Label: 'Mat Kitchen Sink', RouterURL: '/kitchen-sink', Icon: 'kitchen' }
     ]
 }

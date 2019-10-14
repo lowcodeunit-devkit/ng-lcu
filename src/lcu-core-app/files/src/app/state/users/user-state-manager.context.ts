@@ -1,7 +1,7 @@
 import { UserModel } from './../../models/user.model';
 import { Injectable, Injector } from '@angular/core';
-import { StateManagerContext } from '@lcu-ide/common';
-import { UserStateModel } from '../../models/user-state-model';
+import { StateManagerContext } from '@lcu/common';
+import { UserStateModel } from '../../models/user-state.model';
 
 @Injectable({
     providedIn: 'root'

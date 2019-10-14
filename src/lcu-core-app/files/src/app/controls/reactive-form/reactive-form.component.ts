@@ -8,7 +8,7 @@ import { ReactiveFormModel } from './../../models/reactive-form.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { PasswordValidator, EmailValidator, UserNameValidator, ValidationMessages, ZipcodeValidator } from '@lcu-ide/common';
+import { PasswordValidator, EmailValidator, UserNameValidator, ValidationMessages, ZipcodeValidator } from '@lcu/common';
 import { startWith } from 'rxjs/operators';
 
 
