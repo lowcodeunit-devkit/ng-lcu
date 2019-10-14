@@ -8,6 +8,7 @@ import { UsersService } from '../../services/user.service';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { SharedNotificationService } from '../../services/shared-notification.service';
 import { ThemeModel } from '../../models/theme.model';
+import { ColorPickerService } from '../../services/color-picker.service';
 
 @Component({
   selector: 'lcu-side-nav',
@@ -65,7 +66,8 @@ export class SideNavComponent {
   constructor(
     protected userService: UsersService,
     protected breakpointObserver: BreakpointObserver,
-    protected sharedNotificationService: SharedNotificationService) {}
+    protected sharedNotificationService: SharedNotificationService,
+    protected colorPickerService: ColorPickerService) {}
 
   public ngOnInit(): void {
     // this.userService.GetUsers().subscribe((data: Array<UserModel>) => {
@@ -86,6 +88,10 @@ export class SideNavComponent {
     this.sharedNotificationService.ChangeTheme(evt);
   }
 
+  public PickTheme(color: string): void {
+   this.colorPickerService.SetColorClass(`fathym-${color}-theme`);
+  }
+
   protected setupForm(): void {
     this.Form = new FormGroup({
       themesControl: new FormControl('sea-green-theme')
@@ -94,13 +100,14 @@ export class SideNavComponent {
 
   protected setThemes(): void {
     this.Themes = [
-      { Color: 'primary-arctic', Icon: 'fiber_manual_record', Label: 'Arctic Theme', Value: 'arctic-theme' },
-      { Color: '', Icon: 'fiber_manual_record', Label: 'Contrast Theme', Value: 'contrast-theme' },
-      { Color: '', Icon: 'fiber_manual_record', Label: 'Cool Candy Theme', Value: 'cool-candy-theme' },
-      { Color: '', Icon: 'fiber_manual_record', Label: 'Flipper Theme', Value: 'flipper-theme' },
-      { Color: '', Icon: 'fiber_manual_record', Label: 'Ice Theme', Value: 'ice-theme' },
-      { Color: '', Icon: 'fiber_manual_record', Label: 'Sea Green Theme', Value: 'sea-green-theme' },
-      { Color: '', Icon: 'fiber_manual_record', Label: 'White Mint Theme', Value: 'white-mint-theme' }
+      { ColorSwatch: 'color-swatch-arctic', Icon: 'brightness_1', Label: 'Arctic Theme', Value: 'arctic-theme', Color: 'arctic' },
+      { ColorSwatch: 'color-swatch-contrast', Icon: 'brightness_1', Label: 'Contrast Theme', Value: 'contrast-theme', Color: 'contrast' },
+      { ColorSwatch: 'color-swatch-cool-candy', Icon: 'brightness_1', Label: 'Cool Candy Theme', Value: 'cool-candy-theme', Color: 'cool-candy' },
+      { ColorSwatch: 'color-swatch-flipper', Icon: 'brightness_1', Label: 'Flipper Theme', Value: 'flipper-theme', Color: 'flipper' },
+      { ColorSwatch: 'color-swatch-ice', Icon: 'brightness_1', Label: 'Ice Theme', Value: 'ice-theme', Color: 'ice' },
+      { ColorSwatch: 'color-swatch-sea-green', Icon: 'brightness_1', Label: 'Sea Green Theme', Value: 'sea-green-theme', Color: 'sea-green' },
+      { ColorSwatch: 'color-swatch-white-mint', Icon: 'brightness_1', Label: 'White Mint Theme', Value: 'white-mint-theme', Color: 'white-mint' },
+      { ColorSwatch: 'color-swatch-ivy', Icon: 'brightness_1', Label: 'Ivy Theme', Value: 'ivy-theme', Color: 'ivy' }
   ];
   }
 }

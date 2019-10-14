@@ -18,6 +18,7 @@ import { DashboardAdminComponent } from './controls/dashboard-admin/dashboard-ad
 import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashboard-non-admin.component';
 import { UserRoleNonAdminGuard } from './services/guards/user-role-non-admin.guard';
 import { DashboardGuard } from './services/guards/dashboard.guard';
+import { MaterialKitchenSinkComponent } from './controls/material-kitchen-sink/material-kitchen-sink.component';
 
 
 const routes: Routes = [
@@ -54,6 +55,10 @@ const routes: Routes = [
     //   { path: 'admin', component: DashboardAdminComponent },
     //   { path: 'user', component: DashboardNonAdminComponent }
     // ]
+  },
+  {
+    path: 'kitchen-sink',
+    component: MaterialKitchenSinkComponent,
   },
   {
     path: '**', component: PageNotFoundComponent

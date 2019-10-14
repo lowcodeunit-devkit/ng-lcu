@@ -1,28 +1,9 @@
-@import '../../../node_modules/@angular/material/prebuilt-themes/pink-bluegrey';
-@import '../../../node_modules/@lcu-ide/common/assets/styles/fathym-global.styles';
-@import '../../../node_modules/@lcu-ide/common/assets/styles/branding/fathym-branding';
-@import '../../../node_modules/@lcu-ide/common/assets/theming/fathym-default-theme';
-
-@import '../src/app/controls/flex-layout/flex-layout.component.scss';
-@import './assets/themes/fathym-themes.scss';
-
+@import '../../../node_modules/@lcu/common/assets/styles/fathym-global.styles';
+@import '../../../node_modules/@lcu/common/assets/styles/branding/fathym-branding';
+@import '../../../node_modules/@lcu/common/assets/theming/fathym_themes';
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap');
-.font-test {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 600;
-}
-// .primary-logo {
-//   background-image: url($fathym-white-logo);
-// }
+@import '../src/app/controls/flex-layout/flex-layout.component.scss';
 
-.foreground-color {
- color: mat-color($primary) !important;
-}
-
-@mixin set-theme($theme) {
-  @include custom-theme($theme);
-  @include component-themes($theme);
-}
 
 @mixin opacity($opacity) {
   opacity: $opacity;
@@ -35,13 +16,6 @@
   width: $size;
 }
 
-// for updating components with themes
-@mixin component-themes($theme) {
-  @include flex-layout-component-theme($theme);
-  // @include user-list-component-theme($theme);
-  // @include side-nav-component-theme($theme);
-}
-
   .app-background {
     display: flex;
     flex-direction: column;
@@ -50,55 +24,70 @@
     max-height: -webkit-fill-available;
   }
 
-   .arctic-theme {
-    @include set-theme($arctic-theme);
+  @mixin theme-setup($theme) {
+    @include angular-material-theme($theme);
+    @include theme-extras($theme);
+    @include component-themes($theme); 
+  }
+
+  @mixin component-themes($theme) {
+    @include flex-layout-component-theme($theme);
+  }
+
+  @mixin primary-logo($logo, $theme, $opacity) {
     .primary-logo {
-      background-image: url($fathym-full-ice-logo);
-      // @include primary-logo($fathym-full-ice-logo, 150px);
+      // @extend .header-background;
+      background-image: fathym-logo($logo, mat-color(map-get($theme, accent)), $opacity);
     }
+  }
+
+   .fathym-arctic-theme {
+      $theme: fathym-arctic-theme(true);
+      @include theme-setup($theme);
+      @include primary-logo(thinky-full-logo, $theme, 1);
    }
 
-   .contrast-theme {
-    @include set-theme($contrast-theme);
-    .primary-logo {
-		  background-image: url($fathym-full-contrast-logo);
-    }
+   .fathym-contrast-theme {
+      $theme: fathym-contrast-theme(true);
+      @include theme-setup($theme);
+      @include primary-logo(thinky-full-logo, $theme, 1);
    }
 
-   .cool-candy-theme {
-    @include set-theme($cool-candy-theme);
-    .primary-logo {
-		  background-image: url($fathym-full-arctic-logo);
-    }
+   .fathym-cool-candy-theme {
+      $theme: fathym-cool-candy-theme(true);
+      @include theme-setup($theme);
+      @include primary-logo(thinky-full-logo, $theme, 1);
    }
 
-   .flipper-theme {
-    @include set-theme($flipper-theme);
-    .primary-logo {
-		  background-image: url($fathym-full-ice-logo);
-    }
+   .fathym-flipper-theme {
+      $theme: fathym-flipper-theme(true);
+      @include theme-setup($theme);
+      @include primary-logo(thinky-full-logo, $theme, 1);
    }
 
-   .ice-theme {
-    @include set-theme($ice-theme);
-    .primary-logo {
-		  background-image: url($fathym-full-flipper-logo);
-    }
+   .fathym-ice-theme {
+      $theme: fathym-ice-theme();
+      @include theme-setup($theme);
+      @include primary-logo(thinky-full-logo, $theme, 1);
    }
 
-   .sea-green-theme {
-    @include set-theme($sea-green-theme);
-    .primary-logo {
-		  background-image: url($fathym-full-cool-candy-logo);
-    }
+   .fathym-sea-green-theme {
+      $theme: fathym-sea-green-theme(true);
+      @include theme-setup($theme);
+      @include primary-logo(thinky-full-logo, $theme, 1);
    }
 
-   .white-mint-theme {
-    @include set-theme($white-mint-theme);
-    .primary-logo {
-		  background-image: url($fathym-full-flipper-logo);
-    }
+   .fathym-white-mint-theme {
+      $theme: fathym-white-mint-theme();
+      @include theme-setup($theme);
+      @include primary-logo(thinky-full-logo, $theme, 1);
    }
+
+   .fathym-ivy-theme {
+    $theme: fathym-ivy-theme();
+    @include theme-setup($theme);
+    @include primary-logo(thinky-full-logo, $theme, 1);
+ }
 
   .disabled {
     @include opacity(.5);
