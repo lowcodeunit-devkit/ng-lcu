@@ -141,6 +141,9 @@ export function updatePolyfills(host: Tree, options: any, projectName: string, c
 
 export function manageAppAssets(options: any, context: SchematicContext) {
   return (host: Tree) => {
+    context.logger.info(`manageAppAssets() init...`);
+    context.logger.info(`manageAppAssets() options - ${options}`);
+    context.logger.info(`manageAppAssets() context - ${context}`);
     let projectSafeName = strings.dasherize(options.name);
 
     let packageGlob = {
@@ -150,8 +153,10 @@ export function manageAppAssets(options: any, context: SchematicContext) {
     };
 
     let angularFile = host.get('angular.json');
+    context.logger.info(`manageAppAssets() angularFile - ${angularFile}`);
 
     let angularJson = angularFile ? JSON.parse(angularFile.content.toString('utf8')) : {};
+    context.logger.info(`manageAppAssets() angularJson before - ${angularJson}`);
 
     angularJson.projects[projectSafeName].architect.build.options.assets.push(packageGlob);
 
@@ -168,6 +173,9 @@ export function manageAppAssets(options: any, context: SchematicContext) {
         output: '/'
       });
     }
+    // TODO: Remove budgets
+    // How to log:
+    // context.logger.info(`Processing Initialization for ${options.initWith}...`);
 
     if (options.es5Patch) delete angularJson.projects[projectSafeName].architect.build.options.es5BrowserSupport;
 
@@ -178,6 +186,7 @@ export function manageAppAssets(options: any, context: SchematicContext) {
         'node_modules/@webcomponents/custom-elements/src/native-shim.js'
       );
 
+    context.logger.info(`manageAppAssets() angularJson after - ${angularJson}`);
     host.overwrite('angular.json', JSON.stringify(angularJson, null, '\t'));
 
     createPackageJson(host, options, projectSafeName, context);
