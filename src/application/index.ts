@@ -156,7 +156,9 @@ export function manageAppAssets(options: any, context: SchematicContext) {
     context.logger.info(`manageAppAssets() angularFile - ${JSON.stringify(angularFile)}`);
 
     let angularJson = angularFile ? JSON.parse(angularFile.content.toString('utf8')) : {};
-    context.logger.info(`manageAppAssets() angularJson before - ${JSON.stringify(angularJson)}`);
+
+    let angularJsonText = JSON.stringify(angularJson);
+    context.logger.info(`manageAppAssets() angularJson before - ${angularJsonText}`);
 
     angularJson.projects[projectSafeName].architect.build.options.assets.push(packageGlob);
 
@@ -177,7 +179,6 @@ export function manageAppAssets(options: any, context: SchematicContext) {
     // How to log:
     // context.logger.info(`Processing Initialization for ${options.initWith}...`);
 
-    delete angularJson.projects[projectSafeName].architect.build.configurations.production.budgets;
 
     if (options.es5Patch) delete angularJson.projects[projectSafeName].architect.build.options.es5BrowserSupport;
 
@@ -188,7 +189,14 @@ export function manageAppAssets(options: any, context: SchematicContext) {
         'node_modules/@webcomponents/custom-elements/src/native-shim.js'
       );
 
-    context.logger.info(`manageAppAssets() angularJson after - ${JSON.stringify(angularJson)}`);
+    context.logger.info(`manageAppAssets() deleted angular budgets...`);
+    delete angularJson.projects[projectSafeName].architect.build.configurations.production.budgets;
+    delete angularJson.projects[projectSafeName].architect.build.configurations.production.budgets;
+
+    context.logger.info(`manageAppAssets() budgets - ${angularJson.projects[projectSafeName].architect.build.configurations.production.budgets}`);
+    
+    angularJsonText = JSON.stringify(angularJson);
+    context.logger.info(`manageAppAssets() angularJson after - ${angularJsonText}`);
     host.overwrite('angular.json', JSON.stringify(angularJson, null, '\t'));
 
     createPackageJson(host, options, projectSafeName, context);
