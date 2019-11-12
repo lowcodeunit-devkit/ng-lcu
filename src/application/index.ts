@@ -143,7 +143,6 @@ export function manageAppAssets(options: any, context: SchematicContext) {
   return (host: Tree) => {
     context.logger.info(`manageAppAssets() init...`);
     context.logger.info(`manageAppAssets() options - ${JSON.stringify(options)}`);
-    context.logger.info(`manageAppAssets() context - ${JSON.stringify(context)}`);
     let projectSafeName = strings.dasherize(options.name);
 
     let packageGlob = {
