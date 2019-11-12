@@ -1,5 +1,5 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { LCUElementContext, LcuElementComponent } from '@lcu-ide/common';
+import { LCUElementContext, LcuElementComponent } from '@lcu/common';
 
 export class <%= classify(workspace) %><%= classify(name) %>ElementState {}
 
