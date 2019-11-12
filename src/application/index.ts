@@ -141,8 +141,6 @@ export function updatePolyfills(host: Tree, options: any, projectName: string, c
 
 export function manageAppAssets(options: any, context: SchematicContext) {
   return (host: Tree) => {
-    context.logger.info(`manageAppAssets() init...`);
-    context.logger.info(`manageAppAssets() options - ${JSON.stringify(options)}`);
     let projectSafeName = strings.dasherize(options.name);
 
     let packageGlob = {
@@ -152,12 +150,10 @@ export function manageAppAssets(options: any, context: SchematicContext) {
     };
 
     let angularFile = host.get('angular.json');
-    context.logger.info(`manageAppAssets() angularFile - ${JSON.stringify(angularFile)}`);
 
     let angularJson = angularFile ? JSON.parse(angularFile.content.toString('utf8')) : {};
 
     let angularJsonText = JSON.stringify(angularJson);
-    context.logger.info(`manageAppAssets() angularJson before - ${angularJsonText}`);
 
     angularJson.projects[projectSafeName].architect.build.options.assets.push(packageGlob);
 
@@ -174,10 +170,6 @@ export function manageAppAssets(options: any, context: SchematicContext) {
         output: '/'
       });
     }
-    // TODO: Remove budgets
-    // How to log:
-    // context.logger.info(`Processing Initialization for ${options.initWith}...`);
-
 
     if (options.es5Patch) delete angularJson.projects[projectSafeName].architect.build.options.es5BrowserSupport;
 
@@ -188,14 +180,8 @@ export function manageAppAssets(options: any, context: SchematicContext) {
         'node_modules/@webcomponents/custom-elements/src/native-shim.js'
       );
 
-    context.logger.info(`manageAppAssets() deleted angular budgets...`);
-    delete angularJson.projects[projectSafeName].architect.build.configurations.production.budgets;
     delete angularJson.projects[projectSafeName].architect.build.configurations.production.budgets;
 
-    context.logger.info(`manageAppAssets() budgets - ${angularJson.projects[projectSafeName].architect.build.configurations.production.budgets}`);
-    
-    angularJsonText = JSON.stringify(angularJson);
-    context.logger.info(`manageAppAssets() angularJson after - ${angularJsonText}`);
     host.overwrite('angular.json', JSON.stringify(angularJson, null, '\t'));
 
     createPackageJson(host, options, projectSafeName, context);
