@@ -29,12 +29,19 @@ export function library(options: any): Rule {
     setupOptions(host, options);
 
     const rule = chain([
-      branchAndMerge(externalSchematic('@schematics/angular', 'library', {
-        name: options.name,
-        entryFile: options.entryFile,
-        prefix: options.prefix,
-        skipInstall: true
-      })),
+      branchAndMerge(
+        externalSchematic('@schematics/angular', 'library', {
+          name: options.name,
+          entryFile: options.entryFile,
+          prefix: options.prefix,
+          skipInstall: true
+        }),
+        externalSchematic('@schematics/angular', 'module', {
+          name: `${options.workspace}`,
+          project: options.name ? options.name : 'common',
+          flat: true
+        })
+      ),
       processInitWith(options, context),
       addDeployScripts(options),
       manageDeployAllScript(options),

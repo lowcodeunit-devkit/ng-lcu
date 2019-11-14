@@ -98,11 +98,10 @@ function setupOptions(host: Tree, options: any): Tree {
 }
 
 function addSolutionCapabilities(host: Tree, options: any): Tree {
-  var lcuFile = host.get('lcu.json');
+  let lcuFile = host.get('lcu.json');
 
-  var lcuJson = lcuFile ? JSON.parse(lcuFile.content.toString('utf8')) : {};
+  let lcuJson = lcuFile ? JSON.parse(lcuFile.content.toString('utf8')) : {};
 
-  // TODO: 'options.project' is wrong name (coming back as 'common') - find the right name
   let capabilityName: string = options.name + '-manager'; // TODO: Do we want users to provide this?
 
   let elementName: string = lcuJson.templates.workspace + '-' + options.name + '-element';
