@@ -42,7 +42,6 @@ export function module(options: any): Rule {
 }
   
 function setupOptions(host: Tree, options: any): Tree {
-    context.logger.info(`BOBBY 5570 - setupOptions() initialized...`);
     var lcuFile = host.get('lcu.json');
   
     var lcuJson = lcuFile ? JSON.parse(lcuFile.content.toString('utf8')) : {};
