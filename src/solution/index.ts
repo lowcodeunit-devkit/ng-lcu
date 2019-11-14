@@ -18,7 +18,14 @@ import { normalize, strings } from '@angular-devkit/core';
 
 export function solution(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
+    context.logger.info(`BOBBY 5570 - solution() initialized...`);
+
     setupOptions(host, options);
+
+    context.logger.info(`BOBBY 5570 - solution() adding solution capabilities...`);
+    addSolutionCapabilities(host, options);
+
+    context.logger.info(`BOBBY 5570 - solution() successfully added solution capabilities...`);
 
     const workspace = getWorkspace(host);
 
@@ -86,6 +93,24 @@ function setupOptions(host: Tree, options: any): Tree {
   options.name = options.name || 'solution';
 
   options.spec = options.spec || false;
+
+  return host;
+}
+
+function addSolutionCapabilities(host: Tree, options: any): Tree {
+  var lcuFile = host.get('lcu.json');
+
+  var lcuJson = lcuFile ? JSON.parse(lcuFile.content.toString('utf8')) : {};
+
+  let capabilityName: string = options.project + '-manager'; // TODO: Do we want users to provide this?
+
+  let elementName: string = lcuJson.templates.workspace + '-' + options.project + '-element';
+
+  lcuJson.config.solutions[capabilityName] = {
+    element: elementName
+  };
+  
+  host.overwrite('lcu.json', JSON.stringify(lcuJson, null, '\t'));
 
   return host;
 }

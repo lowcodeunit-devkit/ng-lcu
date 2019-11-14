@@ -94,7 +94,7 @@ export function addScripts(options: any) {
       },
       {
         key: `pack:main`,
-        value: `concat-glob-cli -f \"dist/lcu/main.*.js\" -o dist/lcu/wc/lcu.startup.js`
+        value: `concat-glob-cli -f \"dist/lcu/main-es2015.*.js\" -o dist/lcu/wc/lcu.startup.js`
       },
       {
         key: `pack:pollyfills`,
