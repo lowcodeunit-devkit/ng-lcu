@@ -35,7 +35,12 @@ export function library(options: any): Rule {
         prefix: options.prefix,
         skipInstall: true
       })),
-      externalSchematic('@schematics/angular', 'module', {
+      // externalSchematic('@schematics/angular', 'module', {
+      //   name: `${options.workspace}`,
+      //   project: options.name ? options.name : 'common',
+      //   flat: true
+      // }),
+      schematic('module', {
         name: `${options.workspace}`,
         project: options.name ? options.name : 'common',
         flat: true
