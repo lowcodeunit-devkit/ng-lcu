@@ -19,12 +19,17 @@ export function module(options: any): Rule {
     return (host: Tree, context: SchematicContext) => {
       context.logger.info(`BOBBY 5570 - module() initialized...`);
       setupOptions(host, options);
+      context.logger.info(`BOBBY 5570 - module() options: ${JSON.stringify(options)}`);
+      context.logger.info(`BOBBY 5570 - module() options.name: ${options.name}`);
   
       const workspace = getWorkspace(host);
+
       const project = workspace.projects[options.project];
-    //   const targetPath = normalize(project.root + '/src/' + options.path);
-      const targetPath = normalize(project.root + '/src/lib/');
+      context.logger.info(`BOBBY 5570 - module() project: ${JSON.stringify(project)}`);
+
+      const targetPath = normalize(project.root + '/src/' + options.path);
       context.logger.info(`BOBBY 5570 - module() targetPath: ${targetPath}`);
+
       const solutionSource = apply(url('./files'), [
         template({
           ...strings,
@@ -33,10 +38,6 @@ export function module(options: any): Rule {
         move(targetPath)
       ]);
   
-    //   return chain([
-    //     mergeWith(solutionSource, MergeStrategy.Default),
-    //     !options.export ? noop() : prepareLcuApiExport(project, options)
-    //   ]);
       return mergeWith(solutionSource, MergeStrategy.Overwrite);
     };
 }
@@ -58,7 +59,7 @@ function setupOptions(host: Tree, options: any): Tree {
       ? <string>workspace.defaultProject
       : Object.keys(workspace.projects)[0];
   
-    options.path = options.path || 'lib/elements';
+    options.path = options.path || 'lib';
   
     options.export = options.export || 'src/lcu.api.ts';
   

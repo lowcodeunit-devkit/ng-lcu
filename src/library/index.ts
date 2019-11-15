@@ -1,32 +1,24 @@
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { buildDefaultPath } from '@schematics/angular/utility/project';
-import { parseName } from '@schematics/angular/utility/parse-name';
 import {
   Rule,
   SchematicContext,
   Tree,
-  apply,
-  url,
   noop,
-  filter,
-  move,
-  MergeStrategy,
-  mergeWith,
-  template,
   chain,
   externalSchematic,
   branchAndMerge,
   schematic
 } from '@angular-devkit/schematics';
-import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import { normalize, strings, Path, join } from '@angular-devkit/core';
+import { strings, Path, join } from '@angular-devkit/core';
 import { addScriptsToPackageFile } from '../utils/helpers';
-import { Logger } from '@angular-devkit/core/src/logger';
 
 export function library(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
+    context.logger.info(`BOBBY 5570 - library() intialized...`);
     setupOptions(host, options);
+    context.logger.info(`BOBBY 5570 - library() options.name: ${options.name}`);
+    context.logger.info(`BOBBY 5570 - library() options.workspace: ${options.workspace}`);
 
     const rule = chain([
       branchAndMerge(externalSchematic('@schematics/angular', 'library', {
@@ -35,14 +27,9 @@ export function library(options: any): Rule {
         prefix: options.prefix,
         skipInstall: true
       })),
-      // externalSchematic('@schematics/angular', 'module', {
-      //   name: `${options.workspace}`,
-      //   project: options.name ? options.name : 'common',
-      //   flat: true
-      // }),
       schematic('module', {
-        name: `${options.workspace}`,
-        project: options.name ? options.name : 'common',
+        name: options.workspace,
+        project: options.name,
         flat: true
       }),
       processInitWith(options, context),

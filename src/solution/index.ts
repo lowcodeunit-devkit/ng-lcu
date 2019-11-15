@@ -14,24 +14,41 @@ import {
   template,
   chain
 } from '@angular-devkit/schematics';
+import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
+import { branchAndMerge } from '@angular-devkit/schematics';
+import { parseName } from '@schematics/angular/utility/parse-name';
 import { normalize, strings } from '@angular-devkit/core';
+import { addSolutionToNgModule } from '../utils/module-helpers';
 
 export function solution(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     context.logger.info(`BOBBY 5570 - solution() initialized...`);
+    context.logger.info(`BOBBY 5570 - solution() options: ${JSON.stringify(options)}`);
 
     setupOptions(host, options);
 
     context.logger.info(`BOBBY 5570 - solution() adding solution capabilities...`);
     addSolutionCapabilities(host, options);
 
-    context.logger.info(`BOBBY 5570 - solution() successfully added solution capabilities...`);
-
     const workspace = getWorkspace(host);
 
-    var project = workspace.projects[options.project];
+    if (!options.project) {
+      options.project = Object.keys(workspace.projects)[0];
+    }
 
-    const targetPath = normalize(project.root + '/src/' + options.path);
+    const project = workspace.projects[options.project];
+
+    if (options.path === undefined) {
+      const projectDirName = project.projectType === 'application' ? 'app' : 'lib';
+      options.path = `/${project.root}/src/${projectDirName}`;
+    }
+
+    options.module = findModuleFromOptions(host, options);
+    context.logger.info(`BOBBY 5570 - solution() options.module: ${options.module}`);
+
+    const parsedPath = parseName(options.path, options.name);
+    options.name = parsedPath.name;
+    options.path = parsedPath.path;
 
     const solutionSource = apply(url('./files/default'), [
       options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
@@ -39,13 +56,18 @@ export function solution(options: any): Rule {
         ...strings,
         ...options
       }),
-      move(targetPath)
+      move(parsedPath.path)
     ]);
 
-    return chain([
-      mergeWith(solutionSource, MergeStrategy.Default),
-      !options.export ? noop() : prepareLcuApiExport(project, options)
+    const rule = chain([
+      branchAndMerge(chain([
+        mergeWith(solutionSource, MergeStrategy.Default),
+        addSolutionToNgModule(options),
+        !options.export ? noop() : prepareLcuApiExport(project, options)
+      ]))
     ]);
+
+    return rule(host, context);
   };
 }
 
@@ -80,19 +102,21 @@ function setupOptions(host: Tree, options: any): Tree {
 
   options.workspace = lcuJson.templates.workspace;
 
-  options.project = options.project
-    ? options.project
-    : workspace.defaultProject
-    ? <string>workspace.defaultProject
-    : Object.keys(workspace.projects)[0];
+  // options.project = options.project
+  //   ? options.project
+  //   : workspace.defaultProject
+  //   ? <string>workspace.defaultProject
+  //   : Object.keys(workspace.projects)[0];
 
-  options.path = options.path || 'lib/elements';
+  // options.path = options.path || 'lib/elements';
 
-  options.export = options.export || 'src/lcu.api.ts';
+  // options.export = options.export || 'src/lcu.api.ts';
 
-  options.name = options.name || 'solution';
+  // options.module = options.module || 'bobby-default.module.ts';
 
-  options.spec = options.spec || false;
+  // options.name = options.name || 'solution';
+
+  // options.spec = options.spec || false;
 
   return host;
 }

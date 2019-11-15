@@ -11,7 +11,7 @@ import { FathymSharedModule } from '@lcu/common';
     ReactiveFormsModule,
     FlexLayoutModule
   ],
-  export: [],
+  exports: [],
   entryComponents: []
 })
-export class <%= classify(workspace) %>Module { }
+export class <%= classify(name) %>Module { }
