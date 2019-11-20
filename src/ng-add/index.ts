@@ -22,6 +22,8 @@ import { getWorkspace } from '@schematics/angular/utility/config';
 // per file.
 export function ngAdd(options: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
+    context.logger.info(`ngAdd initializing...`);
+    context.logger.info(`ngAdd options: ${JSON.stringify(options)}`);
     options.repository = options.repository || options.repo;
 
     options.docs = options.docs || false;
@@ -33,6 +35,7 @@ export function ngAdd(options: any): Rule {
       }),
       move('./')
     ]);
+    context.logger.info(`ngAdd processed project files...`);
 
     const docsSource = apply(url('./files/docs'), [
       template({
@@ -41,6 +44,7 @@ export function ngAdd(options: any): Rule {
       }),
       move('./docs')
     ]);
+    context.logger.info(`ngAdd processed docs files...`);
 
     const rule = chain([
       mergeWith(templateSource, MergeStrategy.Default),
@@ -49,6 +53,7 @@ export function ngAdd(options: any): Rule {
       addDeployScripts(),
       addGitIgnore()
     ]);
+    context.logger.info(`ngAdd rule created...`);
 
     return rule(tree, context);
   };
