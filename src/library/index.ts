@@ -27,11 +27,6 @@ export function library(options: any): Rule {
         prefix: options.prefix,
         skipInstall: true
       })),
-      schematic('module', {
-        name: options.workspace,
-        project: options.name,
-        flat: true
-      }),
       processInitWith(options, context),
       addDeployScripts(options),
       manageDeployAllScript(options),

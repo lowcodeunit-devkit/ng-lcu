@@ -5,13 +5,10 @@ import {
   Tree,
   apply,
   url,
-  noop,
-  filter,
   move,
   MergeStrategy,
   mergeWith,
-  template,
-  chain
+  template
 } from '@angular-devkit/schematics';
 import { normalize, strings } from '@angular-devkit/core';
 
@@ -20,7 +17,6 @@ export function module(options: any): Rule {
       context.logger.info(`BOBBY 5570 - module() initialized...`);
       setupOptions(host, options);
       context.logger.info(`BOBBY 5570 - module() options: ${JSON.stringify(options)}`);
-      context.logger.info(`BOBBY 5570 - module() options.name: ${options.name}`);
   
       const workspace = getWorkspace(host);
 
@@ -30,7 +26,17 @@ export function module(options: any): Rule {
       const targetPath = normalize(project.root + '/src/' + options.path);
       context.logger.info(`BOBBY 5570 - module() targetPath: ${targetPath}`);
 
-      const solutionSource = apply(url('./files'), [
+      let filePath: string = './files';
+      context.logger.info(`BOBBY 5570 - module() filePath before: ${filePath}`);
+
+      if (options.initWith === 'app') {
+        filePath += '/app';
+      } else {
+        filePath += '/component';
+      }
+      context.logger.info(`BOBBY 5570 - module() filePath after: ${filePath}`);
+      
+      const solutionSource = apply(url(filePath), [
         template({
           ...strings,
           ...options

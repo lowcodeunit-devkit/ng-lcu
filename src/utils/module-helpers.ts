@@ -2,76 +2,123 @@ import * as ts from 'typescript';
 import {
   Rule,
   Tree,
-  SchematicsException
+  SchematicsException,
+  DirEntry
 } from '@angular-devkit/schematics';
 import { buildRelativePath, ModuleOptions } from '@schematics/angular/utility/find-module';
-import { addDeclarationToModule, addExportToModule, addEntryComponentToModule } from '@schematics/angular/utility/ast-utils';
-import { InsertChange } from '@schematics/angular/utility/change';
+import { addDeclarationToModule, addExportToModule, addEntryComponentToModule, addImportToModule, insertImport, getSourceNodes } from '@schematics/angular/utility/ast-utils';
+import { InsertChange, Change } from '@schematics/angular/utility/change';
 import { strings } from '@angular-devkit/core';
 
 const { dasherize, classify } = strings;
 const stringUtils = { dasherize, classify };
 
 export class AddToModuleContext {
-  source: any;
-  relativePath: string;
   classifiedName: string;
+  filePath: string;
+  relativePath: string;
+  source: any;
 }
 
-export function addSolutionToNgModule(options: ModuleOptions): Rule {
+/**
+ * When the 'solution' command is executed, adds the generated component to the given project module.
+ * By default, it also adds a custom bootstrap function to the app.module file.
+ * 
+ * @param options The options passed from the calling command
+ */
+export function addSolutionToNgModule(options: ModuleOptions | any): Rule {
   return (host: Tree) => {
-    addDeclaration(host, options);
-    addExport(host, options);
-    addEntryComponent(host, options);
+    console.log('addSolutionToNgModule initializing...');
+    addDeclaration(host, createAddToModuleContext(host, options));
+    addExport(host, createAddToModuleContext(host, options));
+    addEntryComponent(host, createAddToModuleContext(host, options));
+
+    if (!options.disableLcuBootstrap) {
+      console.log('adding custom bootstrapper...');
+      addCustomLcuBootstrap(host, options);
+    }
     return host;
   };
 }
 
-function createAddToModuleContext(host: Tree, options: ModuleOptions): AddToModuleContext {
-
-  const result = new AddToModuleContext();
-
-  if (!options.module) {
-    throw new SchematicsException(`Module not found.`);
-  }
-
-  const text = host.read(options.module);
-
-  if (text === null) {
-    throw new SchematicsException(`File ${options.module} does not exist!`);
-  }
-  const sourceText = text.toString('utf-8');
-  result.source = ts.createSourceFile(options.module, sourceText, ts.ScriptTarget.Latest, true);
-
-  const componentPath = `${options.path}/`
-    + stringUtils.dasherize(options.name) + '/'
-    + stringUtils.dasherize(options.name)
-    + '.component';
-
-  result.relativePath = buildRelativePath(options.module, componentPath);
-
-  // TODO: Get workspace in a cleaner manner
-  let lcuFile = host.get('lcu.json');
-  let lcuJson = lcuFile ? JSON.parse(lcuFile.content.toString('utf8')) : {};
-  let workspace = lcuJson.templates.workspace;
-
-  result.classifiedName = stringUtils.classify(`${workspace}`) + stringUtils.classify(`${options.name}ElementComponent`);
-  return result;
-
+/**
+ * When the 'lcu' command is executed, it updates the 'lcu' project app.module and adds project module to it.
+ * 
+ * @param options The options passed from the calling command
+ */
+export function updateAppModule(options: ModuleOptions): Rule {
+  return (host: Tree) => {
+    console.log('updateAppModule initializing...');
+    addImport(host, createUpdateModuleContext(host, options));
+    addExport(host, createUpdateModuleContext(host, options));
+    return host;
+  };
 }
 
-function addDeclaration(host: Tree, options: ModuleOptions) {
+/**
+ * When creating a new LCU, adds a custom bootstrap method to the app.module file.
+ * 
+ * @param host The current application Tree
+ * @param options The options passed from the calling command
+ */
+function addCustomLcuBootstrap(host: Tree, options: ModuleOptions | any): void {
+  console.log('addCustomLcuBootstrap initializing...');
+  let component = stringUtils.classify(`${options.workspace}`) + stringUtils.classify(`${options.name}ElementComponent`);
+  let selector = 'Selector' + stringUtils.classify(`${options.workspace}`) + stringUtils.classify(`${options.name}Element`);
 
-  const context = createAddToModuleContext(host, options);
-  const modulePath = options.module || '';
+  const appModule = './projects/lcu/src/lib/app.module.ts';
+
+  const buffer = host.read(appModule);
+  if (!buffer) return;
+  const content = buffer.toString('utf-8');
+
+  let sourceFile: any = ts.createSourceFile(appModule, content, ts.ScriptTarget.Latest, true);
+
+  let node = findClassBlock(sourceFile, 'AppModule');
+
+  if (node.getWidth() > 0) {
+    throw new SchematicsException(`Expected body in ${sourceFile.fileName} to be empty. Set 'disableLcuBootstrap' option to true to create solution without custom bootstrap.`);
+  }
+
+  let toAdd = `\n\tconstructor(protected injector: Injector) {}`;
+  toAdd += `\n\n\tpublic ngDoBootstrap() {\n\t\tconst cfgMgr = createCustomElement(${component}, { injector: this.injector });`
+  toAdd += `\n\n\t\tcustomElements.define(${selector}, cfgMgr);\n\t}\n`
+
+  let bootstrapChanges: Change[] = [
+    new InsertChange(appModule, node.pos-1, 'implements DoBootstrap '),
+    new InsertChange(appModule, node.pos, toAdd),
+    insertImport(sourceFile, appModule, 'DoBootstrap', '@angular/core'),
+    insertImport(sourceFile, appModule, 'Injector', '@angular/core'),
+    insertImport(sourceFile, appModule, 'createCustomElement', '@angular/elements'),
+    insertImport(sourceFile, appModule, component, constructWorkspacePath(options, 'common')),
+    insertImport(sourceFile, appModule, selector, constructWorkspacePath(options, 'common'))
+  ];
+
+  const recorder = host.beginUpdate(appModule);
+  for (let change of bootstrapChanges) {
+      if (change instanceof InsertChange) {
+          recorder.insertLeft(change.pos, change.toAdd);
+      }
+  }
+  host.commitUpdate(recorder);
+}
+
+/**
+ * Adds given class to a module's declarations array
+ * 
+ * @param host The current application Tree
+ * @param context The context containing data relating to module
+ */
+function addDeclaration(host: Tree, context: AddToModuleContext): void {
+  console.log('addDeclaration initializing...');
 
   const declarationChanges = addDeclarationToModule(
     context.source,
-    modulePath,
+    context.filePath,
     context.classifiedName,
     context.relativePath);
 
-  const declarationRecorder = host.beginUpdate(modulePath);
+  const declarationRecorder = host.beginUpdate(context.filePath);
 
   for (const change of declarationChanges) {
     if (change instanceof InsertChange) {
@@ -81,17 +128,47 @@ function addDeclaration(host: Tree, options: ModuleOptions) {
   host.commitUpdate(declarationRecorder);
 };
 
-function addExport(host: Tree, options: ModuleOptions) {
-  const context = createAddToModuleContext(host, options);
-  const modulePath = options.module || '';
+/**
+ * Adds given class to a module's entryComponents array
+ * 
+ * @param host The current application Tree
+ * @param context The context containing data relating to module
+ */
+function addEntryComponent(host: Tree, context: AddToModuleContext): void {
+  console.log('addEntryComponent initializing...');
 
-  const exportChanges = addExportToModule(
+  const entryComponentChanges = addEntryComponentToModule(
     context.source,
-    modulePath,
+    context.filePath,
     context.classifiedName,
     context.relativePath);
 
-  const exportRecorder = host.beginUpdate(modulePath);
+  const entryComponentRecorder = host.beginUpdate(context.filePath);
+
+  for (const change of entryComponentChanges) {
+    if (change instanceof InsertChange) {
+      entryComponentRecorder.insertLeft(change.pos, change.toAdd);
+    }
+  }
+  host.commitUpdate(entryComponentRecorder);
+};
+
+/**
+ * Adds given class to a module's exports array
+ * 
+ * @param host The current application Tree
+ * @param context The context containing data relating to module
+ */
+function addExport(host: Tree, context: AddToModuleContext): void {
+  console.log('addExport initializing...');
+
+  const exportChanges = addExportToModule(
+    context.source,
+    context.filePath,
+    context.classifiedName,
+    context.relativePath);
+
+  const exportRecorder = host.beginUpdate(context.filePath);
 
   for (const change of exportChanges) {
     if (change instanceof InsertChange) {
@@ -101,22 +178,157 @@ function addExport(host: Tree, options: ModuleOptions) {
   host.commitUpdate(exportRecorder);
 };
 
-function addEntryComponent(host: Tree, options: ModuleOptions) {
-  const context = createAddToModuleContext(host, options);
-  const modulePath = options.module || '';
-
-  const entryComponentChanges = addEntryComponentToModule(
+/**
+ * Adds given class to a module's imports array
+ * 
+ * @param host The current application Tree
+ * @param context The context containing data relating to module
+ */
+function addImport(host: Tree, context: AddToModuleContext): void {
+  console.log('addImport initializing...');
+  
+  const importChanges = addImportToModule(
     context.source,
-    modulePath,
+    context.filePath,
     context.classifiedName,
     context.relativePath);
 
-  const entryComponentRecorder = host.beginUpdate(modulePath);
+  const importRecorder = host.beginUpdate(context.filePath);
 
-  for (const change of entryComponentChanges) {
+  for (const change of importChanges) {
     if (change instanceof InsertChange) {
-      entryComponentRecorder.insertLeft(change.pos, change.toAdd);
+      importRecorder.insertLeft(change.pos, change.toAdd);
     }
   }
-  host.commitUpdate(entryComponentRecorder);
+  host.commitUpdate(importRecorder);
 };
+
+/**
+ * Builds the package name (scope & workspace) of the project.
+ * 
+ * @param options The options passed from the calling command
+ * @param project The project name to append
+ */
+function constructWorkspacePath(options: any, project?: string): string {
+  return (options.scope + '/' + options.workspace) + (project ? '-' + project : '');
+}
+
+/**
+ * Creates the context data necessary for adding a component to a module.
+ * 
+ * @param host The current application Tree
+ * @param options The options passed from the calling command
+ */
+function createAddToModuleContext(host: Tree, options: ModuleOptions | any): AddToModuleContext {
+  console.log('createAddToModuleContext initializing...');
+  const result = new AddToModuleContext();
+
+  result.filePath = options.module || ''; 
+  console.log('createAddToModuleContext result.filePath:', result.filePath);
+
+  result.classifiedName = stringUtils.classify(`${options.workspace}`) + stringUtils.classify(`${options.name}ElementComponent`);
+
+  const componentPath = `${options.path}/`
+  + stringUtils.dasherize(options.name) + '/'
+  + stringUtils.dasherize(options.name)
+  + '.component';
+  console.log('createAddToModuleContext componentPath:', componentPath);  
+
+  result.relativePath = buildRelativePath(result.filePath, componentPath);
+  console.log('createAddToModuleContext result.relativePath:', result.relativePath);
+
+  const text = host.read(result.filePath);
+  if (!text) throw new SchematicsException(`File ${result.filePath} does not exist.`);
+  const sourceText = text.toString('utf-8');
+  result.source = ts.createSourceFile(result.filePath, sourceText, ts.ScriptTarget.Latest, true);
+
+  return result;
+}
+
+/**
+ * Creates the context data necessary for updating/adding a module to the app.module file.
+ * 
+ * @param host The current application Tree
+ * @param options The options passed from the calling command
+ */
+function createUpdateModuleContext(host: Tree, options: ModuleOptions | any): AddToModuleContext {
+  console.log('createUpdateModuleContext initializing...');
+  const result = new AddToModuleContext();
+
+  result.filePath = findFileByName('app.module.ts', '/projects/lcu/src/lib', host);
+  result.classifiedName = classify(`${options.workspace}Module`);
+  result.relativePath = constructWorkspacePath(options, 'common');
+
+  let text = host.read(result.filePath);
+  if (!text) throw new SchematicsException(`File ${result.filePath} does not exist.`);
+  let sourceText = text.toString('utf-8');
+  result.source =ts.createSourceFile(result.filePath, sourceText, ts.ScriptTarget.Latest, true);
+
+  return result;
+}
+
+/**
+ * Parses a given file and finds the first (empty) class block node, returning it.
+ * Used if you want to add content to the body block of a class.
+ * 
+ * @param sourceFile A given file that you want to find a class block in
+ * @param className A given class name  you want to find a class block in (i.e. 'AppComponent')
+ */
+function findClassBlock(sourceFile: any, className: string): any {
+  let nodes = getSourceNodes(sourceFile);
+  let classNode = nodes.find(n => n.kind == ts.SyntaxKind.ClassKeyword);
+
+  if (!classNode) {
+    throw new SchematicsException(`Expected class in ${sourceFile.fileName}.`);
+  }
+  
+  if (!classNode.parent) {
+      throw new SchematicsException(`Expected class in ${sourceFile.fileName} to have a parent node.`);
+  }
+
+  let siblings = classNode.parent.getChildren();
+  let classIndex = siblings.indexOf(classNode);
+
+  siblings = siblings.slice(classIndex);
+
+  let classIdentifierNode = siblings.find(n => n.kind === ts.SyntaxKind.Identifier);
+
+  if (!classIdentifierNode) {
+      throw new SchematicsException(`Expected class in ${sourceFile.fileName} to have an identifier.`);
+  }
+
+  if (classIdentifierNode.getText() !== className) {
+      throw new SchematicsException(`Expected first class in ${sourceFile.fileName} to have the name '${className}'.`);
+  }
+
+  let curlyNodeIndex = siblings.findIndex(n => n.kind === ts.SyntaxKind.FirstPunctuation);
+
+  siblings = siblings.slice(curlyNodeIndex);
+
+  let listNode = siblings.find(n => n.kind === ts.SyntaxKind.SyntaxList);
+
+  if (!listNode) {
+      throw new SchematicsException(`Expected first class in ${sourceFile.fileName} to have a body.`);
+  }
+  return listNode;
+}
+
+/**
+ * Finds and returns the full path of a given file.
+ * 
+ * @param file The name of the file (i.e. 'app.module.ts')
+ * @param path The path of the given file (i.e. '/projects/lcu/src/lib')
+ * @param host The current application Tree
+ */
+function findFileByName(file: string, path: string, host: Tree): string {
+  let dir: DirEntry | null = host.getDir(path);
+
+  while(dir) {
+      let fileName = dir.path + '/' + file;
+      if (host.exists(fileName)) {
+          return fileName;
+      }
+      dir = dir.parent;
+  }
+  throw new SchematicsException(`File ${file} not found in ${path} or one of its ancestors`);
+}

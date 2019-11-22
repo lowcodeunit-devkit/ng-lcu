@@ -14,4 +14,4 @@ import { FathymSharedModule } from '@lcu/common';
   exports: [],
   entryComponents: []
 })
-export class <%= classify(name) %>Module { }
+export class <%= classify(name) %>Module {}

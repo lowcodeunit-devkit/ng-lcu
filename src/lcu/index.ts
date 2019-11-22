@@ -1,28 +1,15 @@
 import { getWorkspace } from '@schematics/angular/utility/config';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { buildDefaultPath } from '@schematics/angular/utility/project';
-import { parseName } from '@schematics/angular/utility/parse-name';
 import {
   Rule,
   SchematicContext,
   Tree,
-  apply,
-  url,
-  noop,
-  filter,
-  move,
-  MergeStrategy,
-  mergeWith,
-  template,
   chain,
-  externalSchematic,
   schematic,
-  ExecutionOptions
+  branchAndMerge
 } from '@angular-devkit/schematics';
-import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import { normalize, strings, Path, join } from '@angular-devkit/core';
-import { addScriptsToPackageFile, removeFilesFromRoot } from '../utils/helpers';
-import { Logger } from '@angular-devkit/core/src/logger';
+import {  Path, join } from '@angular-devkit/core';
+import { addScriptsToPackageFile } from '../utils/helpers';
+import { updateAppModule } from '../utils/module-helpers';
 
 export function lcu(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -31,36 +18,39 @@ export function lcu(options: any): Rule {
     setupOptions(host, options);
 
     const rule = chain([
-      schematic('library', {
-        name: 'common',
-        initWith: 'Blank'
-      }),
-      schematic('application', {
-        name: 'lcu',
-        es5Patch: true,
-        initWith: 'Blank',
-        isDefault: true,
-        routing: false,
-        singleBundle: true,
-        webCompPolys: true
-      }),
-      schematic('application', {
-        name: 'demo',
-        initWith: options.initWith || 'LCU-Core-App'
-      }),
-      externalSchematic('@schematics/angular', 'module', {
-        name: `${options.workspace}`,
-        project: 'common',
-        flat: true
-      }),
-      externalSchematic('@schematics/angular', 'module', {
-        name: `app`,
-        project: 'lcu',
-        flat: true
-      }),
-      updateExport('common', options.workspace, context),
-      addScripts(options),
-      manageBuildScripts(options)
+      branchAndMerge(chain([
+        schematic('library', {
+          name: 'common',
+          initWith: 'Blank'
+        }),
+        schematic('application', {
+          name: 'lcu',
+          es5Patch: true,
+          initWith: 'Blank',
+          isDefault: true,
+          routing: false,
+          singleBundle: true,
+          webCompPolys: true
+        }),
+        schematic('application', {
+          name: 'demo',
+          initWith: options.initWith || 'LCU-Core-App'
+        }),
+        schematic('module', {
+          name: options.workspace,
+          project: 'common',
+          flat: true
+        }),
+        schematic('module', {
+          initWith: 'app',
+          project: 'lcu',
+          flat: true
+        }),
+        updateExport('common', options.workspace, context),
+        updateAppModule(options),
+        addScripts(options),
+        manageBuildScripts(options)
+      ]))
     ]);
 
     return rule(host, context);
