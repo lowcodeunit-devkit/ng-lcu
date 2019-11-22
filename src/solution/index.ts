@@ -14,7 +14,7 @@ import {
   template,
   chain
 } from '@angular-devkit/schematics';
-import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
+import { findModuleFromOptions, buildRelativePath } from '@schematics/angular/utility/find-module';
 import { branchAndMerge } from '@angular-devkit/schematics';
 import { parseName } from '@schematics/angular/utility/parse-name';
 import { normalize, strings } from '@angular-devkit/core';
@@ -52,13 +52,20 @@ export function solution(options: any): Rule {
 
 function prepareLcuApiExport(project: WorkspaceProject<ProjectType>, options: any) {
   return (host: Tree) => {
-    var exportFile = normalize(project.root + '/' + options.export);
+    const exportFile = normalize('/' + project.root + '/' + options.export);
 
     const textBuf = host.read(exportFile);
 
-    var text = textBuf ? textBuf.toString('utf8') : '';
+    const componentPath = `${options.path}/`
+    + strings.dasherize(options.name) + '/'
+    + strings.dasherize(options.name)
+    + '.component';
 
-    var newExport = `export * from './${options.path}/${strings.dasherize(options.name)}/${strings.dasherize(options.name)}.component';`;
+    const relativePath = buildRelativePath(exportFile, componentPath);
+
+    let text = textBuf ? textBuf.toString('utf8') : '';
+
+    let newExport = `export * from '${relativePath}';`;
 
     if (text.indexOf(newExport) < 0) {
       text += `${newExport}\r\n`;
