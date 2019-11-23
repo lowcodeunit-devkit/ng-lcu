@@ -153,6 +153,8 @@ export function manageAppAssets(options: any, context: SchematicContext) {
 
     let angularJson = angularFile ? JSON.parse(angularFile.content.toString('utf8')) : {};
 
+    let angularJsonText = JSON.stringify(angularJson);
+
     angularJson.projects[projectSafeName].architect.build.options.assets.push(packageGlob);
 
     if (options.isDefault) angularJson.defaultProject = projectSafeName;
@@ -177,6 +179,8 @@ export function manageAppAssets(options: any, context: SchematicContext) {
       angularJson.projects[projectSafeName].architect.build.options.scripts.push(
         'node_modules/@webcomponents/custom-elements/src/native-shim.js'
       );
+
+    delete angularJson.projects[projectSafeName].architect.build.configurations.production.budgets;
 
     host.overwrite('angular.json', JSON.stringify(angularJson, null, '\t'));
 
