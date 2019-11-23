@@ -22,7 +22,7 @@ import { addSolutionToNgModule } from '../utils/module-helpers';
 
 export function solution(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
-    context.logger.info(`BOBBY 5570 - solution() initialized... options: ${JSON.stringify(options)}`);
+    context.logger.debug('Starting solution...');
 
     setupOptions(host, options);
     addSolutionCapabilities(host, options);

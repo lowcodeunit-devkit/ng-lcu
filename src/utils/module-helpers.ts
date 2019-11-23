@@ -28,13 +28,11 @@ export class AddToModuleContext {
  */
 export function addSolutionToNgModule(options: ModuleOptions | any): Rule {
   return (host: Tree) => {
-    console.log('addSolutionToNgModule initializing...');
     addDeclaration(host, createAddToModuleContext(host, options));
     addExport(host, createAddToModuleContext(host, options));
     addEntryComponent(host, createAddToModuleContext(host, options));
 
     if (!options.disableLcuBootstrap) {
-      console.log('adding custom bootstrapper...');
       addCustomLcuBootstrap(host, options);
     }
     return host;
@@ -48,7 +46,6 @@ export function addSolutionToNgModule(options: ModuleOptions | any): Rule {
  */
 export function updateAppModule(options: ModuleOptions): Rule {
   return (host: Tree) => {
-    console.log('updateAppModule initializing...');
     addImport(host, createUpdateModuleContext(host, options));
     addExport(host, createUpdateModuleContext(host, options));
     return host;
@@ -62,7 +59,6 @@ export function updateAppModule(options: ModuleOptions): Rule {
  * @param options The options passed from the calling command
  */
 function addCustomLcuBootstrap(host: Tree, options: ModuleOptions | any): void {
-  console.log('addCustomLcuBootstrap initializing...');
   let component = stringUtils.classify(`${options.workspace}`) + stringUtils.classify(`${options.name}ElementComponent`);
   let selector = 'Selector' + stringUtils.classify(`${options.workspace}`) + stringUtils.classify(`${options.name}Element`);
 
@@ -110,8 +106,6 @@ function addCustomLcuBootstrap(host: Tree, options: ModuleOptions | any): void {
  * @param context The context containing data relating to module
  */
 function addDeclaration(host: Tree, context: AddToModuleContext): void {
-  console.log('addDeclaration initializing...');
-
   const declarationChanges = addDeclarationToModule(
     context.source,
     context.filePath,
@@ -135,8 +129,6 @@ function addDeclaration(host: Tree, context: AddToModuleContext): void {
  * @param context The context containing data relating to module
  */
 function addEntryComponent(host: Tree, context: AddToModuleContext): void {
-  console.log('addEntryComponent initializing...');
-
   const entryComponentChanges = addEntryComponentToModule(
     context.source,
     context.filePath,
@@ -160,8 +152,6 @@ function addEntryComponent(host: Tree, context: AddToModuleContext): void {
  * @param context The context containing data relating to module
  */
 function addExport(host: Tree, context: AddToModuleContext): void {
-  console.log('addExport initializing...');
-
   const exportChanges = addExportToModule(
     context.source,
     context.filePath,
@@ -185,8 +175,6 @@ function addExport(host: Tree, context: AddToModuleContext): void {
  * @param context The context containing data relating to module
  */
 function addImport(host: Tree, context: AddToModuleContext): void {
-  console.log('addImport initializing...');
-  
   const importChanges = addImportToModule(
     context.source,
     context.filePath,
@@ -220,22 +208,17 @@ function constructWorkspacePath(options: any, project?: string): string {
  * @param options The options passed from the calling command
  */
 function createAddToModuleContext(host: Tree, options: ModuleOptions | any): AddToModuleContext {
-  console.log('createAddToModuleContext initializing...');
   const result = new AddToModuleContext();
 
   result.filePath = options.module || ''; 
-  console.log('createAddToModuleContext result.filePath:', result.filePath);
-
   result.classifiedName = stringUtils.classify(`${options.workspace}`) + stringUtils.classify(`${options.name}ElementComponent`);
 
   const componentPath = `${options.path}/`
   + stringUtils.dasherize(options.name) + '/'
   + stringUtils.dasherize(options.name)
   + '.component';
-  console.log('createAddToModuleContext componentPath:', componentPath);  
 
   result.relativePath = buildRelativePath(result.filePath, componentPath);
-  console.log('createAddToModuleContext result.relativePath:', result.relativePath);
 
   const text = host.read(result.filePath);
   if (!text) throw new SchematicsException(`File ${result.filePath} does not exist.`);
@@ -252,7 +235,6 @@ function createAddToModuleContext(host: Tree, options: ModuleOptions | any): Add
  * @param options The options passed from the calling command
  */
 function createUpdateModuleContext(host: Tree, options: ModuleOptions | any): AddToModuleContext {
-  console.log('createUpdateModuleContext initializing...');
   const result = new AddToModuleContext();
 
   result.filePath = findFileByName('app.module.ts', '/projects/lcu/src/lib', host);

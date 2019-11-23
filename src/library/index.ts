@@ -15,10 +15,7 @@ import { addScriptsToPackageFile } from '../utils/helpers';
 
 export function library(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
-    context.logger.info(`BOBBY 5570 - library() intialized...`);
     setupOptions(host, options);
-    context.logger.info(`BOBBY 5570 - library() options.name: ${options.name}`);
-    context.logger.info(`BOBBY 5570 - library() options.workspace: ${options.workspace}`);
 
     const rule = chain([
       branchAndMerge(externalSchematic('@schematics/angular', 'library', {

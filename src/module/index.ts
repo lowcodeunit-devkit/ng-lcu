@@ -14,27 +14,21 @@ import { normalize, strings } from '@angular-devkit/core';
 
 export function module(options: any): Rule {
     return (host: Tree, context: SchematicContext) => {
-      context.logger.info(`BOBBY 5570 - module() initialized...`);
+      context.logger.debug('Starting module...');
+
       setupOptions(host, options);
-      context.logger.info(`BOBBY 5570 - module() options: ${JSON.stringify(options)}`);
   
       const workspace = getWorkspace(host);
-
       const project = workspace.projects[options.project];
-      context.logger.info(`BOBBY 5570 - module() project: ${JSON.stringify(project)}`);
-
       const targetPath = normalize(project.root + '/src/' + options.path);
-      context.logger.info(`BOBBY 5570 - module() targetPath: ${targetPath}`);
 
       let filePath: string = './files';
-      context.logger.info(`BOBBY 5570 - module() filePath before: ${filePath}`);
 
       if (options.initWith === 'app') {
         filePath += '/app';
       } else {
         filePath += '/component';
       }
-      context.logger.info(`BOBBY 5570 - module() filePath after: ${filePath}`);
       
       const solutionSource = apply(url(filePath), [
         template({
