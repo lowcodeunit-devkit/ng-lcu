@@ -1,28 +1,17 @@
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { buildDefaultPath } from '@schematics/angular/utility/project';
-import { parseName } from '@schematics/angular/utility/parse-name';
 import {
   Rule,
   SchematicContext,
   Tree,
-  apply,
-  url,
   noop,
-  filter,
-  move,
-  MergeStrategy,
-  mergeWith,
-  template,
   chain,
   externalSchematic,
   branchAndMerge,
   schematic
 } from '@angular-devkit/schematics';
-import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import { normalize, strings, Path, join } from '@angular-devkit/core';
+import { strings, Path, join } from '@angular-devkit/core';
 import { addScriptsToPackageFile } from '../utils/helpers';
-import { Logger } from '@angular-devkit/core/src/logger';
 
 export function library(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
