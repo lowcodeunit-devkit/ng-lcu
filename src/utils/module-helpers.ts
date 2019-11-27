@@ -62,10 +62,21 @@ function addCustomLcuBootstrap(host: Tree, options: ModuleOptions | any): void {
   let component = stringUtils.classify(`${options.workspace}`) + stringUtils.classify(`${options.name}ElementComponent`);
   let selector = 'Selector' + stringUtils.classify(`${options.workspace}`) + stringUtils.classify(`${options.name}Element`);
 
-  const appModule = './projects/lcu/src/lib/app.module.ts';
+  let appModule = './projects/lcu/src/app/app.module.ts';
 
-  const buffer = host.read(appModule);
-  if (!buffer) return;
+  let buffer = host.read(appModule);
+
+  if (!buffer) {
+    console.log(`No app.module found in directory: '${appModule}' - trying in lib directory instead.`);
+    appModule = './projects/lcu/src/lib/app.module.ts';
+    buffer = host.read(appModule);
+
+    if (!buffer) {
+      console.log(`Could not find 'app.module' in any directory - skipping update.`);
+      return;
+    }
+  }
+
   const content = buffer.toString('utf-8');
 
   let sourceFile: any = ts.createSourceFile(appModule, content, ts.ScriptTarget.Latest, true);
@@ -237,7 +248,7 @@ function createAddToModuleContext(host: Tree, options: ModuleOptions | any): Add
 function createUpdateModuleContext(host: Tree, options: ModuleOptions | any): AddToModuleContext {
   const result = new AddToModuleContext();
 
-  result.filePath = findFileByName('app.module.ts', '/projects/lcu/src/lib', host);
+  result.filePath = findFileByName('app.module.ts', '/projects/lcu/src/app', host);
   result.classifiedName = classify(`${options.workspace}Module`);
   result.relativePath = constructWorkspacePath(options, 'common');
 

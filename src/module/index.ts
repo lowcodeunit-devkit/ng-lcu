@@ -14,7 +14,7 @@ import { normalize, strings } from '@angular-devkit/core';
 
 export function module(options: any): Rule {
     return (host: Tree, context: SchematicContext) => {
-      context.logger.debug('Starting module...');
+      context.logger.info(`Starting module...`);
 
       setupOptions(host, options);
   
