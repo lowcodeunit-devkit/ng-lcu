@@ -44,6 +44,7 @@ export function lcu(options: any): Rule {
         schematic('module', {
           initWith: 'app',
           project: 'lcu',
+          path: 'app',
           flat: true
         }),
         updateExport('common', options.workspace, context),
