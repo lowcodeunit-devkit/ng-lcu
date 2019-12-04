@@ -21,7 +21,8 @@ export function lcu(options: any): Rule {
       branchAndMerge(chain([
         schematic('library', {
           name: 'common',
-          initWith: 'Blank'
+          initWith: 'LCU-Starter-App'
+          // initWith: 'Blank'
         }),
         schematic('application', {
           name: 'lcu',
@@ -34,7 +35,8 @@ export function lcu(options: any): Rule {
         }),
         schematic('application', {
           name: 'demo',
-          initWith: options.initWith || 'LCU-Core-App'
+          initWith: options.initWith || 'Blank'
+          // initWith: options.initWith || 'LCU-Core-App'
         }),
         schematic('module', {
           name: options.workspace,
