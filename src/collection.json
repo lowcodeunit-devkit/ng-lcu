@@ -50,8 +50,12 @@
       "factory": "./lcu-form/index#lcuForm"
     },
     "lcu-starter-app": {
-      "description": "Schematics for seeding an LCU Starter App.",
+      "description": "Schematics for seeding an LCU Starter Application.",
       "factory": "./lcu-starter-app/index#lcuStarterApp"
+    },
+    "lcu-starter-lib": {
+      "description": "Schematics for seeding an LCU Starter Library.",
+      "factory": "./lcu-starter-lib/index#lcuStarterLib"
     },
     "momentum": {
       "description": "Schematics for seeding Momentum App.",

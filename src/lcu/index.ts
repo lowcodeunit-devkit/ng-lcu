@@ -21,7 +21,7 @@ export function lcu(options: any): Rule {
       branchAndMerge(chain([
         schematic('library', {
           name: 'common',
-          initWith: 'LCU-Starter-App'
+          initWith: 'LCU-Starter-Lib'
           // initWith: 'Blank'
         }),
         schematic('application', {
@@ -35,7 +35,7 @@ export function lcu(options: any): Rule {
         }),
         schematic('application', {
           name: 'demo',
-          initWith: options.initWith || 'Blank'
+          initWith: options.initWith || 'LCU-Starter-App'
           // initWith: options.initWith || 'LCU-Core-App'
         }),
         schematic('module', {
@@ -51,6 +51,7 @@ export function lcu(options: any): Rule {
         }),
         updateExport('common', options.workspace, context),
         updateAppModule(options),
+        updateAppModule(options, '/projects/demo/src/app'),
         addScripts(options),
         manageBuildScripts(options)
       ]))
@@ -117,16 +118,19 @@ export function manageBuildScripts(options: any) {
 
 function updateExport(projectName: string, workspaceName: string, context: SchematicContext) {
   return (host: Tree) => {
-    //  TODO:  Not working... Fix
-    var workspace = getWorkspace(host);
+    let workspace = getWorkspace(host);
 
-    var project = workspace.projects[projectName];
+    let project = workspace.projects[projectName];
 
-    var srcRoot = join(project.root as Path, 'src');
+    let srcRoot = join(project.root as Path, 'src');
 
-    var lcuApi = join(srcRoot, `lcu.api.ts`);
+    let lcuApi = join(srcRoot, `lcu.api.ts`);
 
-    host.overwrite(lcuApi, `export * from './lib/${workspaceName}.module';\r\n`);
+    let content = 
+      `export * from './lib/${workspaceName}.module';\r\n` + 
+      `export * from './lib/controls/example/example.component';\r\n`; // TODO: Can we make this dynamic?
+
+    host.overwrite(lcuApi, content);
 
     return host;
   };

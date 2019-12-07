@@ -2,16 +2,16 @@ import { Rule, Tree, SchematicContext, chain, mergeWith, move, template, apply, 
 import { getWorkspace } from "@schematics/angular/utility/config";
 import { normalize, strings } from "@angular-devkit/core";
 
-export function lcuStarterApp(options: any): Rule {
+export function lcuStarterLib(options: any): Rule {
     return (host: Tree, context: SchematicContext) => {
-        context.logger.info(`lcuStarterApp() - initializing... ${JSON.stringify(options)}`);
+        context.logger.info(`lcuStarterLib() - initializing... ${JSON.stringify(options)}`);
         setupOptions(host, options);
 
-        context.logger.info(`lcuStarterApp() - options: ${JSON.stringify(options)}`);
+        context.logger.info(`lcuStarterLib() - options: ${JSON.stringify(options)}`);
         const workspace = getWorkspace(host);
         let project = workspace.projects[options.project];
 
-        const targetPath = normalize(project.root + '/src/app');
+        const targetPath = normalize(project.root + '/src/lib');
 
         const solutionSource = apply(url('./files'), [
             template({

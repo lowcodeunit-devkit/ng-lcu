@@ -44,10 +44,10 @@ export function addSolutionToNgModule(options: ModuleOptions | any): Rule {
  * 
  * @param options The options passed from the calling command
  */
-export function updateAppModule(options: ModuleOptions): Rule {
+export function updateAppModule(options: ModuleOptions, appModulePath?: string): Rule {
   return (host: Tree) => {
-    addImport(host, createUpdateModuleContext(host, options));
-    addExport(host, createUpdateModuleContext(host, options));
+    addImport(host, createUpdateModuleContext(host, options, appModulePath));
+    addExport(host, createUpdateModuleContext(host, options, appModulePath));
     return host;
   };
 }
@@ -245,10 +245,10 @@ function createAddToModuleContext(host: Tree, options: ModuleOptions | any): Add
  * @param host The current application Tree
  * @param options The options passed from the calling command
  */
-function createUpdateModuleContext(host: Tree, options: ModuleOptions | any): AddToModuleContext {
+function createUpdateModuleContext(host: Tree, options: ModuleOptions | any, appModulePath?: string): AddToModuleContext {
   const result = new AddToModuleContext();
 
-  result.filePath = findFileByName('app.module.ts', '/projects/lcu/src/app', host);
+  result.filePath = findFileByName('app.module.ts', appModulePath ? appModulePath : '/projects/lcu/src/app', host);
   result.classifiedName = classify(`${options.workspace}Module`);
   result.relativePath = constructWorkspacePath(options, 'common');
 

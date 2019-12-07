@@ -205,11 +205,10 @@ function processInitWith(options: any, context: SchematicContext) {
         ]);
       break;
       
-      case 'LCU-Starter-App':
-        // TODO: Do we want to change name to 'LCU-Starter-Lib' instead?
+      case 'LCU-Starter-Lib':
         rule = chain([
           blankOutLibrary(options, context),
-          schematic('lcu-starter-app', {
+          schematic('lcu-starter-lib', {
             name: options.name,
             project: options.name
           })
