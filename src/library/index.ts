@@ -210,7 +210,8 @@ function processInitWith(options: any, context: SchematicContext) {
           blankOutLibrary(options, context),
           schematic('lcu-starter-lib', {
             name: options.name,
-            project: options.name
+            project: options.name,
+            elementName: options.elementName
           })
         ]);
         break;

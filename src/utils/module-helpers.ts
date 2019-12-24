@@ -39,6 +39,15 @@ export function addSolutionToNgModule(options: ModuleOptions | any): Rule {
   };
 }
 
+export function addElementToNgModule(options: ModuleOptions | any): Rule {
+  return (host: Tree) => {
+    addDeclaration(host, createAddElementToModuleContext(host, options));
+    addExport(host, createAddElementToModuleContext(host, options));
+
+    return host;
+  }
+}
+
 /**
  * When the 'lcu' command is executed, it updates the 'lcu' project app.module and adds project module to it.
  * 
@@ -46,7 +55,7 @@ export function addSolutionToNgModule(options: ModuleOptions | any): Rule {
  */
 export function updateAppModule(options: ModuleOptions, appModulePath?: string): Rule {
   return (host: Tree) => {
-    addImport(host, createUpdateModuleContext(host, options, appModulePath));
+    addImport(host, createUpdateModuleContext(host, options, appModulePath, true));
     addExport(host, createUpdateModuleContext(host, options, appModulePath));
     return host;
   };
@@ -203,6 +212,29 @@ function addImport(host: Tree, context: AddToModuleContext): void {
 };
 
 /**
+ * Adds given service to a module's providers array
+ * 
+ * @param host The current application Tree
+ * @param context The context containing data relating to module
+ */
+function addProvider(host: Tree, context: AddToModuleContext): void {
+  const providerChanges = addImportToModule(
+    context.source,
+    context.filePath,
+    context.classifiedName,
+    context.relativePath);
+
+  const providerRecorder = host.beginUpdate(context.filePath);
+
+  for (const change of providerChanges) {
+    if (change instanceof InsertChange) {
+      providerRecorder.insertLeft(change.pos, change.toAdd);
+    }
+  }
+  host.commitUpdate(providerRecorder);
+};
+
+/**
  * Builds the package name (scope & workspace) of the project.
  * 
  * @param options The options passed from the calling command
@@ -239,17 +271,42 @@ function createAddToModuleContext(host: Tree, options: ModuleOptions | any): Add
   return result;
 }
 
+
+/**
+ * Creates the context data necessary for adding certain elements (component, directives, etc.) to a module.
+ * 
+ * @param host The current application Tree
+ * @param options The options passed from the calling command
+ */
+function createAddElementToModuleContext(host: Tree, options: ModuleOptions | any): AddToModuleContext {
+  const result = new AddToModuleContext();
+
+  result.filePath = options.module || options.filePath;
+  result.classifiedName = options.classifiedName;
+  
+  const componentPath = options.componentPath;
+
+  result.relativePath = buildRelativePath(result.filePath, componentPath);
+
+  const text = host.read(result.filePath);
+  if (!text) throw new SchematicsException(`File ${result.filePath} does not exist.`);
+  const sourceText = text.toString('utf-8');
+  result.source = ts.createSourceFile(result.filePath, sourceText, ts.ScriptTarget.Latest, true);
+
+  return result;
+}
+
 /**
  * Creates the context data necessary for updating/adding a module to the app.module file.
  * 
  * @param host The current application Tree
  * @param options The options passed from the calling command
  */
-function createUpdateModuleContext(host: Tree, options: ModuleOptions | any, appModulePath?: string): AddToModuleContext {
+function createUpdateModuleContext(host: Tree, options: ModuleOptions | any, appModulePath?: string, forRoot?: boolean): AddToModuleContext {
   const result = new AddToModuleContext();
 
   result.filePath = findFileByName('app.module.ts', appModulePath ? appModulePath : '/projects/lcu/src/app', host);
-  result.classifiedName = classify(`${options.workspace}Module`);
+  result.classifiedName = classify(`${options.workspace}Module`) + (forRoot ? '.forRoot()' : '');
   result.relativePath = constructWorkspacePath(options, 'common');
 
   let text = host.read(result.filePath);

@@ -1,18 +1,26 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FathymSharedModule } from '@lcu/common';
-import { ExampleComponent } from './controls/example/example.component';
+import { FathymSharedModule, MaterialModule } from '@lcu/common';
+import { <%= classify(elementName) %>Service } from './services/<%= dasherize(elementName) %>.service';
 
 @NgModule({
-  declarations: [ExampleComponent],
+  declarations: [],
   imports: [
     FathymSharedModule,
     FormsModule,
     ReactiveFormsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MaterialModule
   ],
-  exports: [ExampleComponent],
+  exports: [],
   entryComponents: []
 })
-export class <%= classify(name) %>Module {}
+export class <%= classify(name) %>Module {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: <%= classify(name) %>Module,
+      providers: [<%= classify(elementName) %>Service]
+    };
+  }
+}

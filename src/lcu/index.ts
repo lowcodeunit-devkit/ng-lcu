@@ -9,7 +9,11 @@ import {
 } from '@angular-devkit/schematics';
 import {  Path, join } from '@angular-devkit/core';
 import { addScriptsToPackageFile } from '../utils/helpers';
-import { updateAppModule } from '../utils/module-helpers';
+import { updateAppModule, addElementToNgModule } from '../utils/module-helpers';
+import { strings } from '@angular-devkit/core';
+
+const { dasherize, classify } = strings;
+const stringUtils = { dasherize, classify };
 
 export function lcu(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -21,8 +25,8 @@ export function lcu(options: any): Rule {
       branchAndMerge(chain([
         schematic('library', {
           name: 'common',
-          initWith: 'LCU-Starter-Lib'
-          // initWith: 'Blank'
+          initWith: 'LCU-Starter-Lib',
+          elementName: options.elementName
         }),
         schematic('application', {
           name: 'lcu',
@@ -35,12 +39,13 @@ export function lcu(options: any): Rule {
         }),
         schematic('application', {
           name: 'demo',
-          initWith: options.initWith || 'LCU-Starter-App'
-          // initWith: options.initWith || 'LCU-Core-App'
+          initWith: options.initWith || 'LCU-Starter-App',
+          elementName: options.elementName
         }),
         schematic('module', {
           name: options.workspace,
           project: 'common',
+          elementName: options.elementName,
           flat: true
         }),
         schematic('module', {
@@ -49,9 +54,10 @@ export function lcu(options: any): Rule {
           path: 'app',
           flat: true
         }),
-        updateExport('common', options.workspace, context),
+        updateExport('common', options.workspace),
         updateAppModule(options),
         updateAppModule(options, '/projects/demo/src/app'),
+        addStarterElements(options),
         addScripts(options),
         manageBuildScripts(options)
       ]))
@@ -116,8 +122,9 @@ export function manageBuildScripts(options: any) {
   };
 }
 
-function updateExport(projectName: string, workspaceName: string, context: SchematicContext) {
+function updateExport(projectName: string, workspaceName: string, contentToAdd?: string) {
   return (host: Tree) => {
+    
     let workspace = getWorkspace(host);
 
     let project = workspace.projects[projectName];
@@ -126,10 +133,12 @@ function updateExport(projectName: string, workspaceName: string, context: Schem
 
     let lcuApi = join(srcRoot, `lcu.api.ts`);
 
-    let content = 
-      `export * from './lib/${workspaceName}.module';\r\n` + 
-      `export * from './lib/controls/example/example.component';\r\n`; // TODO: Can we make this dynamic?
+    let content = `export * from './lib/${workspaceName}.module';\r\n`;
 
+    if (contentToAdd) {
+      content += contentToAdd;
+    }
+    
     host.overwrite(lcuApi, content);
 
     return host;
@@ -146,8 +155,47 @@ export function setupOptions(host: Tree, options: any): Tree {
   options.workspace = lcuJson.templates.workspace;
 
   options.initWith = options.initWith;
+  
+  // starter files
+  options.elementName = 'bobby';
+
+  options.path = options.path || '/projects/common/src/lib/';
+
+  options.filePath = options.path + stringUtils.dasherize(options.workspace) + '.module.ts';
 
   return host;
+}
+
+function addStarterElements(options: any): Rule {
+  return (host: Tree) => {
+
+    const files = [
+      { name: `${stringUtils.dasherize(options.elementName)}.component`, type: 'component', path: `controls/${stringUtils.dasherize(options.elementName)}` },
+      { name: `${stringUtils.dasherize(options.elementName)}.directive`, type: 'directive', path: 'directives' },
+      { name: `${stringUtils.dasherize(options.elementName)}.model`, type: 'model', path: 'models' },
+      { name: `${stringUtils.dasherize(options.elementName)}.service`, type: 'service', path: 'services' },
+      { name: `${stringUtils.dasherize(options.elementName)}-manager.context`, type: 'manager-context', path: 'state' },
+      { name: `${stringUtils.dasherize(options.elementName)}.utils`, type: 'utils', path: 'utils' }
+    ];
+
+    const rules: Rule[] = [];
+
+    let exportContent = '';
+
+    files.forEach((file) => {
+      if (file.type === 'component' || file.type === 'directive') {
+        options.classifiedName = stringUtils.classify(options.elementName) + stringUtils.classify(file.type);
+        options.componentPath = options.path + file.path + '/' + file.name;
+        rules.push(addElementToNgModule({...options}));
+      }
+
+      exportContent += `export * from './lib/` + `${file.path}/${file.name}';\r\n`;
+    });
+
+    rules.push(updateExport('common', options.workspace, exportContent));
+
+    return chain(rules);
+  };
 }
 
 function randomizePort(){

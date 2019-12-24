@@ -11,9 +11,17 @@ export function lcuStarterApp(options: any): Rule {
         const workspace = getWorkspace(host);
         let project = workspace.projects[options.project];
 
-        const targetPath = normalize(project.root + '/src/app');
+        const targetPath = normalize(project.root + '/src');
 
-        const solutionSource = apply(url('./files'), [
+        const appSource = apply(url('./files/app'), [
+            template({
+                ...strings,
+                ...options,
+            }),
+            move(targetPath + '/app'),
+        ]);
+
+        const styleSource = apply(url('./files/style'), [
             template({
                 ...strings,
                 ...options,
@@ -22,7 +30,8 @@ export function lcuStarterApp(options: any): Rule {
         ]);
 
         return chain([
-            mergeWith(solutionSource, MergeStrategy.Default)
+            mergeWith(appSource, MergeStrategy.Default),
+            mergeWith(styleSource, MergeStrategy.Overwrite)
         ]);
     };
 }
