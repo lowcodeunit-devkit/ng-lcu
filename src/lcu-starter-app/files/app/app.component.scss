@@ -1,0 +1,51 @@
+@import '~@angular/material/theming';
+
+@mixin <%= dasherize(elementName) %>-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  .<%= dasherize(elementName) %>-toolbar {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .<%= dasherize(elementName) %>-content {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .color-swatch-arctic {
+    color: mat-color($fathym-arctic-primary, 500) !important;
+  }
+
+  .color-swatch-contrast {
+    color: mat-color($fathym-contrast-primary, 500) !important;
+  }
+
+  .color-swatch-cool-candy {
+    color: mat-color($fathym-cool-candy-primary, 500) !important;
+  }
+
+  .color-swatch-flipper {
+    color: mat-color($fathym-flipper-primary, 500) !important;
+  }
+
+  .color-swatch-ice {
+    color: mat-color($fathym-ice-primary, 500) !important;
+  }
+
+  .color-swatch-sea-green {
+    color: mat-color($fathym-sea-green-primary, 500) !important;
+  }
+
+  .color-swatch-white-mint {
+    color: mat-color($fathym-white-mint-primary, 500) !important;
+  }
+
+  .color-swatch-ivy {
+    color: mat-color($fathym-ivy-primary, 500) !important;
+  }
+
+}
