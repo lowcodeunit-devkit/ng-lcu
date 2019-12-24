@@ -278,23 +278,34 @@ function processInitWith(options: any, context: SchematicContext) {
           })
         ]);
         break;
+      
+      case 'LCU-Starter-App':
+        rule = chain([
+          blankOutLibrary(options, context, false, false),
+          schematic('lcu-starter-app', {
+            name: options.name,
+            project: options.name,
+            elementName: options.elementName
+          })
+        ]);
+        break;
 
-        case 'Momentum':
-            context.logger.info(`Application momentum switch case: ${JSON.stringify(options)}...`);
-          rule = chain([        
-            schematic('momentum', {
-              name: options.name,
-              project: options.name
-            })
-          ]);
-          break;
+      case 'Momentum':
+          context.logger.info(`Application momentum switch case: ${JSON.stringify(options)}...`);
+        rule = chain([        
+          schematic('momentum', {
+            name: options.name,
+            project: options.name
+          })
+        ]);
+        break;
 
       case 'Module':
         rule = blankOutLibrary(options, context, true, false);
         break;
 
-        case 'Default':
-            break;
+      case 'Default':
+          break;
     }
 
     context.logger.info(`Processing Initialized for ${options.initWith}!`);

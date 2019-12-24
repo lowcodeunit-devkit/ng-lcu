@@ -204,6 +204,17 @@ function processInitWith(options: any, context: SchematicContext) {
           })
         ]);
       break;
+      
+      case 'LCU-Starter-Lib':
+        rule = chain([
+          blankOutLibrary(options, context),
+          schematic('lcu-starter-lib', {
+            name: options.name,
+            project: options.name,
+            elementName: options.elementName
+          })
+        ]);
+        break;
 
       case 'Solution':
         rule = chain([
