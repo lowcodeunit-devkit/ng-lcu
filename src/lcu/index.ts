@@ -157,7 +157,7 @@ export function setupOptions(host: Tree, options: any): Tree {
   options.initWith = options.initWith;
   
   // starter files
-  options.elementName = 'bobby';
+  options.elementName = options.projectName || 'card';
 
   options.path = options.path || '/projects/common/src/lib/';
 
