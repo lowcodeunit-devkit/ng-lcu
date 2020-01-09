@@ -120,7 +120,7 @@ function addSolutionCapabilities(host: Tree, options: any): Tree {
 
   let lcuJson = lcuFile ? JSON.parse(lcuFile.content.toString('utf8')) : {};
 
-  let capabilityName: string = options.name + '-manager'; // TODO: Do we want users to provide this?
+  let capabilityName: string = options.name || 'config-manager';
 
   let elementName: string = lcuJson.templates.workspace + '-' + options.name + '-element';
 
