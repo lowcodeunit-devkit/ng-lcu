@@ -10,8 +10,8 @@ import { addDeclarationToModule, addExportToModule, addEntryComponentToModule, a
 import { InsertChange, Change } from '@schematics/angular/utility/change';
 import { strings } from '@angular-devkit/core';
 
-const { dasherize, classify } = strings;
-const stringUtils = { dasherize, classify };
+const { dasherize, classify, camelize, underscore } = strings;
+const stringUtils = { dasherize, classify, camelize, underscore };
 
 export class AddToModuleContext {
   classifiedName: string;
@@ -39,6 +39,12 @@ export function addSolutionToNgModule(options: ModuleOptions | any): Rule {
   };
 }
 
+/**
+ * Adds the specified element type (i.e. Directive, Service, etc.) to the given project module.
+ * Must specify the 'classifiedName' and 'componentPath' properties for it to work properly.
+ * 
+ * @param options The options passed from the calling command
+ */
 export function addElementToNgModule(options: ModuleOptions | any): Rule {
   return (host: Tree) => {
     addDeclaration(host, createAddElementToModuleContext(host, options));
@@ -69,7 +75,8 @@ export function updateAppModule(options: ModuleOptions, appModulePath?: string):
  */
 function addCustomLcuBootstrap(host: Tree, options: ModuleOptions | any): void {
   let component = stringUtils.classify(`${options.workspace}`) + stringUtils.classify(`${options.name}ElementComponent`);
-  let selector = 'Selector' + stringUtils.classify(`${options.workspace}`) + stringUtils.classify(`${options.name}Element`);
+  let selector = 'SELECTOR_' + stringUtils.underscore(`${options.workspace}`).toUpperCase() + '_' + stringUtils.underscore(`${options.name}Element`).toUpperCase();
+  let variableName = stringUtils.camelize(options.name);
 
   let appModule = './projects/lcu/src/app/app.module.ts';
 
@@ -90,25 +97,35 @@ function addCustomLcuBootstrap(host: Tree, options: ModuleOptions | any): void {
 
   let sourceFile: any = ts.createSourceFile(appModule, content, ts.ScriptTarget.Latest, true);
 
-  let node = findClassBlock(sourceFile, 'AppModule');
-
-  if (node.getWidth() > 0) {
+  let node = findClassMethod(sourceFile, 'AppModule', 'ngDoBootstrap');
+  
+  if (!node) {
     throw new SchematicsException(`Expected body in ${sourceFile.fileName} to be empty. Set 'disableLcuBootstrap' option to true to create solution without custom bootstrap.`);
   }
 
-  let toAdd = `\n\tconstructor(protected injector: Injector) {}`;
-  toAdd += `\n\n\tpublic ngDoBootstrap() {\n\t\tconst cfgMgr = createCustomElement(${component}, { injector: this.injector });`
-  toAdd += `\n\n\t\tcustomElements.define(${selector}, cfgMgr);\n\t}\n`
+  let bootstrapChanges: Change[] = [];
+  let toAdd = ``;
 
-  let bootstrapChanges: Change[] = [
-    new InsertChange(appModule, node.pos-1, 'implements DoBootstrap '),
-    new InsertChange(appModule, node.pos, toAdd),
-    insertImport(sourceFile, appModule, 'DoBootstrap', '@angular/core'),
-    insertImport(sourceFile, appModule, 'Injector', '@angular/core'),
-    insertImport(sourceFile, appModule, 'createCustomElement', '@angular/elements'),
-    insertImport(sourceFile, appModule, component, constructWorkspacePath(options, 'common')),
-    insertImport(sourceFile, appModule, selector, constructWorkspacePath(options, 'common'))
-  ];
+  if (node.getWidth() === 0) { // First time the solution command is run - sets up constructor, declaration, and imports
+    toAdd += `\n\tconstructor(protected injector: Injector) {}`;
+    toAdd += `\n\n\tpublic ngDoBootstrap() {\n\t\tconst ${variableName} = createCustomElement(${component}, { injector: this.injector });`;
+    toAdd += `\n\n\t\tcustomElements.define(${selector}, ${variableName});\n\t}\n`;
+
+    bootstrapChanges.push(new InsertChange(appModule, node.pos-1, 'implements DoBootstrap '));
+    bootstrapChanges.push(new InsertChange(appModule, node.pos, toAdd));
+    bootstrapChanges.push(insertImport(sourceFile, appModule, 'DoBootstrap', '@angular/core'));
+    bootstrapChanges.push(insertImport(sourceFile, appModule, 'Injector', '@angular/core'));
+    bootstrapChanges.push(insertImport(sourceFile, appModule, 'createCustomElement', '@angular/elements'));
+    bootstrapChanges.push(insertImport(sourceFile, appModule, component, constructWorkspacePath(options, 'common')));
+    bootstrapChanges.push(insertImport(sourceFile, appModule, selector, constructWorkspacePath(options, 'common')));
+  } else { // Any subsequent time the solution command is run - only adds the new lines
+    toAdd += `\n\t\tconst ${variableName} = createCustomElement(${component}, { injector: this.injector });`;
+    toAdd += `\n\n\t\tcustomElements.define(${selector}, ${variableName});\n\t`;  
+
+    bootstrapChanges.push(new InsertChange(appModule, node.end - 1, toAdd));
+    bootstrapChanges.push(insertImport(sourceFile, appModule, component, constructWorkspacePath(options, 'common')));
+    bootstrapChanges.push(insertImport(sourceFile, appModule, selector, constructWorkspacePath(options, 'common')));
+  }
 
   const recorder = host.beginUpdate(appModule);
   for (let change of bootstrapChanges) {
@@ -361,6 +378,25 @@ function findClassBlock(sourceFile: any, className: string): any {
       throw new SchematicsException(`Expected first class in ${sourceFile.fileName} to have a body.`);
   }
   return listNode;
+}
+
+/**
+ * Parses a given file and class block and finds the specified function node, returning it.
+ * Used if you want to add/modify content to the body block of a function.
+ * 
+ * @param sourceFile A given file that you want to find a class block in
+ * @param className A given class name  you want to find a class block in (i.e. 'AppComponent')
+ * @param functionName A given function name that you want to find within the class block (i.e. 'ngDoBootstrap')
+ */
+function findClassMethod(sourceFile: any, className: string, functionName: string): any {
+  let classNode = findClassBlock(sourceFile, className);
+
+  if (classNode.getWidth() > 0) {
+    return classNode.getChildren().find(
+      (n: ts.Node | any) => n.kind === ts.SyntaxKind.MethodDeclaration && n.name && n.name.escapedText === functionName);
+  } else {
+    return classNode;
+  }
 }
 
 /**
