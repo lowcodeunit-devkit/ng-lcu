@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FathymSharedModule } from '@lcu/common';
+import { FathymSharedModule, LCUServiceSettings } from '@lcu/common';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [],
@@ -9,6 +10,12 @@ import { FathymSharedModule } from '@lcu/common';
     BrowserModule,
     BrowserAnimationsModule,
     FathymSharedModule
+  ],
+  providers: [
+    {
+      provide: LCUServiceSettings,
+      useValue: FathymSharedModule.DefaultServiceSettings(environment)
+    }
   ],
   exports: []
 })
