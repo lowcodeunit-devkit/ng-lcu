@@ -68,6 +68,10 @@
     "module": {
       "description": "Schematic to add a Angular module to a specific project.",
       "factory": "./module/index#module"
+    },
+    "documentation": {
+      "description": "Schematic to add lcu-documentation library and structure to a application.",
+      "factory": "./documentation/index#documentation"
     }
   }
 }
