@@ -20,6 +20,14 @@ export class AddToModuleContext {
   source: any;
 }
 
+export class AddImportToModuleContext {
+  moduleName: string;
+  modulePath: string;
+  importName: string;
+  importPath: string;
+  forRoot?: boolean;
+}
+
 /**
  * When the 'solution' command is executed, adds the generated component to the given project module.
  * By default, it also adds a custom bootstrap function to the app.module file.
@@ -55,9 +63,36 @@ export function addElementToNgModule(options: ModuleOptions | any): Rule {
 }
 
 /**
+ * Adds the specified Module dependency to the imports array of the target Module.
+ * 
+ * @param context The context information of what is being added to the imports array.
+ */
+export function importModule(context: AddImportToModuleContext): Rule {
+  return (host: Tree) => {
+    const result = new AddToModuleContext();
+    
+    context.moduleName = constructModuleName(context.moduleName);
+
+    result.filePath = findFileByName(context.moduleName, context.modulePath, host);
+    result.classifiedName = classify(context.importName) + (context.forRoot ? '.forRoot()' : '');
+    result.relativePath = context.importPath;
+  
+    let text = host.read(result.filePath);
+    if (!text) throw new SchematicsException(`File ${result.filePath} does not exist.`);
+    let sourceText = text.toString('utf-8');
+    result.source =ts.createSourceFile(result.filePath, sourceText, ts.ScriptTarget.Latest, true);
+  
+    addImport(host, result);
+    
+    return host;
+  };
+}
+
+/**
  * When the 'lcu' command is executed, it updates the 'lcu' project app.module and adds project module to it.
  * 
  * @param options The options passed from the calling command
+ * @param appModulePath (Optional) Specifies the path to look for the app.module in
  */
 export function updateAppModule(options: ModuleOptions, appModulePath?: string): Rule {
   return (host: Tree) => {
@@ -259,6 +294,15 @@ function addProvider(host: Tree, context: AddToModuleContext): void {
  */
 function constructWorkspacePath(options: any, project?: string): string {
   return (options.scope + '/' + options.workspace) + (project ? '-' + project : '');
+}
+
+/**
+ * Checks if the module name is complete, otherwise it builds the full module name.
+ * 
+ * @param name The name of the module.
+ */
+function constructModuleName(name: string): string {
+  return (name.endsWith('module.ts') ? name : name + '.module.ts');
 }
 
 /**

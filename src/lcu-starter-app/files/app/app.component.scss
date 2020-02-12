@@ -5,15 +5,61 @@
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
 
+  $header-height: 64px;
+
   .<%= dasherize(elementName) %>-toolbar {
     display: flex;
     justify-content: space-between;
+
+    .toolbar-title {
+      display: block;
+      margin: 0;
+
+      .title-menu {
+        cursor: pointer;
+        margin-right: 15px;
+
+        .mat-icon {
+          font-size: 32px;
+          height: 32px;
+          width: 32px;
+        }
+      }
+
+      .title-text {
+        color: mat-color($primary, default-contrast);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+
+        small {
+          font-size: 0.5em;
+          line-height: 1.3em;
+
+          &.subtitle {
+            display: block;
+          }
+        }
+      }
+    }
   }
 
   .<%= dasherize(elementName) %>-content {
+    box-sizing: border-box;
     display: flex;
+    height: calc(100% - #{$header-height});
     justify-content: center;
     padding: 10px;
+
+    a:not(.mat-button) {
+      color: map-get($primary, 500);
+
+      &:hover {
+        color: map-get($accent, 200);
+      }
+    }
   }
 
   .color-swatch-arctic {

@@ -17,7 +17,7 @@ const stringUtils = { dasherize, classify };
 
 export function lcu(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
-    context.logger.debug('Starting LCU...');
+    context.logger.info('Starting LCU...');
 
     setupOptions(host, options);
 
@@ -53,6 +53,11 @@ export function lcu(options: any): Rule {
           project: 'lcu',
           path: 'app',
           flat: true
+        }),
+        schematic('documentation', {
+          initWith: 'lcu',
+          project: 'demo',
+          path: 'docs'
         }),
         updateExport('common', options.workspace),
         updateAppModule(options),
