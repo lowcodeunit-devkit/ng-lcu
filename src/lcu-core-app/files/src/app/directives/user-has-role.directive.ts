@@ -30,7 +30,7 @@ export class UserHasRoleDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     //  We subscribe to the roles$ to know the roles the user has
-    this.rolesService.roles$.pipe(takeUntil(this.stop$)).subscribe((roles: Array<string>) => {
+    this.rolesService.roles$.pipe(takeUntil(this.stop$)).subscribe((roles: string) => {
       // If he doesn't have any roles, we clear the viewContainerRef
       if (!roles) {
         this.viewContainerRef.clear();

@@ -30,6 +30,7 @@ const tutorials: Array<TutorialModel> = [
     }
 ];
 
+@Injectable()
 export class TutorialService {
     @Injectable({
         providedIn: 'root'
