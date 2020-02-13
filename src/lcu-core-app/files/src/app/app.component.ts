@@ -15,7 +15,7 @@ import { ToggleThemeUtil } from './utils/toggle-theme.utils';
 import { FaviconsService } from './services/favicons.service';
 import { DataPipeConstants, LCUServiceSettings, FathymSharedModule, RealTimeService } from '@lcu/common';
 import { environment } from '../environments/environment';
-import { UsersStateManagerContext } from './state/users/user-state-manager.context';
+// import { UsersStateManagerContext } from './state/users/user-state-manager.context';
 import { ColorPickerService } from './services/color-picker.service';
 
 @Component({

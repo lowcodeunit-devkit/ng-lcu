@@ -1,9 +1,9 @@
 @import '../../../node_modules/@lcu/common/assets/styles/fathym-global.styles';
 @import '../../../node_modules/@lcu/common/assets/styles/branding/fathym-branding';
-@import '../../../node_modules/@lcu/common/assets/theming/fathym_themes';
+// @import '../../../node_modules/@lcu/common/assets/theming/fathym_themes';
+@import './assets/fathym-theme-test.scss';
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap');
 @import '../src/app/controls/flex-layout/flex-layout.component.scss';
-
 
 @mixin opacity($opacity) {
   opacity: $opacity;
@@ -84,10 +84,11 @@
    }
 
    .fathym-ivy-theme {
-    $theme: fathym-ivy-theme();
-    @include theme-setup($theme);
-    @include primary-logo(thinky-full-logo, $theme, 1);
- }
+      $theme: fathym-ivy-theme();
+      @include theme-setup($theme);
+      @include fathym-branding($theme);
+      @include primary-logo(thinky-full-logo, $theme, 1);
+  }
 
   .disabled {
     @include opacity(.5);

@@ -9,7 +9,7 @@ import { UserStateModel } from '../../models/user-state.model';
 
 /**
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * Currentyly the state isn't being used, but stubbing pieces of it out in this project
+ * Currently the state isn't being used, but stubbing pieces of it out in this project
  * When the state is used it shoule eliminate the need for user.service.ts
  * 8/15/2019 - Shannon
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

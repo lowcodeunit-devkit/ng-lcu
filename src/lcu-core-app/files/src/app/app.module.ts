@@ -26,7 +26,7 @@ import { LoggedInUserComponent } from './controls/logged-in-user/logged-in-user.
 import { DashboardAdminComponent } from './controls/dashboard-admin/dashboard-admin.component';
 import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashboard-non-admin.component';
 import { UserHasRoleDirective } from './directives/user-has-role.directive';
-import { UsersStateManagerContext } from './state/users/user-state-manager.context';
+// import { UsersStateManagerContext } from './state/users/user-state-manager.context';
 import { environment } from '../environments/environment';
 import { MaterialKitchenSinkComponent, KitchenSinkComponent } from './controls/material-kitchen-sink/material-kitchen-sink.component';
 import { MatBottomSheet } from '@angular/material';
@@ -65,7 +65,7 @@ import { MatBottomSheet } from '@angular/material';
   ],
   providers: [
     MatBottomSheet,
-    UsersStateManagerContext,
+    // UsersStateManagerContext,
     {
       provide: LCUServiceSettings,
       useValue: FathymSharedModule.DefaultServiceSettings(environment)
