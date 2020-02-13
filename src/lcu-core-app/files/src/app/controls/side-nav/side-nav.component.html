@@ -18,7 +18,7 @@
                 </button>
                 <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
                   <div class="logo">
-                    <img *ngIf="LogoURL" [src]="LogoURL" alt="{{LogoAlt}}">
+                    <!-- <img *ngIf="LogoURL" [src]="LogoURL" alt="{{LogoAlt}}"> -->
                     <div *ngIf="LogoClass" [ngClass]="LogoClass"></div>
                   </div>
                   <!-- <div class="name mat-display-1">Fathym</div> -->
@@ -28,15 +28,35 @@
                 <div fxLayout="row" fxFlex="75%" fxLayoutGap="20px" fxLayoutAlign="end center">
                     
                   <form fxLayout="column" [formGroup]="Form" novalidate>
-                    <mat-form-field>
-                      <mat-select formControlName="themesControl" (valueChange)="SelectTheme($event)">
+                    <!-- <mat-form-field> -->
+                        <span fxFlex="nogrow">
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                              <mat-icon>format_color_fill</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                              <div *ngFor="let theme of Themes" >
+                                <div fxLayout="row" fxLayoutGap="10px" fxFlex fxLayoutAlign="start center" mat-menu-item (click)="PickTheme(theme.Color)" >
+                                    <mat-icon 
+                                      matTooltipHideDelay="100000"
+                                      matTooltipPosition="right"
+                                      matTooltip="{{theme.ColorSwatch}}" 
+                                      matTooltipClass="tooltip-background"
+                                      [ngClass]="theme.ColorSwatch">
+                                      {{theme.Icon}}
+                                    </mat-icon>  
+                                    <span>{{theme.Label}}</span>
+                                </div>
+                              </div>
+                            </mat-menu>
+                        </span>
+                      <!-- <mat-select formControlName="themesControl" (valueChange)="SelectTheme($event)">
                           <mat-option *ngFor="let theme of Themes" [value]="theme.Value">
                             <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
                                 <span>{{theme.Label}}</span>
                             </div>
                             </mat-option>
-                      </mat-select>
-                    </mat-form-field>
+                      </mat-select> -->
+                    <!-- </mat-form-field> -->
                   </form>
                   <lcu-logged-in-user></lcu-logged-in-user>
                   <!-- <lcu-users-list [users]="Users"></lcu-users-list> -->

@@ -1,0 +1,125 @@
+@import '../../../node_modules/@lcu/common/assets/styles/fathym-global.styles';
+@import '../../../node_modules/@lcu/common/assets/styles/branding/fathym-branding';
+@import '../../../node_modules/@lcu/common/assets/theming/fathym_themes';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap');
+@import '../src/app/controls/flex-layout/flex-layout.component.scss';
+
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  filter: alpha(opacity=$opacity); /* For IE8 and earlier */
+}
+
+@mixin mat-icon-size($size: 24px) {
+  font-size: $size;
+  height: $size;
+  width: $size;
+}
+
+  .app-background {
+    display: flex;
+    flex-direction: column;
+    min-height: -webkit-fill-available;
+    min-width: 300px;
+    max-height: -webkit-fill-available;
+  }
+
+  @mixin theme-setup($theme) {
+    @include angular-material-theme($theme);
+    @include theme-extras($theme);
+    @include component-themes($theme); 
+  }
+
+  @mixin component-themes($theme) {
+    @include flex-layout-component-theme($theme);
+  }
+
+  @mixin primary-logo($logo, $theme, $opacity) {
+    .primary-logo {
+      // @extend .header-background;
+      background-image: fathym-logo($logo, mat-color(map-get($theme, accent)), $opacity);
+    }
+  }
+
+   .fathym-arctic-theme {
+      $theme: fathym-arctic-theme(true);
+      @include theme-setup($theme);
+      @include primary-logo(thinky-full-logo, $theme, 1);
+   }
+
+   .fathym-contrast-theme {
+      $theme: fathym-contrast-theme(true);
+      @include theme-setup($theme);
+      @include primary-logo(thinky-full-logo, $theme, 1);
+   }
+
+   .fathym-cool-candy-theme {
+      $theme: fathym-cool-candy-theme(true);
+      @include theme-setup($theme);
+      @include primary-logo(thinky-full-logo, $theme, 1);
+   }
+
+   .fathym-flipper-theme {
+      $theme: fathym-flipper-theme(true);
+      @include theme-setup($theme);
+      @include primary-logo(thinky-full-logo, $theme, 1);
+   }
+
+   .fathym-ice-theme {
+      $theme: fathym-ice-theme();
+      @include theme-setup($theme);
+      @include primary-logo(thinky-full-logo, $theme, 1);
+   }
+
+   .fathym-sea-green-theme {
+      $theme: fathym-sea-green-theme(true);
+      @include theme-setup($theme);
+      @include primary-logo(thinky-full-logo, $theme, 1);
+   }
+
+   .fathym-white-mint-theme {
+      $theme: fathym-white-mint-theme();
+      @include theme-setup($theme);
+      @include primary-logo(thinky-full-logo, $theme, 1);
+   }
+
+   .fathym-ivy-theme {
+    $theme: fathym-ivy-theme();
+    @include theme-setup($theme);
+    @include primary-logo(thinky-full-logo, $theme, 1);
+ }
+
+  .disabled {
+    @include opacity(.5);
+   }
+
+  .bg-image {
+    z-index: -100;
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 1024px;
+      
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+      
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    @include opacity(.35);
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  
+  @media screen and (max-width: 1024px) { /* Specific to this particular image */
+    .bg-image {
+      left: 50%;
+      margin-left: -512px;   /* 50% */
+    }
+
+    
+  }

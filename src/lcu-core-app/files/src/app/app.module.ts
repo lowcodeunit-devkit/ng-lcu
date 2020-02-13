@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { FathymSharedModule, MaterialModule } from '@lcu-ide/common';
+import { FathymSharedModule, MaterialModule, PipeModule, LCUServiceSettings, RealTimeService } from '@lcu/common';
 import { TutorialsComponent } from './controls/tutorials/tutorials.component';
 import { ReactiveFormComponent } from './controls/reactive-form/reactive-form.component';
 import { FlexLayoutComponent } from './controls/flex-layout/flex-layout.component';
@@ -26,6 +26,10 @@ import { LoggedInUserComponent } from './controls/logged-in-user/logged-in-user.
 import { DashboardAdminComponent } from './controls/dashboard-admin/dashboard-admin.component';
 import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashboard-non-admin.component';
 import { UserHasRoleDirective } from './directives/user-has-role.directive';
+// import { UsersStateManagerContext } from './state/users/user-state-manager.context';
+import { environment } from '../environments/environment';
+import { MaterialKitchenSinkComponent, KitchenSinkComponent } from './controls/material-kitchen-sink/material-kitchen-sink.component';
+import { MatBottomSheet } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -41,11 +45,13 @@ import { UserHasRoleDirective } from './directives/user-has-role.directive';
     UsersListComponent,
     NavListComponent,
     LoginComponent,
+    KitchenSinkComponent,
     DashboardComponent,
     LoggedInUserComponent,
     DashboardAdminComponent,
     DashboardNonAdminComponent,
-    UserHasRoleDirective
+    UserHasRoleDirective,
+    MaterialKitchenSinkComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -53,11 +59,19 @@ import { UserHasRoleDirective } from './directives/user-has-role.directive';
     FlexLayoutModule,
     FathymSharedModule,
     MaterialModule,
+    PipeModule,
     FormsModule,
     ReactiveFormsModule
   ],
   providers: [
+    MatBottomSheet,
+    // UsersStateManagerContext,
+    {
+      provide: LCUServiceSettings,
+      useValue: FathymSharedModule.DefaultServiceSettings(environment)
+    },
     UsersService,
+    RealTimeService,
     TutorialService,
   {
     provide: FaviconsService, useClass: BrowserFavicons
@@ -102,14 +116,6 @@ import { UserHasRoleDirective } from './directives/user-has-role.directive';
     }
   }
 ],
-  bootstrap: [AppComponent],
-  exports: [
-    LoginComponent,
-    DashboardComponent,
-    LoggedInUserComponent,
-    DashboardAdminComponent,
-    DashboardNonAdminComponent,
-    UserHasRoleDirective],
-  entryComponents: [LoginComponent, DashboardComponent, LoggedInUserComponent, DashboardAdminComponent, DashboardNonAdminComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

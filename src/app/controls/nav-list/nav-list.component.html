@@ -1,0 +1,9 @@
+
+    <mat-toolbar color="primary">Menu</mat-toolbar>
+
+    <mat-nav-list *ngFor="let link of NavLinks">
+      <a mat-list-item [routerLink]="link.RouterURL" routerLinkActive="active">
+          <mat-icon color="primary" *ngIf="link.Icon">{{ link.Icon }}</mat-icon>
+          <span>{{ link.Label }}</span>
+      </a>
+    </mat-nav-list>

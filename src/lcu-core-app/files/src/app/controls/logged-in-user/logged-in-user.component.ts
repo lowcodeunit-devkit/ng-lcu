@@ -1,4 +1,4 @@
-import { UsersStateManagerContext } from './../../state/users/user-state-manager.context';
+// import { UsersStateManagerContext } from './../../state/users/user-state-manager.context';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { UserModel } from '../../models/user.model';
@@ -30,7 +30,8 @@ export class LoggedInUserComponent implements OnInit, OnDestroy {
 
   constructor(
     protected userService: UsersService,
-    protected userCtxt: UsersStateManagerContext) { }
+    // protected userCtxt: UsersStateManagerContext
+    ) { }
 
   public ngOnInit(): void {
     this.currentUserSubscription = this.userService.CurrentUserChanged.subscribe((user: UserModel) => {

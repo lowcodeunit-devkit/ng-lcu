@@ -4,7 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserStateModel } from '../../models/user-state-model';
-import { UsersStateManagerContext } from '../../state/users/user-state-manager.context';
+// import { UsersStateManagerContext } from '../../state/users/user-state-manager.context';
 import { tick } from '@angular/core/testing';
 
 @Component({
@@ -37,7 +37,8 @@ export class UserComponent implements OnInit, OnDestroy {
   constructor(
     protected activatedRouter: ActivatedRoute,
     protected userService: UsersService,
-    protected userCtxt: UsersStateManagerContext) { }
+    // protected userCtxt: UsersStateManagerContext
+    ) { }
 
   public ngOnInit(): void {
 

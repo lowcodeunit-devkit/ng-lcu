@@ -1,0 +1,9 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+    <strong class="mat-display-2 title margin-bottom-3">{{PageTitle}}</strong>
+  </div>
+  <!-- <button (click)="ShowAdmin()">admin</button> -->
+<div fxLayout="column" fxLayoutGap="10px;">
+  <!-- <router-outlet></router-outlet> -->
+  <lcu-dashboard-admin class="margin-bottom-md-2" *appHasRole="'admin'"></lcu-dashboard-admin>
+  <lcu-dashboard-non-admin *appHasRole="'user'"></lcu-dashboard-non-admin>
+</div>

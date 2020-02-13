@@ -1,0 +1,77 @@
+@import '../../../../../../node_modules/@lcu/common/assets/theming/fathym_themes';
+
+@import '~@angular/material/theming';
+@include mat-core();
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+  box-shadow: 3px 0 6px rgba($color: #000000, $alpha: .24);
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.hidden {
+  display: none;
+}
+
+.active {
+  background-color: rgba($color: #535353, $alpha: 1.0)
+}
+
+.logo {
+  width: 150px;
+  height: 50px;
+}
+
+
+
+/**
+* For testing
+**/
+
+.color-swatch-arctic {
+  color: mat-color($fathym-arctic-primary, 500) !important;
+}
+
+// .color-swatch-arctic:hover {
+//   background-color: mat-color(
+//     $fathym-arctic-accent,
+//     500
+//   ) !important;
+// }
+
+.color-swatch-contrast {
+  color: mat-color($fathym-contrast-primary, 500) !important;
+}
+
+.color-swatch-cool-candy {
+  color: mat-color($fathym-cool-candy-primary, 500) !important;
+}
+
+.color-swatch-flipper {
+  color: mat-color($fathym-flipper-primary, 500) !important;
+}
+
+.color-swatch-ice {
+  color: mat-color($fathym-ice-primary, 500) !important;
+}
+
+.color-swatch-sea-green {
+  color: mat-color($fathym-sea-green-primary, 500) !important;
+}
+
+.color-swatch-white-mint {
+  color: mat-color($fathym-white-mint-primary, 500) !important;
+}
+
+.color-swatch-ivy {
+  color: mat-color($fathym-ivy-primary, 500) !important;
+}

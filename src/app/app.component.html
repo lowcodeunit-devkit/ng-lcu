@@ -1,0 +1,13 @@
+<div [className]="ThemeClass | async" style="height: 100%">
+    <lcu-side-nav
+        [nav-links]="Links" 
+        logo-class="primary-logo"
+        logo-alt="Fathym Logo">
+        <div class="router-container " style="height: 90%;">
+            <!-- <div style="height: 150px; width: auto" class="thinky-logo"></div> -->
+            <router-outlet (activate)="OnActivate($event)"></router-outlet>
+        </div>
+        <img class="bg-image" [src]="BackgroundImage" alt="">
+    </lcu-side-nav>
+</div>
+
