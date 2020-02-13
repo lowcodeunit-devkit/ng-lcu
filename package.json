@@ -15,22 +15,23 @@
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^8.1.2",
-    "@angular-devkit/schematics": "^8.1.2",
-    "@angular-devkit/schematics-cli": "^0.801.2",
-    "@schematics/schematics": "0.801.2",
+    "@angular-devkit/core": "^9.0.2",
+    "@angular-devkit/schematics": "^9.0.2",
+    "@angular-devkit/schematics-cli": "^0.900.2",
+    "@schematics/schematics": "^0.900.2",
     "@types/jasmine": "^2.6.0",
-    "@types/node": "10.9.4",
+    "@types/node": "^13.7.1",
     "jasmine": "^2.8.0",
-    "rxjs": "^6.4.0",
-    "typescript": "^3.4.5"
+    "rxjs": "~6.5.4",
+    "typescript": "^3.7.5"
   },
   "devDependencies": {
-    "@angular/cli": "^8.2.2",
-    "@angular/common": "^8.1.2",
-    "@angular/core": "^8.1.2",
-    "@schematics/angular": "^8.1.2",
+    "@angular/cli": "^9.0.2",
+    "@angular/common": "^9.0.1",
+    "@angular/core": "^9.0.1",
+    "@schematics/angular": "^9.0.2",
     "ng-momentum": "0.0.24",
+    "tslib": "^1.10.0",
     "uninstall": "0.0.0",
     "user-home": "^2.0.0"
   }
