@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import {MediaChange, MediaObserver} from '@angular/flex-layout';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { UserStateModel } from '../../models/user-state-model';
-import { UsersStateManagerContext } from '../../state/users/user-state-manager.context';
+// import { UsersStateManagerContext } from '../../state/users/user-state-manager.context';
 
 @Component({
   selector: 'lcu-dashboard-non-admin',
@@ -47,7 +47,8 @@ export class DashboardNonAdminComponent implements OnInit, OnDestroy {
   constructor(
     protected mediaService: MediaObserver,
     protected usersService: UsersService,
-    protected userCtxt: UsersStateManagerContext) {
+    // protected userCtxt: UsersStateManagerContext
+    ) {
 
     this.subscription = mediaService.asObservable()
       .subscribe((events: MediaChange[]) => {

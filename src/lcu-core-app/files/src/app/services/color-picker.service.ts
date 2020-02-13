@@ -13,7 +13,7 @@ export class ColorPickerService {
     protected colorClass: BehaviorSubject<string>;
     protected initialClass: string;
 
-    constructor(protected overlayContainer: OverlayContainer, protected colorPickService: ColorPickerService) {
+    constructor(protected overlayContainer: OverlayContainer) {
 
         this.initialClass = 'fathym-contrast-theme';
         this.colorClass = new BehaviorSubject(this.initialClass);
