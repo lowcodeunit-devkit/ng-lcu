@@ -21,7 +21,7 @@ export class DocumentationComponent implements OnInit {
             Title: 'Introduction'
           }
         ],
-        LocationRoot: 'docs/'
+        LocationRoot: '<%= path %>/'
       }
     );
   }

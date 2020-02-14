@@ -191,7 +191,7 @@ function addStarterElements(options: any): Rule {
       if (file.type === 'component' || file.type === 'directive') {
         options.classifiedName = stringUtils.classify(options.elementName) + stringUtils.classify(file.type);
         options.componentPath = options.path + file.path + '/' + file.name;
-        rules.push(addElementToNgModule({...options}));
+        rules.push(addElementToNgModule({...options}, true));
       }
 
       exportContent += `export * from './lib/` + `${file.path}/${file.name}';\r\n`;

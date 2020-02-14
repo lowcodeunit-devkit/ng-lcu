@@ -6,7 +6,7 @@ import {
   DirEntry
 } from '@angular-devkit/schematics';
 import { buildRelativePath, ModuleOptions } from '@schematics/angular/utility/find-module';
-import { addDeclarationToModule, addExportToModule, addEntryComponentToModule, addImportToModule, insertImport, getSourceNodes } from '@schematics/angular/utility/ast-utils';
+import { addDeclarationToModule, addExportToModule, addEntryComponentToModule, addImportToModule, insertImport, getSourceNodes, addRouteDeclarationToModule } from '@schematics/angular/utility/ast-utils';
 import { InsertChange, Change } from '@schematics/angular/utility/change';
 import { strings } from '@angular-devkit/core';
 
@@ -26,6 +26,36 @@ export class AddImportToModuleContext {
   importName: string;
   importPath: string;
   forRoot?: boolean;
+}
+
+/**
+ * The context necessary for adding a component to a specific file.
+ * 
+ * @property {string} appRoutingModulePath - The path of the app-routing module that the route should be added to.
+ * @property {string} componentName - The name of the component. I.e. 'example.component' or just 'example'.
+ * @property {string} componentPath - The relative path to the component.
+ * @property {string} route - Optional route for adding to app-routing.module.
+ * @property {string} source - Optional source file of the app-routing.module.
+ */
+export class AddToRoutesContext {
+  appRoutingModulePath: string;
+  componentName: string;
+  componentPath: string;
+  route?: string;
+  source?: any;
+}
+
+/**
+ * Adds a route with the specified component into the app-routing module.
+ * 
+ * @param context The context information of what is being added to the app-routing module.
+ */
+export function addComponentToAppRouting(context: AddToRoutesContext): Rule {
+  return (host: Tree) => {
+    addRoute(host, createRouteContext(host, context));
+
+    return host;
+  };
 }
 
 /**
@@ -53,10 +83,13 @@ export function addSolutionToNgModule(options: ModuleOptions | any): Rule {
  * 
  * @param options The options passed from the calling command
  */
-export function addElementToNgModule(options: ModuleOptions | any): Rule {
+export function addElementToNgModule(options: ModuleOptions | any, exportElement?: boolean): Rule {
   return (host: Tree) => {
     addDeclaration(host, createAddElementToModuleContext(host, options));
-    addExport(host, createAddElementToModuleContext(host, options));
+
+    if (exportElement) {
+      addExport(host, createAddElementToModuleContext(host, options));
+    }
 
     return host;
   }
@@ -192,7 +225,7 @@ function addDeclaration(host: Tree, context: AddToModuleContext): void {
     }
   }
   host.commitUpdate(declarationRecorder);
-};
+}
 
 /**
  * Adds given class to a module's entryComponents array
@@ -215,7 +248,7 @@ function addEntryComponent(host: Tree, context: AddToModuleContext): void {
     }
   }
   host.commitUpdate(entryComponentRecorder);
-};
+}
 
 /**
  * Adds given class to a module's exports array
@@ -238,7 +271,7 @@ function addExport(host: Tree, context: AddToModuleContext): void {
     }
   }
   host.commitUpdate(exportRecorder);
-};
+}
 
 /**
  * Adds given class to a module's imports array
@@ -261,7 +294,7 @@ function addImport(host: Tree, context: AddToModuleContext): void {
     }
   }
   host.commitUpdate(importRecorder);
-};
+}
 
 /**
  * Adds given service to a module's providers array
@@ -284,16 +317,38 @@ function addProvider(host: Tree, context: AddToModuleContext): void {
     }
   }
   host.commitUpdate(providerRecorder);
-};
+}
 
 /**
- * Builds the package name (scope & workspace) of the project.
+ * Adds given route to app-routing module's 'routes' array.
  * 
- * @param options The options passed from the calling command
- * @param project The project name to append
+ * @param host The current application Tree.
+ * @param context The context containing data relating to app-routing module.
  */
-function constructWorkspacePath(options: any, project?: string): string {
-  return (options.scope + '/' + options.workspace) + (project ? '-' + project : '');
+function addRoute(host: Tree, context: AddToRoutesContext): void {
+  const routeChanges: Change[] = [
+    addRouteDeclarationToModule(context.source, context.appRoutingModulePath, `{ path: '${context.route}', component: ${context.componentName} }`),
+    insertImport(context.source, context.appRoutingModulePath, context.componentName, context.componentPath)
+  ];
+
+  const routeRecorder = host.beginUpdate(context.appRoutingModulePath);
+
+  for (const change of routeChanges) {
+    if (change instanceof InsertChange) {
+      routeRecorder.insertLeft(change.pos, change.toAdd);
+    }
+  }
+  host.commitUpdate(routeRecorder);
+}
+
+/**
+ * Builds a classified name (i.e. 'AppComponent') based on a given string.
+ * 
+ * @param name The name of the component.
+ */
+function constructClassifiedName(name: string): string {
+  let component = name.endsWith('.ts') ? stringUtils.classify(name.slice(0, -3)) : stringUtils.classify(name);
+  return (component.endsWith('Component')) ? component.split('.').join('') : component + 'Component';
 }
 
 /**
@@ -306,30 +361,46 @@ function constructModuleName(name: string): string {
 }
 
 /**
+ * Builds the package name (scope & workspace) of the project.
+ * 
+ * @param options The options passed from the calling command
+ * @param project The project name to append
+ */
+function constructWorkspacePath(options: any, project?: string): string {
+  return (options.scope + '/' + options.workspace) + (project ? '-' + project : '');
+}
+
+/**
  * Creates the context data necessary for adding a component to a module.
  * 
  * @param host The current application Tree
  * @param options The options passed from the calling command
  */
 function createAddToModuleContext(host: Tree, options: ModuleOptions | any): AddToModuleContext {
-  const result = new AddToModuleContext();
+  const context = new AddToModuleContext();
 
-  result.filePath = options.module || ''; 
-  result.classifiedName = stringUtils.classify(`${options.workspace}`) + stringUtils.classify(`${options.name}ElementComponent`);
+  context.filePath = options.module || ''; 
+  context.classifiedName = stringUtils.classify(`${options.workspace}`) + stringUtils.classify(`${options.name}ElementComponent`);
 
   const componentPath = `${options.path}/`
   + stringUtils.dasherize(options.name) + '/'
   + stringUtils.dasherize(options.name)
   + '.component';
 
-  result.relativePath = buildRelativePath(result.filePath, componentPath);
+  context.relativePath = buildRelativePath(context.filePath, componentPath);
 
-  const text = host.read(result.filePath);
-  if (!text) throw new SchematicsException(`File ${result.filePath} does not exist.`);
-  const sourceText = text.toString('utf-8');
-  result.source = ts.createSourceFile(result.filePath, sourceText, ts.ScriptTarget.Latest, true);
+  const buffer = host.read(context.filePath);
 
-  return result;
+  if (!buffer) throw new SchematicsException(`File ${context.filePath} does not exist.`);
+
+  context.source = ts.createSourceFile(
+    context.filePath,
+    buffer.toString('utf-8'),
+    ts.ScriptTarget.Latest,
+    true
+  );
+
+  return context;
 }
 
 
@@ -340,42 +411,77 @@ function createAddToModuleContext(host: Tree, options: ModuleOptions | any): Add
  * @param options The options passed from the calling command
  */
 function createAddElementToModuleContext(host: Tree, options: ModuleOptions | any): AddToModuleContext {
-  const result = new AddToModuleContext();
+  const context = new AddToModuleContext();
 
-  result.filePath = options.module || options.filePath;
-  result.classifiedName = options.classifiedName;
+  context.filePath = options.module || options.filePath;
+  context.classifiedName = options.classifiedName;
+  context.relativePath = buildRelativePath(context.filePath, options.componentPath);
+
+  const buffer = host.read(context.filePath);
   
-  const componentPath = options.componentPath;
+  if (!buffer) throw new SchematicsException(`File ${context.filePath} does not exist.`);
 
-  result.relativePath = buildRelativePath(result.filePath, componentPath);
+  context.source = ts.createSourceFile(
+    context.filePath,
+    buffer.toString('utf-8'),
+    ts.ScriptTarget.Latest,
+    true
+  );
 
-  const text = host.read(result.filePath);
-  if (!text) throw new SchematicsException(`File ${result.filePath} does not exist.`);
-  const sourceText = text.toString('utf-8');
-  result.source = ts.createSourceFile(result.filePath, sourceText, ts.ScriptTarget.Latest, true);
+  return context;
+}
 
-  return result;
+/**
+ * Creates the context data necessary for adding a new route to the app-routing.module file.
+ * 
+ * @param host The current application Tree
+ * @param context The routes context given from the calling command.
+ */
+function createRouteContext(host: Tree, context: AddToRoutesContext): AddToRoutesContext {
+  context.route = context.route ? context.route : stringUtils.dasherize(context.componentName);
+  context.componentName = constructClassifiedName(context.componentName);
+
+  const buffer = host.read(context.appRoutingModulePath);
+
+  if (!buffer) throw new SchematicsException(`No routing module file found in ${context.appRoutingModulePath}.`);
+
+  context.source = context.source ? context.source : ts.createSourceFile(
+    context.appRoutingModulePath,
+    buffer.toString('utf-8'),
+    ts.ScriptTarget.Latest,
+    true
+  );
+
+  return context;
 }
 
 /**
  * Creates the context data necessary for updating/adding a module to the app.module file.
  * 
- * @param host The current application Tree
- * @param options The options passed from the calling command
+ * @param host The current application Tree.
+ * @param options The options passed from the calling command.
+ * @param appModulePath Optional path of the module you want updated.
+ * @param forRoot Optional boolean to indicate if the module uses a forRoot() method.
  */
 function createUpdateModuleContext(host: Tree, options: ModuleOptions | any, appModulePath?: string, forRoot?: boolean): AddToModuleContext {
-  const result = new AddToModuleContext();
+  const context = new AddToModuleContext();
 
-  result.filePath = findFileByName('app.module.ts', appModulePath ? appModulePath : '/projects/lcu/src/app', host);
-  result.classifiedName = classify(`${options.workspace}Module`) + (forRoot ? '.forRoot()' : '');
-  result.relativePath = constructWorkspacePath(options, 'common');
+  context.filePath = findFileByName('app.module.ts', appModulePath ? appModulePath : '/projects/lcu/src/app', host);
+  context.classifiedName = classify(`${options.workspace}Module`) + (forRoot ? '.forRoot()' : '');
+  context.relativePath = constructWorkspacePath(options, 'common');
 
-  let text = host.read(result.filePath);
-  if (!text) throw new SchematicsException(`File ${result.filePath} does not exist.`);
-  let sourceText = text.toString('utf-8');
-  result.source =ts.createSourceFile(result.filePath, sourceText, ts.ScriptTarget.Latest, true);
+  let buffer = host.read(context.filePath);
 
-  return result;
+  if (!buffer) throw new SchematicsException(`File ${context.filePath} does not exist.`);
+
+  context.source =ts.createSourceFile(
+    context.filePath,
+    buffer.toString('utf-8'),
+    ts.ScriptTarget.Latest,
+    true
+  );
+
+  return context;
 }
 
 /**

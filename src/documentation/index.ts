@@ -8,11 +8,13 @@ import {
   template,
   chain,
   mergeWith,
-  MergeStrategy
+  MergeStrategy,
+  noop
 } from "@angular-devkit/schematics";
 import { getWorkspace } from "@schematics/angular/utility/config";
 import { normalize, strings} from "@angular-devkit/core";
-import { importModule, AddImportToModuleContext } from "../utils/module-helpers";
+import { importModule, AddImportToModuleContext, addElementToNgModule, AddToRoutesContext, addComponentToAppRouting } from "../utils/module-helpers";
+import { findProjectRoot } from "../utils/helpers";
 
 /**
  * Schematic for adding the LCU-Documentation library and accompanying documents to an Application.
@@ -25,13 +27,11 @@ export function documentation(options: any): Rule {
 
     setupOptions(host, options);
 
-    const workspace = getWorkspace(host);
+    const projectRoot = findProjectRoot(host, options);
 
-    let project = workspace.projects[options.project];
+    options.targetPath = normalize(projectRoot + "/src/" + options.path);
 
-    options.targetPath = normalize(project.root + "/src/" + options.path);
-
-    const templateSource = apply(url(`./files/${options.initWith}`), [
+    const templateSource = apply(url(`./files/init-with/${options.initWith}`), [
       template({
         ...strings,
         ...options
@@ -41,14 +41,23 @@ export function documentation(options: any): Rule {
 
     const moduleContext: AddImportToModuleContext = {
       moduleName: 'app',
-      modulePath: `${project.root}/src/app`,
+      modulePath: `${projectRoot}/src/app`,
       importName: 'LcuDocumentationModule',
       importPath: '@lowcodeunit/lcu-documentation-common',
       forRoot: true
     };
+    
+    const routesContext: AddToRoutesContext = {
+      appRoutingModulePath: `${projectRoot}/src/app/app-routing.module.ts`,
+      componentName: 'documentation',
+      componentPath: './controls/documentation/documentation.component',
+      route: 'documentation'
+    }
 
     return chain([
       mergeWith(templateSource, MergeStrategy.Default),
+      options.includeComponent ? addComponentFiles(options) : noop(),
+      options.includeRouting ? addComponentToAppRouting(routesContext) : noop(),
       importModule(moduleContext),
       addDocsToAssetsPath(options)
     ]);
@@ -60,13 +69,12 @@ export function documentation(options: any): Rule {
  * 
  * @param options The options passed from the calling command.
  * @param docsPath Optional path to specify the location of the documents. If no path given, defaults to target path.
- * @param project Optional project name to specify which project the documents are added to.
  */
-export function addDocsToAssetsPath(options: any, docsPath?: string, project?: string): Rule {
+export function addDocsToAssetsPath(options: any, docsPath?: String): Rule {
   return (host: Tree) => {
-    let projectSafeName = project ? strings.dasherize(project) : 'demo';
+    const projectSafeName = options.project ? strings.dasherize(options.project) : 'demo';
 
-    let path = docsPath ? docsPath : options.targetPath;
+    const path = docsPath ? docsPath : options.targetPath;
     
     let angularFile = host.get('angular.json');
 
@@ -77,6 +85,38 @@ export function addDocsToAssetsPath(options: any, docsPath?: string, project?: s
     host.overwrite('angular.json', JSON.stringify(angularJson, null, '\t'));
 
     return host;
+  };
+}
+
+/**
+ * Adds the component files necessary to contain and run the lcu-documentation tool.
+ * 
+ * @param options The options passed from the calling command.
+ */
+function addComponentFiles(options: any): Rule {
+  return (host: Tree) => {
+    const workspace = getWorkspace(host);
+
+    const project = workspace.projects[options.project];
+
+    const targetPath = normalize(project.root + "/src/app/controls");
+
+    const templateSource = apply(url(`./files/controls`), [
+      template({
+        ...strings,
+        ...options
+      }),
+      move(targetPath)
+    ]);
+
+    options.classifiedName = 'DocumentationComponent';
+    options.componentPath = `/${project.root}/src/app/controls/documentation/documentation.component`;
+    options.module = `/${project.root}/src/app/app.module.ts`;
+
+    return chain([
+      mergeWith(templateSource, MergeStrategy.Default),
+      addElementToNgModule(options)
+    ]);
   };
 }
 
