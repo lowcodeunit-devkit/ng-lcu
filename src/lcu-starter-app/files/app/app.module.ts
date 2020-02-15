@@ -6,13 +6,11 @@ import { FathymSharedModule, MaterialModule } from '@lcu/common';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './controls/home/home.component';
-import { DocumentationComponent } from './controls/documentation/documentation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    DocumentationComponent
+    HomeComponent
   ],
   imports: [
     AppRoutingModule,

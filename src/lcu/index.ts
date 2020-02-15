@@ -57,7 +57,9 @@ export function lcu(options: any): Rule {
         schematic('documentation', {
           initWith: 'lcu',
           project: 'demo',
-          path: 'docs'
+          path: 'docs',
+          includeComponent: true,
+          includeRouting: true
         }),
         updateExport('common', options.workspace),
         updateAppModule(options),
