@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { <%= classify(elementName) %>Utils, <%= classify(elementName) %>Service, <%= classify(elementName) %>Model } from '<%= dasherize(scope) %>/<%= dasherize(workspace) %>-common';
+import { <%= classify(elementName) %>Utils } from '<%= dasherize(scope) %>/<%= dasherize(workspace) %>-common';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { ThemeColorPickerService } from '@lcu/common';
 
@@ -9,19 +9,16 @@ import { ThemeColorPickerService } from '@lcu/common';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  public Cards: <%= classify(elementName) %>Model[];
   public ThemeClass: BehaviorSubject<string>;
   public Themes: Array<any>;
-  public Title = 'Welcome to the LCU-Starter-App';
+  public Title = 'LCU-Starter-App';
 
   constructor(
-    protected themeService: ThemeColorPickerService,
-    protected <%= camelize(elementName) %>Service: <%= classify(elementName) %>Service
+    protected themeService: ThemeColorPickerService
   ) { }
 
   public ngOnInit(): void {
     this.Title = <%= classify(elementName) %>Utils.upper<%= classify(elementName) %>(this.Title);
-    this.Cards = this.<%= camelize(elementName) %>Service.getCardData();
     this.resetTheme();
     this.setThemes();
   }
