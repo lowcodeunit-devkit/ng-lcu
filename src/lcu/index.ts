@@ -64,6 +64,7 @@ export function lcu(options: any): Rule {
         updateExport('common', options.workspace),
         updateAppModule(options),
         updateAppModule(options, '/projects/demo/src/app'),
+        updateTsConfig(),
         addStarterElements(options),
         addScripts(options),
         manageBuildScripts(options)
@@ -147,6 +148,37 @@ function updateExport(projectName: string, workspaceName: string, contentToAdd?:
     }
     
     host.overwrite(lcuApi, content);
+
+    return host;
+  };
+}
+
+/**
+ * Updates the tsconfig.json file to be compatible as a Angular 9 library.
+ */
+function updateTsConfig() {
+  return (host: Tree) => {
+    const tsConfigFilePath = 'tsconfig.json';
+
+    let tsConfigFile = host.get(tsConfigFilePath);
+
+    let tsConfigJson = tsConfigFile ? JSON.parse(tsConfigFile.content.toString('utf8')) : {};
+
+    let compilerOptions = tsConfigJson.compilerOptions || {};
+
+    let angularCompilerOptions = tsConfigJson.angularCompilerOptions || {};
+
+    compilerOptions['noImplicitAny'] = true;
+    compilerOptions['suppressImplicitAnyIndexErrors'] = true;
+
+    angularCompilerOptions['enableIvy'] = false;
+    angularCompilerOptions['strictInjectionParameters'] = true;
+    angularCompilerOptions['strictTemplates'] = true;
+
+    tsConfigJson.compilerOptions = compilerOptions;
+    tsConfigJson.angularCompilerOptions = angularCompilerOptions;
+
+    host.overwrite(tsConfigFilePath, JSON.stringify(tsConfigJson, null, '\t'));
 
     return host;
   };
