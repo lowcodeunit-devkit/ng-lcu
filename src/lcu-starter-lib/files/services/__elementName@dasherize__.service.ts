@@ -37,7 +37,7 @@ export class <%= classify(elementName) %>Service {
         <%= classify(elementName) %>Id: 3,
         Content: `Fathym’s low-code framework is designed to give developers the freedom and best practice workflows to rapidly create
                   IoT and data-driven applications that are agnostic to tools, platforms and clouds. Each element of the framework is
-                  built from Low Code Units (LCUs) – modular building blocks of code that can be as large as an application, or as
+                  built from Low-Code Units (LCUs) – modular building blocks of code that can be as large as an application, or as
                   small as a data visualization.`,
         Title: `Fathym's Low-Code Framework`,
         Subtitle: `Find More Information About Fathym's IoT Solutions`,

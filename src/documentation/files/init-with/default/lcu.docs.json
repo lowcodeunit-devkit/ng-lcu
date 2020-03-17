@@ -4,7 +4,7 @@
       {
         "Children": [],
         "Path": "overview.md",
-        "Title": "Overview of Low Code Architecture"
+        "Title": "Low-Code Unit™ Architecture"
       }
     ],
     "LocationRoot": "/<%= path %>/"

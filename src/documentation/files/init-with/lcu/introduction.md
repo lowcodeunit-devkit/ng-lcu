@@ -1,6 +1,6 @@
-# Introduction to LCUs
+# *Low-Code Unit&trade;* Introduction
 
-Low Code Units (LCUs) are the building blocks that make up our Application. 
+A *Low-Code Unit&trade;* is a building block that helps make up an Application. 
 
 ## Development server
 
