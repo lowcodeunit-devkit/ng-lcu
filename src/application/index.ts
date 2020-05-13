@@ -36,7 +36,7 @@ export function application(options: any): Rule {
       }),
       processInitWith(options, context),
       addLicense(context, options),
-      options.blockFavicon ? noop() : mergeFiles(options),
+      options.blockFavicon ? noop() : mergeFavIcon(options),
       options.blockDeploy ? noop() : addScripts(options),
       options.blockDeploy ? noop() : manageDeployAllScript(options),
       manageAppAssets(options, context)
@@ -48,7 +48,7 @@ export function application(options: any): Rule {
   };
 }
 
-export function mergeFiles(options: any) {
+export function mergeFavIcon(options: any) {
   return (host: Tree) => {
     const workspace = getWorkspace(host);
     
@@ -56,7 +56,7 @@ export function mergeFiles(options: any) {
 
     const targetPath = normalize(project.root + '/src/');
 
-    const solutionSource = apply(url('./files'), [
+    const solutionSource = apply(url('./files/favicon'), [
       template({
         ...strings,
         ...options,
@@ -64,7 +64,26 @@ export function mergeFiles(options: any) {
       move(targetPath),
     ]);
 
-    // return mergeWith(solutionSource, MergeStrategy.Default);
+    return mergeWith(solutionSource, MergeStrategy.Overwrite);
+  };
+}
+
+export function mergeAppFiles(options: any) {
+  return (host: Tree) => {
+    const workspace = getWorkspace(host);
+    
+    let project = workspace.projects[options.name];
+
+    const targetPath = normalize(project.root + '/src/app');
+
+    const solutionSource = apply(url('./files/app'), [
+      template({
+        ...strings,
+        ...options,
+      }),
+      move(targetPath),
+    ]);
+
     return mergeWith(solutionSource, MergeStrategy.Overwrite);
   };
 }
@@ -256,7 +275,11 @@ function processInitWith(options: any, context: SchematicContext) {
 
     switch (options.initWith) {
       case 'Blank':
-        rule = blankOutLibrary(options, context, false, false);
+        rule = chain([
+          blankOutLibrary(options, context, false, false),
+          mergeAppFiles(options)
+        ]);
+        
         break;
 
       case 'LCU-Core-App':
