@@ -62,6 +62,25 @@ export function addDeployScripts(options: any) {
   };
 }
 
+function updateExport(projectName: string, workspaceName: string) {
+  return (host: Tree) => {
+    
+    let workspace = getWorkspace(host);
+
+    let project = workspace.projects[projectName];
+
+    let srcRoot = join(project.root as Path, 'src');
+
+    let lcuApi = join(srcRoot, `lcu.api.ts`);
+
+    let content = `export * from './lib/${workspaceName}.module';\r\n`;
+    
+    host.overwrite(lcuApi, content);
+
+    return host;
+  };
+}
+
 export function updateTsConfig(context: SchematicContext, options: any) {
   return (host: Tree) => {
     var tsConfigFilePath = 'tsconfig.json';
@@ -212,7 +231,14 @@ function processInitWith(options: any, context: SchematicContext) {
             name: options.name,
             project: options.name,
             elementName: options.elementName
-          })
+          }),
+          schematic('module', {
+            name: options.workspace,
+            project: options.name,
+            elementName: options.elementName,
+            flat: true
+          }),
+          updateExport(options.name, options.workspace),
         ]);
         break;
 
@@ -274,6 +300,8 @@ export function setupOptions(host: Tree, options: any): Tree {
   options.initWith = options.initWith || 'Default';
 
   options.name = options.name || 'library';
+
+  options.elementName = options.elementName || 'starter';
 
   options.prefix = options.prefix || 'lcu';
 

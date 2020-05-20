@@ -42,6 +42,8 @@ function setupOptions(host: Tree, options: any): Tree {
       workspace.defaultProject ? <string>workspace.defaultProject : Object.keys(workspace.projects)[0];
   
     options.name = options.name;
+
+    options.elementName = options.elementName || 'starter';
   
     return host;
 }
