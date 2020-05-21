@@ -26,10 +26,6 @@
         "sln"
       ]
     },
-    "forge": {
-      "description": "Schematic for seeding a forge application.",
-      "factory": "./forge/index#forge"
-    },
     "lcu": {
       "description": "Schematic for seeding an LCU.",
       "factory": "./lcu/index#lcu"
