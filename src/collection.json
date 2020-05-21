@@ -19,13 +19,6 @@
         "lib"
       ]
     },
-    "element": {
-      "description": "Schematic for creating a new LCU Page Element.",
-      "factory": "./element/index#element",
-      "aliases": [
-        "el"
-      ]
-    },
     "solution": {
       "description": "Schematic for creating a new LCU Solution.",
       "factory": "./solution/index#solution",

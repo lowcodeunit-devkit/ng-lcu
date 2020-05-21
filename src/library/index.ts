@@ -252,16 +252,6 @@ function processInitWith(options: any, context: SchematicContext) {
         ]);
         break;
 
-      case 'Element':
-        rule = chain([
-          blankOutLibrary(options, context),
-          schematic('element', {
-            name: options.name,
-            project: options.name
-          })
-        ]);
-        break;
-
       case 'SPE':
         rule = chain([
           blankOutLibrary(options, context),
