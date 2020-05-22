@@ -211,18 +211,7 @@ function processInitWith(options: any, context: SchematicContext) {
 
       case 'Blank':
         rule = blankOutLibrary(options, context);
-
         break;
-
-      case 'LCU':
-        rule = chain([
-          blankOutLibrary(options, context),
-          schematic('lcu-core-app', {
-            name: options.name,
-            project: options.name
-          })
-        ]);
-      break;
       
       case 'LCU-Starter-Lib':
         rule = chain([
@@ -239,32 +228,6 @@ function processInitWith(options: any, context: SchematicContext) {
             flat: true
           }),
           updateExport(options.name, options.workspace),
-        ]);
-        break;
-
-      case 'Solution':
-        rule = chain([
-          blankOutLibrary(options, context),
-          schematic('solution', {
-            name: options.name,
-            project: options.name
-          })
-        ]);
-        break;
-
-      case 'SPE':
-        rule = chain([
-          blankOutLibrary(options, context),
-          schematic('element', {
-            name: options.name,
-            path: 'lib/elements',
-            project: options.name
-          }),
-          schematic('solution', {
-            name: options.name,
-            path: 'lib/solutions',
-            project: options.name
-          })
         ]);
         break;
     }

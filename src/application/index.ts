@@ -1,7 +1,5 @@
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { buildDefaultPath } from '@schematics/angular/utility/project';
-import { parseName } from '@schematics/angular/utility/parse-name';
 import {
   Rule,
   SchematicContext,
@@ -9,7 +7,6 @@ import {
   apply,
   url,
   noop,
-  filter,
   move,
   MergeStrategy,
   mergeWith,
@@ -18,10 +15,8 @@ import {
   externalSchematic,
   schematic
 } from '@angular-devkit/schematics';
-import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { normalize, strings, Path, join } from '@angular-devkit/core';
 import { addScriptsToPackageFile, removeFilesFromRoot } from '../utils/helpers';
-import { Logger } from '@angular-devkit/core/src/logger';
 
 export function application(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -279,7 +274,9 @@ function processInitWith(options: any, context: SchematicContext) {
           blankOutLibrary(options, context, false, false),
           mergeAppFiles(options)
         ]);
-        
+        break;
+
+      case 'Default':
         break;
 
       case 'LCU-Core-App':
@@ -313,22 +310,9 @@ function processInitWith(options: any, context: SchematicContext) {
         ]);
         break;
 
-      case 'Momentum':
-          context.logger.info(`Application momentum switch case: ${JSON.stringify(options)}...`);
-        rule = chain([        
-          schematic('momentum', {
-            name: options.name,
-            project: options.name
-          })
-        ]);
-        break;
-
       case 'Module':
         rule = blankOutLibrary(options, context, true, false);
         break;
-
-      case 'Default':
-          break;
     }
 
     context.logger.info(`Processing Initialized for ${options.initWith}!`);
