@@ -50,10 +50,6 @@
       "description": "Schematics for seeding Momentum App.",
       "factory": "./momentum/index#momentumApp"
     },
-    "blah": {
-      "description": "A blank schematic.",
-      "factory": "./blah/index#blah"
-    },
     "module": {
       "description": "Schematic to add a Angular module to a specific project.",
       "factory": "./module/index#module"
