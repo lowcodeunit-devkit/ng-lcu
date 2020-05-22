@@ -29,7 +29,7 @@ import { UserHasRoleDirective } from './directives/user-has-role.directive';
 // import { UsersStateManagerContext } from './state/users/user-state-manager.context';
 import { environment } from '../environments/environment';
 import { MaterialKitchenSinkComponent, KitchenSinkComponent } from './controls/material-kitchen-sink/material-kitchen-sink.component';
-import { MatBottomSheet } from '@angular/material';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 @NgModule({
   declarations: [

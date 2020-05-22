@@ -17,7 +17,7 @@ import { <%= classify(elementName) %>Service } from './services/<%= dasherize(el
   entryComponents: []
 })
 export class <%= classify(name) %>Module {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<<%= classify(name) %>Module> {
     return {
       ngModule: <%= classify(name) %>Module,
       providers: [<%= classify(elementName) %>Service]
