@@ -213,7 +213,8 @@ function addStarterElements(options: any): Rule {
       { name: `${stringUtils.dasherize(options.elementName)}.directive`, type: 'directive', path: 'directives' },
       { name: `${stringUtils.dasherize(options.elementName)}.model`, type: 'model', path: 'models' },
       { name: `${stringUtils.dasherize(options.elementName)}.service`, type: 'service', path: 'services' },
-      { name: `${stringUtils.dasherize(options.elementName)}-manager.context`, type: 'manager-context', path: 'state' },
+      { name: `${stringUtils.dasherize(options.elementName)}-management-state.context`, type: 'state', path: 'state' },
+      { name: `${stringUtils.dasherize(options.elementName)}-management.state`, type: 'state', path: 'state' },
       { name: `${stringUtils.dasherize(options.elementName)}.utils`, type: 'utils', path: 'utils' }
     ];
 
