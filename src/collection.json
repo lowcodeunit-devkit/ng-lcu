@@ -19,23 +19,12 @@
         "lib"
       ]
     },
-    "element": {
-      "description": "Schematic for creating a new LCU Page Element.",
-      "factory": "./element/index#element",
-      "aliases": [
-        "el"
-      ]
-    },
     "solution": {
       "description": "Schematic for creating a new LCU Solution.",
       "factory": "./solution/index#solution",
       "aliases": [
         "sln"
       ]
-    },
-    "forge": {
-      "description": "Schematic for seeding a forge application.",
-      "factory": "./forge/index#forge"
     },
     "lcu": {
       "description": "Schematic for seeding an LCU.",
@@ -60,10 +49,6 @@
     "momentum": {
       "description": "Schematics for seeding Momentum App.",
       "factory": "./momentum/index#momentumApp"
-    },
-    "blah": {
-      "description": "A blank schematic.",
-      "factory": "./blah/index#blah"
     },
     "module": {
       "description": "Schematic to add a Angular module to a specific project.",
