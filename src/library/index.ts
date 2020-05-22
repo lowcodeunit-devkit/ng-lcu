@@ -210,7 +210,15 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
       case 'Blank':
-        rule = blankOutLibrary(options, context);
+        rule = chain([
+          blankOutLibrary(options, context),
+          externalSchematic('@schematics/angular', 'module', {
+            name: options.workspace,
+            project: options.name,
+            flat: true
+          }),
+          updateExport(options.name, options.workspace),
+        ]);
         break;
       
       case 'LCU-Starter-Lib':
