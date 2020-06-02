@@ -1,8 +1,5 @@
 @import '../../../../../../node_modules/@lcu/common/assets/theming/fathym_themes';
 
-@import '~@angular/material/theming';
-@include mat-core();
-
 .sidenav-container {
   height: 100%;
 }
@@ -31,12 +28,9 @@
   height: 50px;
 }
 
-
-
 /**
-* For testing
-**/
-
+* Theming color swatches
+*/
 .color-swatch-arctic {
   color: mat-color($fathym-arctic-primary, 500) !important;
 }

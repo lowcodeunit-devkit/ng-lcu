@@ -8,7 +8,7 @@
     "wc": ["wc/<%= workspace %>.lcu.js"],
     "solutions": {},
     "elements": {},
-    "flux": {},
+    "data-flow": {},
     "dependencies": {}
   }
 }

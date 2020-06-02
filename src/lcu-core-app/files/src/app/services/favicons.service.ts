@@ -1,4 +1,4 @@
-import { Inject } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { InjectionToken } from '@angular/core';
 
 export interface FaviconsConfig {
@@ -29,6 +29,7 @@ export abstract class FaviconsService {
 /**
  * Provide the browser-oriented implementation of the Favicons class
  */
+@Injectable()
 export class BrowserFavicons implements FaviconsService {
 
     protected elementId: string;

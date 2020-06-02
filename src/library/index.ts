@@ -1,28 +1,17 @@
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { buildDefaultPath } from '@schematics/angular/utility/project';
-import { parseName } from '@schematics/angular/utility/parse-name';
 import {
   Rule,
   SchematicContext,
   Tree,
-  apply,
-  url,
   noop,
-  filter,
-  move,
-  MergeStrategy,
-  mergeWith,
-  template,
   chain,
   externalSchematic,
   branchAndMerge,
   schematic
 } from '@angular-devkit/schematics';
-import { ProjectType, WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import { normalize, strings, Path, join } from '@angular-devkit/core';
+import { strings, Path, join } from '@angular-devkit/core';
 import { addScriptsToPackageFile } from '../utils/helpers';
-import { Logger } from '@angular-devkit/core/src/logger';
 
 export function library(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -68,6 +57,25 @@ export function addDeployScripts(options: any) {
           `&& npm run build:${projectSafeName} && npm publish ./dist/${projectSafeName} --access public`
       }
     ]);
+
+    return host;
+  };
+}
+
+function updateExport(projectName: string, workspaceName: string) {
+  return (host: Tree) => {
+    
+    let workspace = getWorkspace(host);
+
+    let project = workspace.projects[projectName];
+
+    let srcRoot = join(project.root as Path, 'src');
+
+    let lcuApi = join(srcRoot, `lcu.api.ts`);
+
+    let content = `export * from './lib/${workspaceName}.module';\r\n`;
+    
+    host.overwrite(lcuApi, content);
 
     return host;
   };
@@ -202,53 +210,32 @@ function processInitWith(options: any, context: SchematicContext) {
         break;
 
       case 'Blank':
-        rule = blankOutLibrary(options, context);
-
-        break;
-
-      case 'LCU':
         rule = chain([
           blankOutLibrary(options, context),
-          schematic('lcu-core-app', {
-            name: options.name,
-            project: options.name
-          })
-        ]);
-      break;
-
-      case 'Solution':
-        rule = chain([
-          blankOutLibrary(options, context),
-          schematic('solution', {
-            name: options.name,
-            project: options.name
-          })
-        ]);
-        break;
-
-      case 'Element':
-        rule = chain([
-          blankOutLibrary(options, context),
-          schematic('element', {
-            name: options.name,
-            project: options.name
-          })
-        ]);
-        break;
-
-      case 'SPE':
-        rule = chain([
-          blankOutLibrary(options, context),
-          schematic('element', {
-            name: options.name,
-            path: 'lib/elements',
-            project: options.name
+          externalSchematic('@schematics/angular', 'module', {
+            name: options.workspace,
+            project: options.name,
+            flat: true
           }),
-          schematic('solution', {
+          updateExport(options.name, options.workspace),
+        ]);
+        break;
+      
+      case 'LCU-Starter-Lib':
+        rule = chain([
+          blankOutLibrary(options, context),
+          schematic('lcu-starter-lib', {
             name: options.name,
-            path: 'lib/solutions',
-            project: options.name
-          })
+            project: options.name,
+            elementName: options.elementName
+          }),
+          schematic('module', {
+            name: options.workspace,
+            project: options.name,
+            elementName: options.elementName,
+            flat: true
+          }),
+          updateExport(options.name, options.workspace),
         ]);
         break;
     }
@@ -274,6 +261,8 @@ export function setupOptions(host: Tree, options: any): Tree {
   options.initWith = options.initWith || 'Default';
 
   options.name = options.name || 'library';
+
+  options.elementName = options.elementName || 'starter';
 
   options.prefix = options.prefix || 'lcu';
 

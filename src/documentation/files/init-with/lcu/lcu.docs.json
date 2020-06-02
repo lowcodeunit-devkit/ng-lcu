@@ -1,0 +1,26 @@
+{
+  "DefaultDocPath": "introduction.md",
+  "Docs": [
+    {
+      "Children": [],
+      "Path": "introduction.md",
+      "Title": "Low-Code Unit™ Architecture"
+    },
+    {
+      "Children": [
+        {
+          "Children": [],
+          "Path": "getting-started/initial-setup.md",
+          "Title": "Initial Setup"
+        },
+        {
+          "Children": [],
+          "Path": "getting-started/configuration.md",
+          "Title": "Configuration"
+        }
+      ],
+      "Title": "Getting Started"
+    }
+  ],
+  "LocationRoot": "/<%= path %>/"
+}

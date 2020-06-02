@@ -13,6 +13,7 @@ import {
     Path
 } from "@angular-devkit/core";
 import { UpdateRecorder } from "@angular-devkit/schematics";
+import { ModuleOptions } from "@schematics/angular/utility/find-module";
 
 const pkgJsonPath = "/package.json";
 const angularJsonPath = "/angular.json";
@@ -244,6 +245,12 @@ export function findPropertyInAstObject(node: JsonAstObject, propertyName: strin
     }
 
     return maybeNode;
+}
+
+export function findProjectRoot(host: Tree, options: ModuleOptions | any): string {
+  const workspace = getWorkspace(host);
+  const project = workspace.projects[options.project];
+  return project.root;
 }
 
 function _buildIndent(count: number): string {

@@ -1,0 +1,12 @@
+{
+    "DefaultDocPath": "overview.md",
+    "Docs": [
+      {
+        "Children": [],
+        "Path": "overview.md",
+        "Title": "Low-Code Unit™ Architecture"
+      }
+    ],
+    "LocationRoot": "/<%= path %>/"
+  }
+  

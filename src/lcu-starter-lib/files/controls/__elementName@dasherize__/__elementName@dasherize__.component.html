@@ -1,0 +1,13 @@
+<mat-card <%= dasherize(elementName) %> id="<%= camelize(elementName) %>Card{{card.<%= classify(elementName) %>Id}}" class="<%= dasherize(elementName) %>-card" (click)="SelectCard(card.Url)">
+    <mat-card-header>
+        <div mat-card-avatar class="<%= dasherize(elementName) %>-card-avatar">
+        <mat-icon color="primary">{{card.Icon}}</mat-icon>
+        </div>
+        <mat-card-title class="paragraph-title">{{card.Title}}</mat-card-title>
+        <mat-card-subtitle class="plain-text">{{card.Subtitle}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="<%= dasherize(elementName) %>-card-content">
+        {{card.Content}}
+    </mat-card-content>
+</mat-card>
+  
