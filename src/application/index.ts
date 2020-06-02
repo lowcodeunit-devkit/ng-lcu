@@ -270,13 +270,14 @@ function processInitWith(options: any, context: SchematicContext) {
 
     switch (options.initWith) {
       case 'Blank':
+        rule = blankOutLibrary(options, context, false, false);
+        break;
+
+      case 'Default':
         rule = chain([
           blankOutLibrary(options, context, false, false),
           mergeAppFiles(options)
         ]);
-        break;
-
-      case 'Default':
         break;
 
       case 'LCU-Core-App':
