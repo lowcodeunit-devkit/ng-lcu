@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { FathymSharedModule, MaterialModule } from '@lcu-ide/common';
+import { FathymSharedModule, MaterialModule, PipeModule, LCUServiceSettings, RealTimeService } from '@lcu/common';
 import { TutorialsComponent } from './controls/tutorials/tutorials.component';
 import { ReactiveFormComponent } from './controls/reactive-form/reactive-form.component';
 import { FlexLayoutComponent } from './controls/flex-layout/flex-layout.component';
@@ -25,6 +25,11 @@ import { DashboardComponent } from './controls/dashboard/dashboard.component';
 import { LoggedInUserComponent } from './controls/logged-in-user/logged-in-user.component';
 import { DashboardAdminComponent } from './controls/dashboard-admin/dashboard-admin.component';
 import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashboard-non-admin.component';
+import { UserHasRoleDirective } from './directives/user-has-role.directive';
+// import { UsersStateManagerContext } from './state/users/user-state-manager.context';
+import { environment } from '../environments/environment';
+import { MaterialKitchenSinkComponent, KitchenSinkComponent } from './controls/material-kitchen-sink/material-kitchen-sink.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 @NgModule({
   declarations: [
@@ -40,10 +45,13 @@ import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashb
     UsersListComponent,
     NavListComponent,
     LoginComponent,
+    KitchenSinkComponent,
     DashboardComponent,
     LoggedInUserComponent,
     DashboardAdminComponent,
-    DashboardNonAdminComponent
+    DashboardNonAdminComponent,
+    UserHasRoleDirective,
+    MaterialKitchenSinkComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -51,11 +59,19 @@ import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashb
     FlexLayoutModule,
     FathymSharedModule,
     MaterialModule,
+    PipeModule,
     FormsModule,
     ReactiveFormsModule
   ],
   providers: [
+    MatBottomSheet,
+    // UsersStateManagerContext,
+    {
+      provide: LCUServiceSettings,
+      useValue: FathymSharedModule.DefaultServiceSettings(environment)
+    },
     UsersService,
+    RealTimeService,
     TutorialService,
   {
     provide: FaviconsService, useClass: BrowserFavicons
@@ -100,13 +116,6 @@ import { DashboardNonAdminComponent } from './controls/dashboard-non-admin/dashb
     }
   }
 ],
-  bootstrap: [AppComponent],
-  exports: [
-    LoginComponent,
-    DashboardComponent,
-    LoggedInUserComponent,
-    DashboardAdminComponent,
-    DashboardNonAdminComponent],
-  entryComponents: [LoginComponent, DashboardComponent, LoggedInUserComponent, DashboardAdminComponent, DashboardNonAdminComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,14 +1,14 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { LCUElementContext, LcuElementComponent } from '@lcu-ide/common';
+import { LCUElementContext, LcuElementComponent } from '@lcu/common';
 
 export class <%= classify(workspace) %><%= classify(name) %>ElementState {}
 
 export class <%= classify(workspace) %><%= classify(name) %>Context extends LCUElementContext<<%= classify(workspace) %><%= classify(name) %>ElementState> {}
 
-export const Selector<%= classify(workspace) %><%= classify(name) %>Element = '<%= dasherize(workspace) %>-<%= dasherize(name) %>-element';
+export const SELECTOR_<%= underscore(workspace).toUpperCase() %>_<%= underscore(name).toUpperCase() %>_ELEMENT = '<%= dasherize(workspace) %>-<%= dasherize(name) %>-element';
 
 @Component({
-  selector: Selector<%= classify(workspace) %><%= classify(name) %>Element,
+  selector: SELECTOR_<%= underscore(workspace).toUpperCase() %>_<%= underscore(name).toUpperCase() %>_ELEMENT,
   templateUrl: './<%= dasherize(name) %>.component.html',
   styleUrls: ['./<%= dasherize(name) %>.component.scss']
 })

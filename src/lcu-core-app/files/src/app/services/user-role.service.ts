@@ -13,21 +13,22 @@ export interface Role {
 
 export class UserRolesService {
   // A stream that exposes all the roles a user has
-  roles$ = new ReplaySubject<string[]>(1);
+  roles$ = new ReplaySubject<string>(1);
 
   // We leverage this roleUpdates$ to be able to update the roles
   // This is for demonstration purposes only
-  roleUpdates$ = new BehaviorSubject(['basic']);
+ // roleUpdates$ = new BehaviorSubject(['basic']);
+ roleUpdates$: BehaviorSubject<string> = new BehaviorSubject('');
 
   constructor() {
     this.roleUpdates$
       .pipe(
-        scan((acc, next) => next, [])
+        scan((acc, next) => next, '')
       )
       .subscribe(this.roles$);
   }
 
-  public UpdateRoles(roles): void {
+  public UpdateRoles(roles: string): void {
     this.roleUpdates$.next(roles);
   }
 }
