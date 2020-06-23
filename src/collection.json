@@ -8,23 +8,17 @@
     "application": {
       "description": "The Schematic used to initialize a new LCU Application.",
       "factory": "./application/index#application",
-      "aliases": [
-        "app"
-      ]
+      "aliases": ["app"]
     },
     "library": {
       "description": "The Schematic used to initialize a new LCU Library.",
       "factory": "./library/index#library",
-      "aliases": [
-        "lib"
-      ]
+      "aliases": ["lib"]
     },
     "solution": {
       "description": "Schematic for creating a new LCU Solution.",
       "factory": "./solution/index#solution",
-      "aliases": [
-        "sln"
-      ]
+      "aliases": ["sln"]
     },
     "lcu": {
       "description": "Schematic for seeding an LCU.",
@@ -57,6 +51,10 @@
     "documentation": {
       "description": "Schematic to add lcu-documentation library and structure to a application.",
       "factory": "./documentation/index#documentation"
+    },
+    "testing": {
+      "description": "Schematic for setting up tests.",
+      "factory": "./testing/index#testing"
     }
   }
 }
