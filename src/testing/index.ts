@@ -53,7 +53,7 @@ export function manageBuildScripts(options: any) {
     
     packageJson.scripts['deploy'] = ['npm run e2e', curDeploy ? '&&' : '', curDeploy].join(' ');
 
-    packageJson.scripts['test'] = 'npm run cy:open';
+    packageJson.scripts['test'] = 'start-server-and-test start ${port} cy:open';
 
     host.overwrite('package.json', JSON.stringify(packageJson, null, '\t'));
 
