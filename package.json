@@ -15,16 +15,16 @@
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^9.0.2",
-    "@angular-devkit/schematics": "^9.0.2",
-    "@angular-devkit/schematics-cli": "^0.900.2",
-    "@schematics/angular": "^9.0.2",
-    "@schematics/schematics": "^0.900.2",
+    "@angular-devkit/core": "^10.0.8",
+    "@angular-devkit/schematics": "^10.0.8",
+    "@angular-devkit/schematics-cli": "^0.1000.8",
+    "@schematics/angular": "^10.0.8",
+    "@schematics/schematics": "^0.1000.8",
     "@types/jasmine": "^2.6.0",
     "@types/node": "^13.7.1",
     "jasmine": "^2.8.0",
-    "rxjs": "~6.5.4",
-    "typescript": "^3.7.5"
+    "rxjs": "^6.6.2",
+    "typescript": "3.9.7"
   },
   "devDependencies": {
     "@angular/cli": "^9.0.2",
