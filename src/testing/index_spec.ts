@@ -7,10 +7,13 @@ const collectionPath = path.join(__dirname, '../collection.json');
 
 
 describe('momentum', () => {
-  it('works', () => {
+  it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = runner.runSchematic('momentum', {}, Tree.empty());
+    const tree = await runner.runSchematicAsync('momentum', {}, Tree.empty());
 
-    expect(tree.files).toEqual([]);
+    tree.subscribe(tree=>{
+      console.log(tree);
+      expect(tree.files).toEqual([]);
+    });
   });
 });
