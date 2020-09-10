@@ -6,7 +6,7 @@
       "dom"
     ],
     "declaration": true,
-    "module": "esnext",
+    "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
@@ -25,6 +25,9 @@
       "jasmine",
       "node"
     ]
+  },
+  "compilerOptions": {
+    "module": "esnext"
   },
   "angularCompilerOptions": {
 		"enableIvy": false,
