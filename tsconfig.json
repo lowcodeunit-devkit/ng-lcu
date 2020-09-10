@@ -26,9 +26,6 @@
       "node"
     ]
   },
-  "compilerOptions": {
-    "module": "esnext"
-  },
   "angularCompilerOptions": {
 		"enableIvy": false,
 		"strictInjectionParameters": true,
