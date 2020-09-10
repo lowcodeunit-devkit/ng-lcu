@@ -7,10 +7,13 @@ const collectionPath = path.join(__dirname, '../collection.json');
 
 
 describe('lcu-core-app', () => {
-  it('works', () => {
+  it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = runner.runSchematic('lcu-core-app', {}, Tree.empty());
-
-    expect(tree.files).toEqual([]);
+    const tree = await runner.runSchematicAsync('lcu-core-app', {}, Tree.empty());
+    
+    tree.subscribe(tree=>{
+      console.log(tree);
+      expect(tree.files).toEqual([]);
+    });
   });
 });
