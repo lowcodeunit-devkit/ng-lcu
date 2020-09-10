@@ -7,10 +7,13 @@ const collectionPath = path.join(__dirname, '../collection.json');
 
 
 describe('ng-add', () => {
-  it('works', () => {
+  it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = runner.runSchematic('ng-add', {}, Tree.empty());
+    const tree = await runner.runSchematicAsync('ng-add', {}, Tree.empty());
 
-    expect(tree.files).toEqual([]);
+    tree.subscribe(tree=>{
+      console.log(tree);
+      expect(tree.files).toEqual([]);
+    });
   });
 });

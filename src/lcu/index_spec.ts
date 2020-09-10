@@ -7,10 +7,13 @@ const collectionPath = path.join(__dirname, '../collection.json');
 
 
 describe('lcu', () => {
-  it('works', () => {
+  it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = runner.runSchematic('lcu', {}, Tree.empty());
+    const tree = await runner.runSchematicAsync('lcu', {}, Tree.empty());
 
-    expect(tree.files).toEqual([]);
+    tree.subscribe(tree=>{
+      console.log(tree);
+      expect(tree.files).toEqual([]);
+    });
   });
 });
