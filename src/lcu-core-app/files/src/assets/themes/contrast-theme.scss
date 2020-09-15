@@ -1,9 +1,0 @@
-$primary: mat-palette($fathym-contrast-primary);
-$accent: mat-palette($fathym-contrast-accent);
-$warn: mat-palette($fathym-contrast-accent, A700);
-$primary-logo: $fathym-default-logo;
-
-$contrast-theme: mat-dark-theme(
-    $primary,
-    $accent
-    );

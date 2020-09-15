@@ -1,6 +1,6 @@
 @import '~@angular/material/theming';
 @include mat-core();
-@import '../../../../node_modules/@lcu/common/assets/styles/branding/theme-colors/fathym-theme-colors';
+// @import '../../../../node_modules/@lcu/common/assets/styles/branding/colors/fathym-theme-colors';
 @import '../../../../node_modules/@lcu/common/assets/styles/branding/logos/fathym-icons';
 @import '../../../../node_modules/@lcu/common/assets/styles/branding/fonts/fathym-fonts';
 
@@ -219,7 +219,7 @@ $primary-logo: $fathym-default-logo;
 *   ivy theme - fathym brand colors
 */
 @function fathym-ivy-theme($isDark: false) {
-    $primary: mat-palette($fathym-primary);
+    $primary: mat-palette($fathym-ivy-primary);
     $accent: mat-palette($fathym-ivy-accent);
     $warn: mat-palette($fathym-warn, 500);
 

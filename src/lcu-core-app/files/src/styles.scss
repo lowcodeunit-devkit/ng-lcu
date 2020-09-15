@@ -1,9 +1,42 @@
 @import '../../../node_modules/@lcu/common/assets/styles/fathym-global.styles';
 @import '../../../node_modules/@lcu/common/assets/styles/branding/fathym-branding';
-// @import '../../../node_modules/@lcu/common/assets/theming/fathym_themes';
-@import './assets/fathym-theme-test.scss';
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap');
+@import '../../../node_modules/@lcu/common/assets/theming/fathym_themes';
+// @import './assets/fathym-theme-test.scss';
+// @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap');
+@import '../../../node_modules/@lcu/common/assets/theming/common-theme';
 @import '../src/app/controls/flex-layout/flex-layout.component.scss';
+
+/**
+* Can select a predefined theme
+*/
+// $global-theme: fathym-ivy-theme(true);
+
+/**
+* Or, can call create-theme and pass in your own palatte colors
+*/
+// $global-theme: create-theme($fathym-primary, $fathym-accent, $fathym-warn, true);
+// $primary: map-get($global-theme, primary);
+// $accent: map-get($global-theme, accent);
+// $warn: map-get($global-theme, warn);
+
+// $background: map-get(map-get($global-theme, 'background'), 'background');
+// $logo-color: map-get(map-get($global-theme, 'foreground'), 'icon');
+
+// @mixin primary-logo($logo, $theme, $opacity) {
+//   .primary-logo {
+//     background-image: fathym-logo($logo, $logo-color, $opacity);
+//     background-size: 40px;
+//   }
+  
+// }
+
+// @include theme-setup($global-theme, false);
+// @include primary-logo(thinky-circle, $global-theme, 1);
+
+// body {
+//   background-color: $background;
+// }
+
 
 @mixin opacity($opacity) {
   opacity: $opacity;
