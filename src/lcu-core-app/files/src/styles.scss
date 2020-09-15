@@ -119,7 +119,7 @@
    .fathym-ivy-theme {
       $theme: fathym-ivy-theme();
       @include theme-setup($theme);
-      @include fathym-branding($theme);
+     // @include fathym-branding($theme);
       @include primary-logo(thinky-full-logo, $theme, 1);
   }
 
