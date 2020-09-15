@@ -219,7 +219,7 @@ $primary-logo: $fathym-default-logo;
 *   ivy theme - fathym brand colors
 */
 @function fathym-ivy-theme($isDark: false) {
-    $primary: mat-palette($fathym-ivy-primary);
+    $primary: mat-palette($fathym-primary);
     $accent: mat-palette($fathym-ivy-accent);
     $warn: mat-palette($fathym-warn, 500);
 
