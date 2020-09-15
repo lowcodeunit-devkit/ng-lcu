@@ -1,6 +1,6 @@
 import { UserModel } from './../../models/user.model';
 import { Injectable, Injector } from '@angular/core';
-import { StateManagerContext } from '@lcu/common';
+import { StateContext } from '@lcu/common';
 import { UserStateModel } from '../../models/user-state.model';
 
 @Injectable({
@@ -15,7 +15,7 @@ import { UserStateModel } from '../../models/user-state.model';
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  */
 
-  export class UsersStateManagerContext extends StateManagerContext<UserStateModel> {
+  export class UsersStateManagerContext extends StateContext<UserStateModel> {
     //  Fields
   protected state: UserStateModel;
 
@@ -66,11 +66,11 @@ import { UserStateModel } from '../../models/user-state.model';
     return <UserStateModel>{ Loading: true };
   }
 
-  protected async loadStateKey() {
+  protected loadStateKey(): string {
     return 'main';
   }
 
-  protected async loadStateName() {
+  protected loadStateName(): string {
     return 'users';
   }
 }
