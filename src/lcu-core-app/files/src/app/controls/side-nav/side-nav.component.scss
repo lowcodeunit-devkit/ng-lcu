@@ -67,5 +67,6 @@
 }
 
 .color-swatch-ivy {
-  color: mat-color($fathym-ivy-primary, 500) !important;
+  // color: mat-color($fathym-ivy-primary, 500) !important;
+  color: #a4bab3; // $fathym-ivy-primary is broken, coming back to this - shannon
 }
