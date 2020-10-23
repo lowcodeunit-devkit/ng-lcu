@@ -9,7 +9,6 @@
     "build-for-local-testing": "tsc -p tsconfig.json --watch",
     "test": "npm run build && jasmine src/**/*_spec.js"
   },
-  "type": "module",
   "keywords": [
     "schematics"
   ],
