@@ -102,11 +102,15 @@ export function addScripts(options: any) {
       },
       {
         key: `pack:main`,
-        value: `concat-glob-cli -f \"dist/lcu/main-es2015.*.js\" -o dist/lcu/wc/lcu.startup.js`
+        value: `concat-glob-cli -f \"dist/lcu/main.*.js\" -o dist/lcu/wc/lcu.startup.js`
       },
       {
         key: `pack:pollyfills`,
         value: `concat-glob-cli -f \"dist/lcu/scripts.*.js\" -o dist/lcu/wc/lcu.pollyfills.js`
+      },
+      {
+        key: `pack:styles`,
+        value: `concat-glob-cli -f \"dist/lcu/wc/styles.*.css\" -o dist/lcu/wc/${options.workspace}.lcu.css`
       }
     ]);
 
