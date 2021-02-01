@@ -94,7 +94,7 @@ export function addScripts(options: any) {
       },
       {
         key: `pack:lcu`,
-        value: `rimraf dist/lcu/wc && mkdirp dist/lcu/wc && npm run pack:main && npm run pack:pollyfills && npm run pack:join`
+        value: `rimraf dist/lcu/wc && mkdirp dist/lcu/wc && npm run pack:main && npm run pack:pollyfills && npm run pack:join && npm run pack:styles`
       },
       {
         key: `pack:join`,
