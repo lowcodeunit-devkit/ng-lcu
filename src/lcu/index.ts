@@ -94,7 +94,7 @@ export function addScripts(options: any) {
       },
       {
         key: `pack:lcu`,
-        value: `rimraf dist/lcu/wc && mkdirp dist/lcu/wc && npm run pack:main && npm run pack:pollyfills && npm run pack:join`
+        value: `rimraf dist/lcu/wc && mkdirp dist/lcu/wc && npm run pack:main && npm run pack:pollyfills && npm run pack:join && npm run pack:styles`
       },
       {
         key: `pack:join`,
@@ -102,11 +102,15 @@ export function addScripts(options: any) {
       },
       {
         key: `pack:main`,
-        value: `concat-glob-cli -f \"dist/lcu/main-es2015.*.js\" -o dist/lcu/wc/lcu.startup.js`
+        value: `concat-glob-cli -f \"dist/lcu/main.*.js\" -o dist/lcu/wc/lcu.startup.js`
       },
       {
         key: `pack:pollyfills`,
         value: `concat-glob-cli -f \"dist/lcu/scripts.*.js\" -o dist/lcu/wc/lcu.pollyfills.js`
+      },
+      {
+        key: `pack:styles`,
+        value: `concat-glob-cli -f \"dist/lcu/wc/styles.*.css\" -o dist/lcu/wc/${options.workspace}.lcu.css`
       }
     ]);
 
