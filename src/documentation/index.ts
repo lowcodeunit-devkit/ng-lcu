@@ -23,43 +23,43 @@ import { findProjectRoot } from "../utils/helpers";
  */
 export function documentation(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
-    context.logger.info(`Starting documentation...`);
+    // context.logger.info(`Starting documentation...`);
 
-    setupOptions(host, options);
+    // setupOptions(host, options);
 
-    const projectRoot = findProjectRoot(host, options);
+    // const projectRoot = findProjectRoot(host, options);
 
-    options.targetPath = normalize(projectRoot + "/src/" + options.path);
+    // options.targetPath = normalize(projectRoot + "/src/" + options.path);
 
-    const templateSource = apply(url(`./files/init-with/${options.initWith}`), [
-      template({
-        ...strings,
-        ...options
-      }),
-      move(options.targetPath)
-    ]);
+    // const templateSource = apply(url(`./files/init-with/${options.initWith}`), [
+    //   template({
+    //     ...strings,
+    //     ...options
+    //   }),
+    //   move(options.targetPath)
+    // ]);
 
-    const moduleContext: AddImportToModuleContext = {
-      moduleName: 'app',
-      modulePath: `${projectRoot}/src/app`,
-      importName: 'LcuDocumentationModule',
-      importPath: '@lowcodeunit/lcu-documentation-common',
-      forRoot: true
-    };
+    // const moduleContext: AddImportToModuleContext = {
+    //   moduleName: 'app',
+    //   modulePath: `${projectRoot}/src/app`,
+    //   importName: 'LcuDocumentationModule',
+    //   importPath: '@lowcodeunit/lcu-documentation-common',
+    //   forRoot: true
+    // };
     
-    const routesContext: AddToRoutesContext = {
-      appRoutingModulePath: `${projectRoot}/src/app/app-routing.module.ts`,
-      componentName: 'documentation',
-      componentPath: './controls/documentation/documentation.component',
-      route: 'documentation'
-    }
+    // const routesContext: AddToRoutesContext = {
+    //   appRoutingModulePath: `${projectRoot}/src/app/app-routing.module.ts`,
+    //   componentName: 'documentation',
+    //   componentPath: './controls/documentation/documentation.component',
+    //   route: 'documentation'
+    // }
 
     return chain([
-      mergeWith(templateSource, MergeStrategy.Default),
-      options.includeComponent ? addComponentFiles(options) : noop(),
-      options.includeRouting ? addComponentToAppRouting(routesContext) : noop(),
-      importModule(moduleContext),
-      addDocsToAssetsPath(options)
+      // mergeWith(templateSource, MergeStrategy.Default),
+      // options.includeComponent ? addComponentFiles(options) : noop(),
+      // options.includeRouting ? addComponentToAppRouting(routesContext) : noop(),
+      // importModule(moduleContext),
+      // addDocsToAssetsPath(options)
     ]);
   };
 }
